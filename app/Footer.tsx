@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Facebook, Instagram, Linkedin, MapPin, Mail, Phone, Clock } from "lucide-react"
+import { Facebook, Instagram, Linkedin, MapPin, Mail, Phone } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useState, useEffect } from "react"
 

@@ -1,10 +1,6 @@
 import * as React from "react";
-import type { JSX } from "react";
 import { cn } from "@/lib/utils"
 import { ComponentProps, ElementType } from "react"
-
-type HTMLTags = keyof JSX.IntrinsicElements
-type SVGTags = keyof JSX.IntrinsicElements
 
 type TypographyVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'lead' | 'large' | 'small' | 'muted'
 
@@ -45,7 +41,7 @@ export function Typography<T extends ElementType = 'p'>({
         gradient && 'bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent',
         className
       )}
-      {...props as any}
+      {...(props as ComponentProps<T>)}
     />
   )
 }

@@ -5,11 +5,9 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetOverlay } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { VisuallyHidden } from "@/components/ui/visually-hidden";
-import { Menu, X } from "lucide-react";
 import React from "react";
 
 const navItems = [
@@ -228,7 +226,7 @@ export default function Navigation() {
                   {/* Navigation */}
                   <div className="flex-1 p-6">
                     <nav className="space-y-2">
-                      {navItems.map((item, index) => (
+                      {navItems.map((item) => (
                         <Link
                           key={item.href}
                           href={item.href}

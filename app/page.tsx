@@ -4,7 +4,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTheme } from 'next-themes';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import TeamSection from '@/components/TeamSection';
@@ -93,19 +92,6 @@ const members: Member[] = [
 ];
 
 function HomePage() {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const logoSrc = !mounted
-    ? "/logo/transparant-text-vit.svg" // Default to dark theme logo
-    : theme === 'dark'
-    ? "/logo/transparant-text-vit.svg"
-    : "/logo/transparant-text-svart.svg";
-
   const features = [
     { icon: <ShieldIcon aria-hidden="true" />, title: 'Fair Play', description: 'Vi tror på rättvist spel och respekt för alla deltagare.' },
     { icon: <CommunityIcon aria-hidden="true" />, title: 'Gemenskap', description: 'Vårt mål är att skapa en inkluderande miljö för alla medlemmar.' },

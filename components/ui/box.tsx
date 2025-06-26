@@ -38,7 +38,7 @@ const Box = forwardRef<HTMLElement, BoxProps>(({
     <Component
       ref={ref}
       className={cn(sxClasses, className)}
-      {...props as any}
+      {...(props as ComponentProps<ElementType>)}
     />
   );
 });
