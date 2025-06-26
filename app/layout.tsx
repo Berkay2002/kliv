@@ -16,23 +16,46 @@ const inter = Inter({
 
 export const metadata = {
   title: {
-    default: "Kliv Idrottsförening - Tillsammans för idrott och gemenskap",
-    template: "%s | Kliv Idrottsförening"
+    default: "Kliv Idrottsförening Botkyrka - Judo & Kampsport",
+    template: "%s | Kliv IF"
   },
-  description: "Kliv Idrottsförening är en mötesplats för idrottsglädje och gemenskap. Upptäck våra sporter, evenemang och hur du kan bli en del av vårt lag.",
-  keywords: ["Kliv Idrottsförening", "idrott", "förening", "sport", "gemenskap", "träning", "hälsa", "evenemang"],
-  authors: [{ name: "Kliv Idrottsförening" }],
-  creator: "Kliv Idrottsförening",
-  publisher: "Kliv Idrottsförening",
+  description: "Kliv Idrottsförening Botkyrka (org.nr 802509-8842) - En mötesplats för judo, kampsport och gemenskap i Norsborg. Välkommen att träna med oss!",
+  keywords: [
+    "Kliv Idrottsförening", 
+    "Kliv IF", 
+    "Botkyrka", 
+    "Norsborg", 
+    "judo", 
+    "kampsport", 
+    "idrott", 
+    "förening", 
+    "sport", 
+    "gemenskap", 
+    "träning", 
+    "hälsa", 
+    "evenemang",
+    "Svenska Judoförbundet",
+    "Riksidrottsförbundet"
+  ],
+  authors: [{ name: "Kliv Idrottsförening Botkyrka", url: "https://www.kliv-if.se" }],
+  creator: "Kliv Idrottsförening Botkyrka",
+  publisher: "Kliv Idrottsförening Botkyrka",
+  applicationName: "Kliv IF",
+  category: "Sports & Recreation",
+  classification: "Sports Association",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.kliv-if.se'),
   alternates: {
     canonical: '/',
   },
+  manifest: '/manifest.json',
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: '/transparant-vit.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico', sizes: '16x16', type: 'image/x-icon' }
+    ],
     apple: [
       {
-        url: '/logo/logo-black.png',
+        url: '/transparant-vit.png',
         sizes: '180x180',
         type: 'image/png',
       },
@@ -40,26 +63,27 @@ export const metadata = {
     shortcut: '/favicon.ico',
   },
   openGraph: {
-    title: "Kliv Idrottsförening - Tillsammans för idrott och gemenskap",
-    description: "Kliv Idrottsförening är en mötesplats för idrottsglädje och gemenskap. Upptäck våra sporter, evenemang och hur du kan bli en del av vårt lag.",
+    title: "Kliv Idrottsförening Botkyrka - Judo & Kampsport",
+    description: "Kliv Idrottsförening Botkyrka - En mötesplats för judo, kampsport och gemenskap i Norsborg. Välkommen att träna med oss!",
     url: '/',
-    siteName: 'Kliv Idrottsförening',
+    siteName: 'Kliv Idrottsförening Botkyrka',
     images: [
       {
-        url: '/logo/logo-black.png',
-        width: 1200,
-        height: 630,
-        alt: 'Kliv Idrottsförening Logo',
+        url: '/transparant-vit.png',
+        width: 1080,
+        height: 1080,
+        alt: 'Kliv Idrottsförening Botkyrka Logo',
       },
     ],
     locale: 'sv_SE',
     type: 'website',
+    countryName: 'Sweden',
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Kliv Idrottsförening - Tillsammans för idrott och gemenskap",
-    description: "En mötesplats för idrottsglädje och gemenskap. Upptäck våra sporter, evenemang och hur du kan bli en del av vårt lag.",
-    images: ['/logo/logo-black.png'],
+    title: "Kliv Idrottsförening Botkyrka - Judo & Kampsport",
+    description: "En mötesplats för judo, kampsport och gemenskap i Norsborg. Välkommen att träna med oss!",
+    images: ['/transparant-vit.png'],
   },
   robots: {
     index: true,
@@ -72,13 +96,16 @@ export const metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+  },
 }
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  maximumScale: 5,
+  userScalable: true,
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
     { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
@@ -97,8 +124,64 @@ export default function RootLayout({
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
         <meta httpEquiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
+        <meta name="format-detection" content="telephone=yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Kliv IF" />
+        <meta name="msapplication-TileColor" content="#DC2626" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL || 'https://www.kliv-if.se'} />
         <link rel="sitemap" href="/sitemap.xml" />
+        <link rel="manifest" href="/manifest.json" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SportsOrganization",
+              "name": "Kliv Idrottsförening Botkyrka",
+              "alternateName": "Kliv IF",
+              "description": "Kliv Idrottsförening Botkyrka - En mötesplats för judo, kampsport och gemenskap i Norsborg.",
+              "url": "https://www.kliv-if.se",
+              "logo": "https://www.kliv-if.se/transparant-vit.png",
+              "image": "https://www.kliv-if.se/transparant-vit.png",
+              "sport": ["Judo", "Kampsport"],
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Tomtbergavägen 370A",
+                "addressLocality": "Norsborg",
+                "postalCode": "145 71",
+                "addressCountry": "SE"
+              },
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer service",
+                "email": "info@kliv.se",
+                "availableLanguage": "Swedish"
+              },
+              "foundingDate": "2017-06-29",
+              "identifier": {
+                "@type": "PropertyValue",
+                "propertyID": "SE_ORG",
+                "value": "802509-8842"
+              },
+              "sameAs": [
+                "https://www.facebook.com/spearif",
+                "https://www.instagram.com/spear_if/"
+              ],
+              "memberOf": [
+                {
+                  "@type": "SportsOrganization",
+                  "name": "Svenska Judoförbundet"
+                },
+                {
+                  "@type": "SportsOrganization", 
+                  "name": "Riksidrottsförbundet"
+                }
+              ]
+            })
+          }}
+        />
       </head>
       <body className={`${inter.variable} font-sans min-h-screen flex flex-col bg-background text-foreground`}>
         <Providers>

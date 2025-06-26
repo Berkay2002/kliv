@@ -62,20 +62,25 @@ interface FeatureCardProps {
   description: string;
 }
 
-// FeatureCard component - Now uses theme variables
+// FeatureCard component - Now uses theme variables with red accents
 const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) => {
   const IconWithProps = React.cloneElement(icon, {
-    className: 'w-10 h-10 text-primary',
+    className: 'w-10 h-10 text-kliv-red transition-colors duration-300 group-hover:text-kliv-red-light',
     'aria-hidden': true
   });
 
   return (
-    <Card className="h-full transition-all duration-300 md:hover:scale-105 md:hover:shadow-lg focus-within:scale-105 focus-within:shadow-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 outline-none bg-card border-border hover:border-primary/20">
-      <CardContent className="p-4 sm:p-6">
+    <Card className="h-full transition-all duration-300 md:hover:scale-105 md:hover:shadow-lg md:hover:shadow-kliv-red/10 focus-within:scale-105 focus-within:shadow-lg focus-visible:ring-2 focus-visible:ring-kliv-red focus-visible:ring-offset-2 outline-none bg-card border-border hover:border-kliv-red/30 group relative overflow-hidden">
+      {/* Red accent gradient on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-kliv-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      
+      <CardContent className="p-4 sm:p-6 relative z-10">
         <div className="mb-4 flex items-center justify-center">
-          {IconWithProps}
+          <div className="p-3 rounded-full bg-kliv-red/10 group-hover:bg-kliv-red/20 transition-colors duration-300">
+            {IconWithProps}
+          </div>
         </div>
-        <h3 className="mb-2 text-lg sm:text-xl font-semibold text-foreground text-center">{title}</h3>
+        <h3 className="mb-2 text-lg sm:text-xl font-semibold text-foreground text-center group-hover:text-kliv-red transition-colors duration-300">{title}</h3>
         <p className="text-muted-foreground text-center text-sm sm:text-base">{description}</p>
       </CardContent>
     </Card>
@@ -84,11 +89,11 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) =
 
 // Placeholder team members
 const members: Member[] = [
-  { id: 1, name: 'Alex Svensson', role: 'Ordförande', email: 'ordforande@kliv-if.se', image: '/members/placeholder-1.jpg' },
-  { id: 2, name: 'Elina Berg', role: 'Kassör', email: 'kassor@kliv-if.se', image: '/members/placeholder-2.jpg' },
-  { id: 3, name: 'David Lindgren', role: 'Sportchef', email: 'sportchef@kliv-if.se', image: '/members/placeholder-3.jpg' },
-  { id: 4, name: 'Sofia Eriksson', role: 'Eventansvarig', email: 'event@kliv-if.se', image: '/members/placeholder-4.jpg' },
-  { id: 5, name: 'Martin Nilsson', role: 'Medlemsansvarig', email: 'medlem@kliv-if.se', image: '/members/placeholder-5.jpg' },
+  { id: 1, name: 'Muhammet Tozak', role: 'Ordförande', email: 'muhammet@klivif.se', image: 'https://ui-avatars.com/api/?name=Muhammet+Tozak&size=400&background=f0f0f0&color=666&format=png' },
+  { id: 2, name: 'Maria Rafaelius', role: 'Medlemsansvarig', email: 'Maria@kliv.se', image: 'https://ui-avatars.com/api/?name=Maria+Rafaelius&size=400&background=f0f0f0&color=666&format=png' },
+  { id: 3, name: 'Eldar Ljuca', role: 'Aktivitetsansvarig', email: 'Eldar@klivif.se', image: 'https://ui-avatars.com/api/?name=Eldar+Ljuca&size=400&background=f0f0f0&color=666&format=png' },
+  { id: 4, name: 'Binel Elias', role: 'PR-ansvarig', email: 'Binel@klivif.se', image: 'https://ui-avatars.com/api/?name=Binel+Elias&size=400&background=f0f0f0&color=666&format=png' },
+  { id: 5, name: 'Leah Aybar', role: 'PR-ansvarig', email: 'Leah@klivif.se', image: 'https://ui-avatars.com/api/?name=Leah+Aybar&size=400&background=f0f0f0&color=666&format=png' },
 ];
 
 function HomePage() {
@@ -164,12 +169,13 @@ function HomePage() {
         <section className="py-16 md:py-24 bg-muted">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-foreground">Vilka vi är</h2>
+              <div className="mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Vilka vi är</h2>
+                {/* Red accent line under title */}
+                <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
+              </div>
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              </p>
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Vi är en modern idrottsförening som introducerar och uppmuntrar idrottande bland barn och ungdomar i Norra Botkyrka.
               </p>
             </div>
           </div>
@@ -179,9 +185,17 @@ function HomePage() {
         <div className="w-full h-16 md:h-24 bg-gradient-to-b from-muted to-background"></div>
 
         {/* Features Section - Uses 'bg-background' */}
-        <section className="py-16 md:py-24 bg-background">
-          <div className="container mx-auto px-2 sm:px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 md:mb-16 text-foreground">Vår Vision</h2>
+        <section className="py-16 md:py-24 bg-background relative">
+          {/* Red accent gradient backgrounds */}
+          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-kliv-red/10 to-transparent blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-kliv-red/10 to-transparent blur-3xl"></div>
+          
+          <div className="container mx-auto px-2 sm:px-4 relative z-10">
+            <div className="text-center mb-10 md:mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Vår Vision</h2>
+              {/* Red accent line under title */}
+              <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
               {features.map((feature, index) => (
                 <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: index * 0.1 }}>
@@ -199,9 +213,13 @@ function HomePage() {
         <section className="py-16 md:py-24 bg-muted">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-foreground">Vår Strävan</h2>
+              <div className="mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Vår Strävan</h2>
+                {/* Red accent line under title */}
+                <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
+              </div>
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                Vårt mål är att erbjuda en trygg och inspirerande miljö där medlemmar kan växa, både som idrottare och individer. Vi tror på kraften i idrott för att bygga broar och skapa en starkare gemenskap.
+                I nuläget väljer många barn och ungdomar att tidigt sluta med idrott på grund av krav som ställs av den traditionella föreningsmodellen. På Kliv Idrottsförening strävar vi efter att erbjuda en mer flexibel och spontan idrottsmiljö - utan krav som träningsnärvaro och matcher varje helg.
               </p>
             </div>
           </div>

@@ -74,6 +74,13 @@ const config = {
           400: '#c4c0b6',  // Medium beige
           500: '#a8a399',  // Balanced beige
         },
+        kliv: {
+          red: {
+            DEFAULT: "hsl(var(--kliv-red))",
+            light: "hsl(var(--kliv-red-light))",
+            dark: "hsl(var(--kliv-red-dark))",
+          },
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

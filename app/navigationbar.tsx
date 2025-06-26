@@ -12,10 +12,9 @@ import React from "react";
 
 const navItems = [
   { name: "Hem", href: "/" },
-  { name: "Våra Sporter", href: "/sporter" },
-  { name: "Evenemang", href: "/evenemang" },
+  { name: "Judo", href: "/judo" },
+  { name: "Lovaktiviteter", href: "/lovaktiviteter" },
   { name: "Kontakta Oss", href: "/kontakta-oss" },
-  { name: "Bli Medlem", href: "/bli-medlem" },
 ];
 
 export default function Navigation() {
@@ -89,14 +88,14 @@ export default function Navigation() {
         isVisible ? "translate-y-0" : "-translate-y-full"
       )}
     >
-      {/* Animated gradient line */}
+      {/* Animated gradient line with red color */}
       <div className={cn(
         "absolute bottom-0 left-0 right-0 h-0.5",
         isOpen 
           ? "bg-transparent transition-all duration-300"
           : isScrolled 
-          ? "bg-gradient-to-r from-primary/0 via-primary/80 to-primary/0 transition-all duration-500" 
-          : "bg-gradient-to-r from-primary/0 via-primary/40 to-primary/0 transition-all duration-500"
+          ? "bg-gradient-to-r from-kliv-red/0 via-kliv-red/80 to-kliv-red/0 transition-all duration-500" 
+          : "bg-gradient-to-r from-kliv-red/0 via-kliv-red/40 to-kliv-red/0 transition-all duration-500"
       )}></div>
       
       <div className="container mx-auto px-6">
@@ -127,11 +126,11 @@ export default function Navigation() {
                   href={item.href}
                   className={cn(
                     "relative px-6 py-4 text-sm font-medium transition-all duration-300 group rounded-lg",
-                    "before:absolute before:bottom-1 before:left-1/2 before:h-0.5 before:w-0 before:bg-primary before:transition-all before:duration-300 before:-translate-x-1/2",
+                    "before:absolute before:bottom-1 before:left-1/2 before:h-0.5 before:w-0 before:bg-kliv-red before:transition-all before:duration-300 before:-translate-x-1/2",
                     "hover:before:w-3/4",
                     pathname === item.href 
-                      ? "text-primary before:w-3/4 bg-primary/5" 
-                      : "text-gray-700 dark:text-gray-300 hover:text-primary hover:bg-gray-50/50 dark:hover:bg-gray-800/30"
+                      ? "text-kliv-red before:w-3/4 bg-kliv-red/5" 
+                      : "text-gray-700 dark:text-gray-300 hover:text-kliv-red hover:bg-gray-50/50 dark:hover:bg-gray-800/30"
                   )}
                   style={{ animationDelay: `${index * 100}ms` }}
                   aria-current={pathname === item.href ? "page" : undefined}
@@ -234,8 +233,8 @@ export default function Navigation() {
                           className={cn(
                             "block p-4 text-lg font-medium transition-all duration-300 rounded-lg group",
                             pathname === item.href
-                              ? "text-primary bg-primary/10" 
-                              : "text-gray-800 dark:text-gray-200 hover:text-primary hover:bg-gray-100/50 dark:hover:bg-gray-800/30"
+                              ? "text-kliv-red bg-kliv-red/10" 
+                              : "text-gray-800 dark:text-gray-200 hover:text-kliv-red hover:bg-gray-100/50 dark:hover:bg-gray-800/30"
                           )}
                         >
                           <span className="block">

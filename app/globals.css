@@ -31,6 +31,11 @@
     --black-soft: 35 8% 6%; /* Soft warm black */
     --black-pure: 0 0% 0%; /* Pure black */
 
+    /* Kliv red colors - theme aware */
+    --kliv-red: 0 75% 55%; /* Light theme red - brighter, more vibrant */
+    --kliv-red-light: 0 80% 65%; /* Light theme hover/accent */
+    --kliv-red-dark: 0 70% 45%; /* Light theme active/pressed */
+
     /* Component colors using the warm palette */
     --background: var(--gray-50); /* Very light warm background */
     --foreground: var(--gray-850); /* Almost black warm text */
@@ -96,6 +101,11 @@
     /* Near whites */
     --white-soft: 0 0% 96%; /* Soft white */
     --white-pure: 0 0% 100%; /* Pure white */
+
+    /* Kliv red colors - theme aware (darker for dark theme) */
+    --kliv-red: 0 65% 45%; /* Dark theme red - darker, more muted */
+    --kliv-red-light: 0 70% 55%; /* Dark theme hover/accent */
+    --kliv-red-dark: 0 60% 35%; /* Dark theme active/pressed */
 
     /* Component colors using the expanded dark palette */
     --background: var(--gray-900); /* Very dark background */
@@ -209,6 +219,19 @@
   .border-gray-850 { border-color: hsl(var(--gray-850)); }
   .border-black-soft { border-color: hsl(var(--black-soft)); }
   .border-black-pure { border-color: hsl(var(--black-pure)); }
+
+  /* Kliv red color utilities */
+  .bg-kliv-red { background-color: hsl(var(--kliv-red)); }
+  .bg-kliv-red-light { background-color: hsl(var(--kliv-red-light)); }
+  .bg-kliv-red-dark { background-color: hsl(var(--kliv-red-dark)); }
+  
+  .text-kliv-red { color: hsl(var(--kliv-red)); }
+  .text-kliv-red-light { color: hsl(var(--kliv-red-light)); }
+  .text-kliv-red-dark { color: hsl(var(--kliv-red-dark)); }
+  
+  .border-kliv-red { border-color: hsl(var(--kliv-red)); }
+  .border-kliv-red-light { border-color: hsl(var(--kliv-red-light)); }
+  .border-kliv-red-dark { border-color: hsl(var(--kliv-red-dark)); }
 
   /* Gradient utilities for smooth transitions with warm tones */
   .gradient-light-to-medium {
@@ -341,5 +364,219 @@
 
   .logo-image[data-loaded="true"] {
     opacity: 1;
+  }
+
+  /* Timeline Custom Styles */
+  .timeline-container {
+    /* Override any conflicting styles from react-chrono */
+    --timeline-primary: hsl(var(--kliv-red));
+    --timeline-secondary: hsl(var(--secondary));
+  }
+
+  .timeline-container .rc-timeline {
+    /* Ensure proper spacing and alignment */
+    margin: 0 auto;
+  }
+
+  /* Hide any toolbar or control sections */
+  .timeline-container .timeline-toolbar,
+  .timeline-container .timeline-controls,
+  .timeline-container .timeline-info {
+    display: none !important;
+  }
+
+  /* Theme-aware card styling - no borders, no hover effects */
+  .timeline-container .timeline-card,
+  .timeline-container [class*="card"] {
+    background-color: hsl(var(--card)) !important;
+    color: hsl(var(--card-foreground)) !important;
+    border: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+  }
+
+  /* Remove any hover effects completely */
+  .timeline-container .timeline-card:hover,
+  .timeline-container [class*="card"]:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Theme-aware text content */
+  .timeline-container .timeline-card-content,
+  .timeline-container [class*="card-content"],
+  .timeline-container [class*="card-title"],
+  .timeline-container [class*="card-subtitle"] {
+    background-color: hsl(var(--card)) !important;
+    color: hsl(var(--card-foreground)) !important;
+  }
+
+  /* Theme-aware detailed text */
+  .timeline-container [class*="card-detailed"],
+  .timeline-container [class*="details"] {
+    background-color: hsl(var(--card)) !important;
+    color: hsl(var(--muted-foreground)) !important;
+  }
+
+  /* Style the read more button */
+  .timeline-container [class*="read-more"],
+  .timeline-container button {
+    background-color: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
+    border: none !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.375rem !important;
+    font-size: 0.875rem !important;
+    cursor: pointer !important;
+    margin-top: 0.5rem !important;
+  }
+
+  .timeline-container [class*="read-more"]:hover,
+  .timeline-container button:hover {
+    background-color: hsl(var(--primary) / 0.8) !important;
+  }
+
+  /* Simple image styling - no zoom effects */
+  .timeline-container img {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 200px !important;
+    max-height: 280px !important;
+    object-fit: cover !important;
+    border-radius: 0.5rem !important;
+    display: block !important;
+    transition: none !important;
+  }
+
+  /* Remove image hover effects */
+  .timeline-container .timeline-card:hover img,
+  .timeline-container [class*="card"]:hover img {
+    transform: none !important;
+  }
+
+  /* Responsive adjustments for timeline */
+  @media (max-width: 768px) {
+    .timeline-container {
+      padding: 0 1rem;
+    }
+    
+    .timeline-container img {
+      min-height: 150px !important;
+      max-height: 200px !important;
+    }
+
+    .timeline-container [class*="card"] {
+      margin: 0.5rem 0 !important;
+    }
+
+    .timeline-container [class*="read-more"],
+    .timeline-container button {
+      font-size: 0.8rem !important;
+      padding: 0.4rem 0.8rem !important;
+    }
+  }
+
+  /* Chrono card styling - centered titles and rounded edges */
+  .timeline-container [class*="card"] {
+    border-radius: 0.75rem !important;
+    overflow: hidden !important;
+  }
+
+  .timeline-container [class*="card-title"],
+  .timeline-container [class*="title"] {
+    text-align: center !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0.5rem !important;
+  }
+
+  .timeline-container .rc-card {
+    border-radius: 0.75rem !important;
+    overflow: hidden !important;
+  }
+
+  .timeline-container .rc-card-title {
+    text-align: center !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0.5rem !important;
+  }
+
+  /* Fix timeline dots to be perfect circles with red color - only actual timeline markers */
+  .timeline-container [class*="timeline-marker"]:not([class*="card"]):not([class*="content"]),
+  .timeline-container [class*="timeline-point"]:not([class*="card"]):not([class*="content"]),
+  .timeline-container [class*="circle"]:not([class*="card"]):not([class*="content"]),
+  .timeline-container .rc-circle:not([class*="card"]):not([class*="content"]) {
+    border-radius: 50% !important;
+    width: 16px !important;
+    height: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: hsl(var(--kliv-red)) !important;
+    border: 2px solid hsl(var(--kliv-red)) !important;
+  }
+
+  /* Timeline line color - only the vertical line */
+  .timeline-container .rc-timeline-vertical-line,
+  .timeline-container [class*="timeline-line"]:not([class*="card"]):not([class*="content"]) {
+    background-color: hsl(var(--kliv-red)) !important;
+    border-color: hsl(var(--kliv-red)) !important;
+  }
+
+  /* Timeline dots only - be very specific */
+  .timeline-container .rc-timeline-item-dot,
+  .timeline-container .rc-timeline-item-head,
+  .timeline-container .rc-circle:not([class*="card"]):not([class*="content"]) {
+    background-color: hsl(var(--kliv-red)) !important;
+    border-color: hsl(var(--kliv-red)) !important;
+  }
+
+  .timeline-container .rc-timeline:before {
+    background-color: hsl(var(--kliv-red)) !important;
+  }
+
+  /* React-chrono specific overrides for red theme - dots and markers only */
+  .timeline-container .vertical-item-row .timeline-item-content::before {
+    border-color: hsl(var(--kliv-red)) !important;
+  }
+
+  .timeline-container .timeline-item .timeline-item-content .item-dot {
+    background-color: hsl(var(--kliv-red)) !important;
+    border-color: hsl(var(--kliv-red)) !important;
+  }
+
+  .timeline-container .timeline-item .timeline-marker:not([class*="card"]),
+  .timeline-container .timeline-item .timeline-marker-outline:not([class*="card"]) {
+    background-color: hsl(var(--kliv-red)) !important;
+    border-color: hsl(var(--kliv-red)) !important;
+  }
+
+  /* Force override only timeline dots and markers - be very specific */
+  .timeline-container div[class*="circle"]:not([class*="card"]):not([class*="content"]),
+  .timeline-container span[class*="circle"]:not([class*="card"]):not([class*="content"]),
+  .timeline-container div[class*="dot"]:not([class*="card"]):not([class*="content"]),
+  .timeline-container span[class*="dot"]:not([class*="card"]):not([class*="content"]),
+  .timeline-container div[class*="marker"]:not([class*="card"]):not([class*="content"]),
+  .timeline-container span[class*="marker"]:not([class*="card"]):not([class*="content"]) {
+    background-color: hsl(var(--kliv-red)) !important;
+    border-color: hsl(var(--kliv-red)) !important;
+    color: white !important;
+  }
+
+  /* Override any SVG elements that might be used for timeline markers */
+  .timeline-container svg circle,
+  .timeline-container svg path {
+    fill: hsl(var(--kliv-red)) !important;
+    stroke: hsl(var(--kliv-red)) !important;
+  }
+
+  /* Ensure cards maintain their proper background and don't get red */
+  .timeline-container [class*="card"],
+  .timeline-container [class*="content"] {
+    background-color: hsl(var(--card)) !important;
+    color: hsl(var(--card-foreground)) !important;
   }
 }

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Facebook, Instagram, Linkedin, MapPin, Mail, Phone } from "lucide-react"
+import { Facebook, Instagram, MapPin, Mail, Phone } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useState, useEffect } from "react"
 
@@ -21,7 +21,7 @@ export default function Footer() {
     : "/logo/transparant-svart.svg";
 
   return (
-    <footer className="relative bg-gray-50 dark:bg-gray-850 border-t border-gray-200 dark:border-gray-700">
+    <footer className="relative bg-gray-50 dark:bg-gray-850 border-t border-kliv-red dark:border-kliv-red">
       <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-24">
         <div className="flex flex-col items-center">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 max-w-3xl w-full justify-items-center">
@@ -41,7 +41,7 @@ export default function Footer() {
 
             <div className="flex items-center justify-center space-x-4 lg:space-x-5">
               <Link
-                href="https://www.facebook.com/your-page"
+                href="https://www.facebook.com/spearif"
                 className="p-3 lg:p-4 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all duration-300 group shadow-sm"
                 aria-label="Facebook"
                 target="_blank"
@@ -51,7 +51,7 @@ export default function Footer() {
                 <Facebook size={22} className="hidden lg:block text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
               </Link>
               <Link
-                href="https://www.instagram.com/your-profile"
+                href="https://www.instagram.com/spear_if/"
                 className="p-3 lg:p-4 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-all duration-300 group shadow-sm"
                 aria-label="Instagram"
                 target="_blank"
@@ -59,16 +59,6 @@ export default function Footer() {
               >
                 <Instagram size={20} className="lg:hidden text-gray-600 dark:text-gray-400 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors" />
                 <Instagram size={22} className="hidden lg:block text-gray-600 dark:text-gray-400 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors" />
-              </Link>
-              <Link
-                href="https://www.linkedin.com/company/your-company"
-                className="p-3 lg:p-4 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all duration-300 group shadow-sm"
-                aria-label="LinkedIn"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Linkedin size={20} className="lg:hidden text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
-                <Linkedin size={22} className="hidden lg:block text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
               </Link>
             </div>
           </div>
@@ -81,36 +71,36 @@ export default function Footer() {
 
             <div className="grid grid-cols-2 gap-4 lg:gap-6 max-w-sm mx-auto">
               <div className="flex flex-col items-center space-y-2">
-                <MapPin size={20} className="text-primary" />
+                <MapPin size={20} className="text-kliv-red" />
                 <div className="text-center">
                   <p className="font-medium text-gray-900 dark:text-gray-100 text-sm">Besöksadress</p>
                   <div className="text-gray-600 dark:text-gray-400 mt-1 text-xs leading-relaxed">
-                    <p>Exempelvägen 123</p>
-                    <p>123 45 Staden</p>
+                    <p>Tomtbergavägen 370A</p>
+                    <p>145 71 Norsborg</p>
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-col items-center space-y-2">
-                <Mail size={20} className="text-primary" />
+                <Mail size={20} className="text-kliv-red" />
                 <div className="text-center">
                   <p className="font-medium text-gray-900 dark:text-gray-100 text-sm">E-post</p>
                   <Link
                     href="mailto:kontakt@kliv-if.se"
-                    className="text-primary hover:text-primary/80 transition-colors duration-200 hover:underline mt-1 block text-xs"
+                    className="text-kliv-red hover:text-kliv-red-light transition-colors duration-200 hover:underline mt-1 block text-xs"
                   >
-                    kontakt@kliv-if.se
+                    info@kliv.se
                   </Link>
                 </div>
               </div>
 
               <div className="flex flex-col items-center space-y-2">
-                <Phone size={20} className="text-primary" />
+                <Phone size={20} className="text-kliv-red" />
                 <div className="text-center">
                   <p className="font-medium text-gray-900 dark:text-gray-100 text-sm">Telefon</p>
                   <Link
                     href="tel:+46123456789"
-                    className="text-primary hover:text-primary/80 transition-colors duration-200 hover:underline mt-1 block text-xs"
+                    className="text-kliv-red hover:text-kliv-red-light transition-colors duration-200 hover:underline mt-1 block text-xs"
                   >
                     +46 123 456 789
                   </Link>
@@ -119,11 +109,11 @@ export default function Footer() {
 
               <div className="flex flex-col items-center space-y-2">
                 <div className="w-5 h-5 flex items-center justify-center">
-                  <span className="text-primary font-bold text-sm">#</span>
+                  <span className="text-kliv-red font-bold text-sm">#</span>
                 </div>
                 <div className="text-center">
                   <p className="font-medium text-gray-900 dark:text-gray-100 text-sm">Org.nummer</p>
-                  <p className="text-gray-600 dark:text-gray-400 mt-1 text-xs">123456-7890</p>
+                  <p className="text-gray-600 dark:text-gray-400 mt-1 text-xs">802509-8842</p>
                 </div>
               </div>
             </div>
@@ -131,13 +121,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-12 pt-6 border-t border-gray-200/30 dark:border-gray-700/30">
+        <div className="mt-12 pt-6 border-t border-kliv-red/30 dark:border-kliv-red/30">
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="flex space-x-8 text-sm">
-              <Link href="/integritetspolicy" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-200 hover:underline">
+              <Link href="/integritetspolicy" className="text-gray-600 dark:text-gray-400 hover:text-kliv-red transition-colors duration-200 hover:underline">
                 Integritetspolicy
               </Link>
-              <Link href="/villkor" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-200 hover:underline">
+              <Link href="/villkor" className="text-gray-600 dark:text-gray-400 hover:text-kliv-red transition-colors duration-200 hover:underline">
                 Villkor
               </Link>
             </div>
