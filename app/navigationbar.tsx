@@ -72,7 +72,7 @@ export default function Navigation() {
   const closeSheet = () => setIsOpen(false);
 
   const logoSrc = !mounted 
-    ? "/logo/transparant-vit.svg" // Default to dark theme logo
+    ? "/logo/transparant-vit.svg" // Default to white logo for dark theme
     : theme === 'dark' 
     ? "/logo/transparant-vit.svg" 
     : "/logo/transparant-svart.svg";
@@ -151,23 +151,23 @@ export default function Navigation() {
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
                 <button 
-                  className="relative w-11 h-11 rounded-lg bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm border border-gray-200/20 dark:border-gray-700/30 transition-all duration-300 hover:bg-white/20 dark:hover:bg-gray-700/30 group flex items-center justify-center"
+                  className="relative w-11 h-11 flex items-center justify-center"
                   aria-label="Toggle menu"
                 >
                   {/* Enhanced hamburger lines with cool staggered animation */}
                   <div className="flex flex-col space-y-1.5">
                     <span className={cn(
-                      "block w-5 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all duration-700 ease-out transform-gpu",
+                      "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
                       isOpen ? "rotate-45 translate-y-2 scale-110" : "rotate-0 translate-y-0 scale-100",
                       "transition-delay-[50ms]"
                     )}></span>
                     <span className={cn(
-                      "block w-5 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all duration-700 ease-out transform-gpu",
+                      "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
                       isOpen ? "opacity-0 scale-0 rotate-180" : "opacity-100 scale-100 rotate-0",
                       "transition-delay-[100ms]"
                     )}></span>
                     <span className={cn(
-                      "block w-5 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all duration-700 ease-out transform-gpu",
+                      "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
                       isOpen ? "-rotate-45 -translate-y-2 scale-110" : "rotate-0 translate-y-0 scale-100",
                       "transition-delay-[150ms]"
                     )}></span>
@@ -188,21 +188,21 @@ export default function Navigation() {
                 <div className="absolute top-6 right-6 z-10">
                   <button 
                     onClick={closeSheet}
-                    className="relative w-11 h-11 rounded-lg bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm border border-gray-200/20 dark:border-gray-700/30 transition-all duration-300 hover:bg-white/20 dark:hover:bg-gray-700/30 group flex items-center justify-center"
+                    className="relative w-11 h-11 flex items-center justify-center"
                     aria-label="Close menu"
                   >
                     {/* Animated X that transforms back to hamburger on close */}
                     <div className="flex flex-col space-y-1.5">
                       <span className={cn(
-                        "block w-5 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all duration-700 ease-out transform-gpu",
+                        "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
                         "rotate-45 translate-y-2"
                       )}></span>
                       <span className={cn(
-                        "block w-5 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all duration-700 ease-out transform-gpu",
+                        "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
                         "opacity-0 scale-0"
                       )}></span>
                       <span className={cn(
-                        "block w-5 h-0.5 bg-gray-700 dark:bg-gray-300 transition-all duration-700 ease-out transform-gpu",
+                        "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
                         "-rotate-45 -translate-y-2"
                       )}></span>
                     </div>

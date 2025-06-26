@@ -116,9 +116,9 @@ function HomePage() {
               loop
               playsInline
               className="absolute inset-0 w-full h-full object-cover"
-              poster="/logo/transparant-text-vit.svg"
             >
-              <source src="/videos/KlivMontage720p.mp4" type="video/mp4" />
+              <source src="/videos/KlivMontage720p_small.webm" type="video/webm" />
+              <source src="/videos/KlivMontage720p_compressed.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             {/* Video Overlay */}
@@ -128,19 +128,20 @@ function HomePage() {
           {/* Content */}
           <div className="relative z-10 container mx-auto px-4 py-16">
             <div className="flex flex-col items-center justify-center max-w-4xl mx-auto">
-              <motion.div className="mb-8" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>
-                <div className="relative w-[36rem] h-44 md:w-[48rem] md:h-56 lg:w-[60rem] lg:h-64 xl:w-[72rem] xl:h-72 mb-6 mx-auto">
-                  <Image
-                    src="/logo/transparant-text-vit.svg"
-                    alt="Kliv Idrottsförening Logo"
-                    fill
-                    className="object-contain drop-shadow-2xl"
-                    sizes="(max-width: 768px) 576px, (max-width: 1024px) 768px, (max-width: 1280px) 960px, 1152px"
-                    priority
-                  />
-                </div>
-              </motion.div>
-              <motion.div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm mx-auto" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}>
+              {/* Logo */}
+              <div className="mb-8">
+                <Image
+                  src="/logo/transparant-text-vit.svg"
+                  alt="Kliv Idrottsförening Logo"
+                  width={600}
+                  height={200}
+                  className="w-80 h-auto md:w-96 lg:w-[32rem] xl:w-[40rem] drop-shadow-2xl"
+                  priority
+                />
+              </div>
+              
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm mx-auto">
                 <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg w-full shadow-xl" aria-label="Kontakta oss">
                   <Link href="/kontakta-oss" className="flex items-center justify-center">
                       Kontakta oss <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
@@ -151,7 +152,7 @@ function HomePage() {
                     Våra Sporter
                   </Link>
                 </Button>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>

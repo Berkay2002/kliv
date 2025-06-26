@@ -15,7 +15,7 @@ interface ProvidersProps {
 
 export function Providers({
   children,
-  defaultTheme = "system",
+  defaultTheme = "dark",
   enableSystem = true,
   disableTransitionOnChange = true,
 }: ProvidersProps) {

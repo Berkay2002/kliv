@@ -15,7 +15,7 @@ export default function Footer() {
   }, []);
 
   const logoSrc = !mounted
-    ? "/logo/transparant-vit.svg" // Default to dark theme logo
+    ? "/logo/transparant-vit.svg" // Default to white logo for dark theme
     : theme === 'dark'
     ? "/logo/transparant-vit.svg"
     : "/logo/transparant-svart.svg";
