@@ -1,0 +1,315 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light theme - warm and comfortable palette with beige undertones */
+    
+    /* Pure whites */
+    --white-pure: 0 0% 100%; /* Pure white - equivalent to pure black in dark */
+    --white-soft: 35 20% 99%; /* Soft warm white */
+    
+    /* Warm off-whites and light beiges (dirty whites) */
+    --gray-50: 35 15% 98%; /* Lightest warm gray - equivalent to dirty black */
+    --gray-100: 35 12% 96%; /* Very light warm beige */
+    --gray-150: 35 10% 94%; /* Light warm beige */
+    
+    /* Medium warm grays and beiges */
+    --gray-200: 35 8% 88%; /* Light medium warm beige */
+    --gray-300: 35 6% 82%; /* Medium warm beige */
+    --gray-400: 35 4% 68%; /* True medium warm gray */
+    --gray-500: 35 3% 52%; /* Balanced warm gray */
+    --gray-600: 35 3% 38%; /* Dark medium warm gray */
+    
+    /* Dark warm grays */
+    --gray-700: 35 4% 28%; /* Dark warm gray */
+    --gray-800: 35 5% 18%; /* Very dark warm gray */
+    --gray-850: 35 6% 13%; /* Almost black with warm undertone */
+    
+    /* Near blacks with warm undertones */
+    --black-soft: 35 8% 6%; /* Soft warm black */
+    --black-pure: 0 0% 0%; /* Pure black */
+
+    /* Component colors using the warm palette */
+    --background: var(--gray-50); /* Very light warm background */
+    --foreground: var(--gray-850); /* Almost black warm text */
+
+    --card: var(--white-pure); /* Pure white cards for maximum contrast */
+    --card-foreground: var(--gray-850);
+
+    --popover: var(--white-pure);
+    --popover-foreground: var(--gray-850);
+
+    --primary: var(--gray-800); /* Dark warm gray primary */
+    --primary-foreground: var(--white-soft);
+
+    --secondary: var(--gray-100); /* Very light warm secondary */
+    --secondary-foreground: var(--gray-700);
+
+    --muted: var(--gray-150); /* Light warm muted background */
+    --muted-foreground: var(--gray-500); /* Balanced warm gray text */
+
+    --accent: var(--gray-200); /* Light warm accent */
+    --accent-foreground: var(--gray-800);
+
+    --destructive: 0 84% 60%; /* Keep red for destructive actions */
+    --destructive-foreground: var(--white-soft);
+
+    --border: var(--gray-300); /* Subtle but visible warm border */
+    --input: var(--gray-100); /* Light warm input background */
+    --ring: var(--gray-800); /* Dark warm focus ring */
+    --radius: 0.5rem;
+
+    /* Extended chart colors using warm palette */
+    --chart-1: var(--gray-600);
+    --chart-2: var(--gray-500);
+    --chart-3: var(--gray-400);
+    --chart-4: var(--gray-300);
+    --chart-5: var(--gray-200);
+  }
+
+  .dark {
+    /* Dark theme - comprehensive dark palette */
+    
+    /* Pure blacks */
+    --black-pure: 0 0% 0%; /* Pure black */
+    --black-soft: 0 0% 3%; /* Soft black */
+    
+    /* Dark grays */
+    --gray-950: 0 0% 5%; /* Almost black */
+    --gray-900: 0 0% 8%; /* Very dark gray */
+    --gray-850: 0 0% 12%; /* Dark gray */
+    
+    /* Medium dark grays */
+    --gray-800: 0 0% 18%; /* Medium dark gray */
+    --gray-700: 0 0% 25%; /* Dark medium gray */
+    --gray-600: 0 0% 35%; /* True medium gray */
+    --gray-500: 0 0% 50%; /* Balanced gray */
+    --gray-400: 0 0% 65%; /* Light medium gray */
+    
+    /* Light grays */
+    --gray-300: 0 0% 75%; /* Light gray */
+    --gray-200: 0 0% 85%; /* Very light gray */
+    --gray-100: 0 0% 92%; /* Almost white gray */
+    
+    /* Near whites */
+    --white-soft: 0 0% 96%; /* Soft white */
+    --white-pure: 0 0% 100%; /* Pure white */
+
+    /* Component colors using the expanded dark palette */
+    --background: var(--gray-900); /* Very dark background */
+    --foreground: var(--gray-100); /* Almost white text */
+
+    --card: var(--gray-850); /* Slightly lighter than background */
+    --card-foreground: var(--gray-100);
+
+    --popover: var(--gray-950);
+    --popover-foreground: var(--gray-100);
+
+    --primary: var(--gray-200); /* Light primary for contrast */
+    --primary-foreground: var(--gray-950);
+
+    --secondary: var(--gray-800); /* Medium dark secondary */
+    --secondary-foreground: var(--gray-200);
+
+    --muted: var(--gray-850); /* Dark muted background */
+    --muted-foreground: var(--gray-400); /* Medium gray text */
+
+    --accent: var(--gray-700); /* Medium dark accent */
+    --accent-foreground: var(--gray-200);
+
+    --destructive: 0 84% 45%; /* Darker red for dark theme */
+    --destructive-foreground: var(--gray-100);
+
+    --border: var(--gray-700); /* Visible border in dark theme */
+    --input: var(--gray-800); /* Dark input background */
+    --ring: var(--gray-300); /* Light focus ring */
+
+    /* Extended chart colors for dark theme */
+    --chart-1: var(--gray-600);
+    --chart-2: var(--gray-500);
+    --chart-3: var(--gray-400);
+    --chart-4: var(--gray-300);
+    --chart-5: var(--gray-200);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Add the font-face definition for Oswald */
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/oswald-v53-latin-regular.woff2') format('woff2');
+}
+
+/* Custom utility classes for extended monochromatic palette */
+@layer utilities {
+  /* Background utilities */
+  .bg-white-pure { background-color: hsl(var(--white-pure)); }
+  .bg-white-soft { background-color: hsl(var(--white-soft)); }
+  .bg-gray-50 { background-color: hsl(var(--gray-50)); }
+  .bg-gray-100 { background-color: hsl(var(--gray-100)); }
+  .bg-gray-150 { background-color: hsl(var(--gray-150)); }
+  .bg-gray-200 { background-color: hsl(var(--gray-200)); }
+  .bg-gray-300 { background-color: hsl(var(--gray-300)); }
+  .bg-gray-400 { background-color: hsl(var(--gray-400)); }
+  .bg-gray-500 { background-color: hsl(var(--gray-500)); }
+  .bg-gray-600 { background-color: hsl(var(--gray-600)); }
+  .bg-gray-700 { background-color: hsl(var(--gray-700)); }
+  .bg-gray-800 { background-color: hsl(var(--gray-800)); }
+  .bg-gray-850 { background-color: hsl(var(--gray-850)); }
+  .bg-black-soft { background-color: hsl(var(--black-soft)); }
+  .bg-black-pure { background-color: hsl(var(--black-pure)); }
+
+  /* Text color utilities */
+  .text-white-pure { color: hsl(var(--white-pure)); }
+  .text-white-soft { color: hsl(var(--white-soft)); }
+  .text-gray-50 { color: hsl(var(--gray-50)); }
+  .text-gray-100 { color: hsl(var(--gray-100)); }
+  .text-gray-150 { color: hsl(var(--gray-150)); }
+  .text-gray-200 { color: hsl(var(--gray-200)); }
+  .text-gray-300 { color: hsl(var(--gray-300)); }
+  .text-gray-400 { color: hsl(var(--gray-400)); }
+  .text-gray-500 { color: hsl(var(--gray-500)); }
+  .text-gray-600 { color: hsl(var(--gray-600)); }
+  .text-gray-700 { color: hsl(var(--gray-700)); }
+  .text-gray-800 { color: hsl(var(--gray-800)); }
+  .text-gray-850 { color: hsl(var(--gray-850)); }
+  .text-black-soft { color: hsl(var(--black-soft)); }
+  .text-black-pure { color: hsl(var(--black-pure)); }
+
+  /* Border color utilities */
+  .border-white-pure { border-color: hsl(var(--white-pure)); }
+  .border-white-soft { border-color: hsl(var(--white-soft)); }
+  .border-gray-50 { border-color: hsl(var(--gray-50)); }
+  .border-gray-100 { border-color: hsl(var(--gray-100)); }
+  .border-gray-150 { border-color: hsl(var(--gray-150)); }
+  .border-gray-200 { border-color: hsl(var(--gray-200)); }
+  .border-gray-300 { border-color: hsl(var(--gray-300)); }
+  .border-gray-400 { border-color: hsl(var(--gray-400)); }
+  .border-gray-500 { border-color: hsl(var(--gray-500)); }
+  .border-gray-600 { border-color: hsl(var(--gray-600)); }
+  .border-gray-700 { border-color: hsl(var(--gray-700)); }
+  .border-gray-800 { border-color: hsl(var(--gray-800)); }
+  .border-gray-850 { border-color: hsl(var(--gray-850)); }
+  .border-black-soft { border-color: hsl(var(--black-soft)); }
+  .border-black-pure { border-color: hsl(var(--black-pure)); }
+
+  /* Gradient utilities for smooth transitions with warm tones */
+  .gradient-light-to-medium {
+    background: linear-gradient(to bottom, hsl(var(--gray-50)), hsl(var(--gray-200)));
+  }
+  
+  .gradient-medium-to-dark {
+    background: linear-gradient(to bottom, hsl(var(--gray-300)), hsl(var(--gray-700)));
+  }
+  
+  .gradient-white-to-beige {
+    background: linear-gradient(to bottom, hsl(var(--white-pure)), hsl(var(--gray-150)));
+  }
+  
+  .gradient-beige-to-warm-black {
+    background: linear-gradient(to bottom, hsl(var(--gray-400)), hsl(var(--black-soft)));
+  }
+
+  /* Subtle elevation shadows using warm grays and beiges */
+  .shadow-gray-soft {
+    box-shadow: 0 1px 3px 0 hsl(var(--gray-300) / 0.15), 0 1px 2px 0 hsl(var(--gray-300) / 0.08);
+  }
+  
+  .shadow-gray-medium {
+    box-shadow: 0 4px 6px -1px hsl(var(--gray-400) / 0.15), 0 2px 4px -1px hsl(var(--gray-400) / 0.08);
+  }
+  
+  .shadow-gray-strong {
+    box-shadow: 0 10px 15px -3px hsl(var(--gray-500) / 0.15), 0 4px 6px -2px hsl(var(--gray-500) / 0.08);
+  }
+
+  /* Custom animations for enhanced mobile navigation */
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Animation utilities */
+  .animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.4s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out forwards;
+  }
+
+  /* Enhanced shadow effects with warm undertones */
+  .shadow-glow {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.15);
+  }
+
+  .shadow-soft {
+    box-shadow: 0 2px 8px hsl(var(--gray-300) / 0.18);
+  }
+
+  .shadow-elevated {
+    box-shadow: 0 8px 32px hsl(var(--gray-400) / 0.2);
+  }
+
+  /* Backdrop blur utilities */
+  .backdrop-blur-strong {
+    backdrop-filter: blur(20px);
+  }
+
+  /* Gradient text effect */
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
