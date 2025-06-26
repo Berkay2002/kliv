@@ -157,17 +157,17 @@ export default function Navigation() {
                   {/* Enhanced hamburger lines with cool staggered animation */}
                   <div className="flex flex-col space-y-1.5">
                     <span className={cn(
-                      "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
+                      "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
                       isOpen ? "rotate-45 translate-y-2 scale-110" : "rotate-0 translate-y-0 scale-100",
                       "transition-delay-[50ms]"
                     )}></span>
                     <span className={cn(
-                      "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
+                      "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
                       isOpen ? "opacity-0 scale-0 rotate-180" : "opacity-100 scale-100 rotate-0",
                       "transition-delay-[100ms]"
                     )}></span>
                     <span className={cn(
-                      "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
+                      "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
                       isOpen ? "-rotate-45 -translate-y-2 scale-110" : "rotate-0 translate-y-0 scale-100",
                       "transition-delay-[150ms]"
                     )}></span>
@@ -194,15 +194,15 @@ export default function Navigation() {
                     {/* Animated X that transforms back to hamburger on close */}
                     <div className="flex flex-col space-y-1.5">
                       <span className={cn(
-                        "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
+                        "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
                         "rotate-45 translate-y-2"
                       )}></span>
                       <span className={cn(
-                        "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
+                        "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
                         "opacity-0 scale-0"
                       )}></span>
                       <span className={cn(
-                        "block w-5 h-0.5 bg-black transition-all duration-700 ease-out transform-gpu",
+                        "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
                         "-rotate-45 -translate-y-2"
                       )}></span>
                     </div>
