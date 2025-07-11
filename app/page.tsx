@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import TeamSection from '@/components/TeamSection';
+import { ImagesSlider } from '@/components/ImagesSlider';
 import Head from 'next/head';
 
 // Structured data for the organization
@@ -111,55 +112,75 @@ function HomePage() {
       </Head>
       <div className="min-h-screen bg-background">
         
-        {/* Hero Section with Video Background */}
-        <section className=" h-screen flex items-center justify-center text-center overflow-hidden -mt-24 pt-24">
-          {/* Video Background - Absolute positioning within hero section */}
-          <div className="absolute inset-0 -top-24 z-0">
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover"
-            >
-              <source src="/videos/KlivMontage720p_small.webm" type="video/webm" />
-              <source src="/videos/KlivMontage720p_compressed.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            {/* Video Overlay */}
-            <div className="absolute inset-0 bg-black/40 dark:bg-black/60"></div>
-          </div>
-          
-          {/* Content */}
-          <div className="relative z-10 container mx-auto px-4 py-16">
-            <div className="flex flex-col items-center justify-center max-w-4xl mx-auto">
-              {/* Logo */}
-              <div className="mb-8">
-                <Image
-                  src="/logo/transparant-text-vit.svg"
-                  alt="Kliv Idrottsförening Logo"
-                  width={600}
-                  height={200}
-                  className="w-80 h-auto md:w-96 lg:w-[32rem] xl:w-[40rem] drop-shadow-2xl"
-                  priority
-                />
-              </div>
-              
-              {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm mx-auto">
-                <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg w-full shadow-xl" aria-label="Kontakta oss">
-                  <Link href="/kontakta-oss" className="flex items-center justify-center">
-                      Kontakta oss <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="text-lg w-full sm:w-auto bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 shadow-xl" aria-label="Se våra sporter">
-                  <Link href="/sporter" className="flex items-center justify-center">
-                    Våra Sporter
-                  </Link>
-                </Button>
+        {/* Hero Section with Image Slider */}
+        <section className="h-screen flex items-center justify-center text-center overflow-hidden -mt-24 pt-24">
+          <ImagesSlider
+            images={[
+              "/images/sportstruck-06-25-25/Landscape/DSC00446.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00470.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00488.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00490.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00496.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00518.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00523.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00562.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00572.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00585.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00601.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00658.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00669.webp",
+              "/images/sportstruck-06-25-25/Landscape/DSC00706.webp",
+            ]}
+            mobileImages={[
+              "/images/sportstruck-06-25-25/Portrait/DSC00450.webp",
+              "/images/sportstruck-06-25-25/Portrait/DSC00457.webp",
+              "/images/sportstruck-06-25-25/Portrait/DSC00467.webp",
+              "/images/sportstruck-06-25-25/Portrait/DSC00468.webp",
+              "/images/sportstruck-06-25-25/Portrait/DSC00471.webp",
+              "/images/sportstruck-06-25-25/Portrait/DSC00475.webp",
+              "/images/sportstruck-06-25-25/Portrait/DSC00479.webp",
+              "/images/sportstruck-06-25-25/Portrait/DSC00486.webp",
+              "/images/sportstruck-06-25-25/Portrait/DSC00513.webp",
+              "/images/sportstruck-06-25-25/Portrait/DSC00548.webp",
+              "/images/sportstruck-06-25-25/Portrait/DSC00732.webp",
+              "/images/sportstruck-06-25-25/Portrait/DSC00785.webp",
+            ]}
+            className="absolute inset-0 w-full h-screen"
+            overlayClassName="bg-black/40 dark:bg-black/60"
+            autoplay={true}
+            direction="up"
+          >
+            {/* Content */}
+            <div className="relative z-50 container mx-auto px-4 py-16">
+              <div className="flex flex-col items-center justify-center max-w-4xl mx-auto">
+                {/* Logo */}
+                <div className="mb-8">
+                  <Image
+                    src="/logo/transparant-text-vit.svg"
+                    alt="Kliv Idrottsförening Logo"
+                    width={600}
+                    height={200}
+                    className="w-80 h-auto md:w-96 lg:w-[20rem] xl:w-[24rem] drop-shadow-2xl"
+                    priority
+                  />
+                </div>
+                
+                {/* Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm mx-auto">
+                  <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg w-full shadow-xl" aria-label="Kontakta oss">
+                    <Link href="/kontakta-oss" className="flex items-center justify-center">
+                        Kontakta oss <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" size="lg" className="text-lg w-full sm:w-auto bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 shadow-xl" aria-label="Se våra sporter">
+                    <Link href="/sporter" className="flex items-center justify-center">
+                      Våra Sporter
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
+          </ImagesSlider>
         </section>
 
         {/* Gradient from Hero to About Sections where it transitions from the background color of the Hero section to the background color of the About section. */}

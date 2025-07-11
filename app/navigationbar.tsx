@@ -5,50 +5,90 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetOverlay } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { VisuallyHidden } from "@/components/ui/visually-hidden";
-import React from "react";
+import { IconMenu2, IconX } from "@tabler/icons-react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "motion/react";
+import React, { useRef, useState, useEffect } from "react";
 
 const navItems = [
-  { name: "Hem", href: "/" },
-  { name: "Judo", href: "/judo" },
-  { name: "Lovaktiviteter", href: "/lovaktiviteter" },
-  { name: "Kontakta Oss", href: "/kontakta-oss" },
+  { 
+    name: "Hem", 
+    link: "/",
+    gradient: "radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(37,99,235,0.06) 50%, rgba(29,78,216,0) 100%)",
+    color: "text-blue-500"
+  },
+  { 
+    name: "Judo", 
+    link: "/judo",
+    gradient: "radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(147,51,234,0.06) 50%, rgba(126,34,206,0) 100%)",
+    color: "text-purple-500"
+  },
+  { 
+    name: "Lovaktiviteter", 
+    link: "/lovaktiviteter",
+    gradient: "radial-gradient(circle, rgba(239,68,68,0.15) 0%, rgba(220,38,38,0.06) 50%, rgba(185,28,28,0) 100%)",
+    color: "text-red-500"
+  },
+  { 
+    name: "Kontakta Oss", 
+    link: "/kontakta-oss",
+    gradient: "radial-gradient(circle, rgba(34,197,94,0.15) 0%, rgba(22,163,74,0.06) 50%, rgba(21,128,61,0) 100%)",
+    color: "text-green-500"
+  },
 ];
 
+// Animation variants for the glowing effects
+const navGlowVariants = {
+  initial: { opacity: 0 },
+  hover: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeInOut" as const,
+    },
+  },
+};
+
+const glowVariants = {
+  initial: { opacity: 0, scale: 0.8 },
+  hover: {
+    opacity: 1,
+    scale: 1.2,
+    transition: {
+      opacity: { duration: 0.5, ease: "easeInOut" as const },
+      scale: { duration: 0.5, type: "spring" as const, stiffness: 300, damping: 25 },
+    },
+  },
+};
+
 export default function Navigation() {
-  const [isScrolled, setIsScrolled] = React.useState(false);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [mounted, setMounted] = React.useState(false);
-  const [isVisible, setIsVisible] = React.useState(true);
-  const [lastScrollY, setLastScrollY] = React.useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [visible, setVisible] = useState(false);
   const pathname = usePathname();
   const { theme } = useTheme();
+  const ref = useRef<HTMLDivElement>(null);
+  
+  const { scrollY } = useScroll();
 
-  React.useEffect(() => {
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 100) {
+      setVisible(true);
+    } else {
+      setVisible(false);
+    }
+  });
+
+  useEffect(() => {
     setMounted(true);
   }, []);
 
-  React.useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      
-      setIsScrolled(currentScrollY > 10);
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
-
-  React.useEffect(() => {
+  useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setIsOpen(false);
@@ -68,199 +108,266 @@ export default function Navigation() {
     };
   }, [isOpen]);
 
-  const closeSheet = () => setIsOpen(false);
-
   const logoSrc = !mounted 
-    ? "/logo/transparant-vit.svg" // Default to white logo for dark theme
+    ? "/logo/transparant-vit.svg"
+    : !visible 
+    ? "/logo/transparant-vit.svg" 
     : theme === 'dark' 
     ? "/logo/transparant-vit.svg" 
     : "/logo/transparant-svart.svg";
 
+  const closeMenu = () => setIsOpen(false);
+  const isDarkTheme = theme === "dark";
+
   return (
-    <header
-      className={cn(
-        "fixed top-0 z-50 w-full",
-        isOpen 
-          ? "bg-transparent transition-all duration-300"
-          : isScrolled 
-          ? "bg-gray-100/95 dark:bg-gray-850/95 backdrop-blur-2xl shadow-lg transition-all duration-500" 
-          : "bg-gray-100/60 dark:bg-gray-850/60 backdrop-blur-md transition-all duration-500",
-        isVisible ? "translate-y-0" : "-translate-y-full"
-      )}
+    <motion.div
+      ref={ref}
+      className="fixed inset-x-0 top-0 z-50 w-full"
     >
-      {/* Animated gradient line with red color */}
-      <div className={cn(
-        "absolute bottom-0 left-0 right-0 h-0.5",
-        isOpen 
-          ? "bg-transparent transition-all duration-300"
-          : isScrolled 
-          ? "bg-gradient-to-r from-kliv-red/0 via-kliv-red/80 to-kliv-red/0 transition-all duration-500" 
-          : "bg-gradient-to-r from-kliv-red/0 via-kliv-red/40 to-kliv-red/0 transition-all duration-500"
-      )}></div>
-      
-      <div className="container mx-auto px-6">
-        <div className="flex h-24 items-center justify-between">        
-          <Link href="/" className={cn(
-            "flex items-center group relative transition-all duration-300",
-            isOpen ? "opacity-0 pointer-events-none" : "opacity-100"
-          )} onClick={closeSheet}>
-            <div className="relative overflow-hidden rounded-lg">
+      {/* Desktop Navigation */}
+      <motion.div
+        animate={{
+          backdropFilter: visible ? "blur(10px)" : "none",
+          boxShadow: visible
+            ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
+            : "none",
+          width: visible ? "70%" : "100%",
+          y: visible ? 20 : 0,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 200,
+          damping: 50,
+        }}
+        style={{
+          minWidth: "800px",
+        }}
+        className={cn(
+          "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent overflow-hidden",
+          visible && "bg-white/80 dark:bg-neutral-950/80",
+        )}
+        initial="initial"
+        whileHover="hover"
+      >
+        {/* Nav-wide glow effect */}
+        <motion.div
+          className={`absolute -inset-2 bg-gradient-radial from-transparent ${
+            mounted && isDarkTheme
+              ? "via-kliv-red/30 via-30% via-kliv-red/20 via-60% via-kliv-red/10 via-90%"
+              : "via-kliv-red/20 via-30% via-kliv-red/15 via-60% via-kliv-red/10 via-90%"
+          } to-transparent rounded-full z-0 pointer-events-none`}
+          variants={navGlowVariants}
+        />
+
+        {/* Logo */}
+        <Link href="/" className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1">
+          <Image
+            src={logoSrc}
+            alt="Kliv Idrottsförening"
+            width={40}
+            height={40}
+            className="h-10 w-10 object-contain transition-all duration-500 hover:scale-110"
+            priority
+          />
+        </Link>
+
+        {/* Desktop Navigation Items */}
+        <DesktopNavItems 
+          items={navItems} 
+          pathname={pathname}
+          onItemClick={closeMenu}
+          visible={visible}
+        />
+
+        {/* Theme Toggle */}
+        <div className="relative z-20">
+          <ThemeToggle visible={visible} />
+        </div>
+      </motion.div>
+
+      {/* Mobile Navigation */}
+      <motion.div
+        animate={{
+          backdropFilter: visible ? "blur(10px)" : "none",
+          boxShadow: visible
+            ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
+            : "none",
+          width: visible ? "90%" : "100%",
+          paddingRight: visible ? "12px" : "0px",
+          paddingLeft: visible ? "12px" : "0px",
+          borderRadius: visible ? "1.5rem" : "2rem",
+          y: visible ? 20 : 0,
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 200,
+          damping: 50,
+        }}
+        className={cn(
+          "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
+          visible && "bg-white/80 dark:bg-neutral-950/80",
+        )}
+      >
+        {/* Mobile Header */}
+        <div className="flex w-full flex-row items-center justify-between px-4">
+          {/* Logo */}
+          <Link href="/" className="relative z-20 flex items-center space-x-2 px-2 py-1">
               <Image
                 src={logoSrc}
                 alt="Kliv Idrottsförening"
-                width={60}
-                height={60}
-                className="h-14 w-14 object-contain transition-all duration-500 group-hover:scale-110"
+              width={40}
+              height={40}
+              className="h-10 w-10 object-contain transition-all duration-500 hover:scale-110"
                 priority
               />
-              {/* Logo glow effect */}
-              <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl rounded-lg"></div>
-            </div>
           </Link>
           
-          <div className="hidden lg:flex items-center">
-            <nav className="flex items-center" aria-label="Main navigation">
-              {navItems.map((item, index) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "relative px-6 py-4 text-sm font-medium transition-all duration-300 group rounded-lg",
-                    "before:absolute before:bottom-1 before:left-1/2 before:h-0.5 before:w-0 before:bg-kliv-red before:transition-all before:duration-300 before:-translate-x-1/2",
-                    "hover:before:w-3/4",
-                    pathname === item.href 
-                      ? "text-kliv-red before:w-3/4 bg-kliv-red/5" 
-                      : "text-gray-700 dark:text-gray-300 hover:text-kliv-red hover:bg-gray-50/50 dark:hover:bg-gray-800/30"
-                  )}
-                  style={{ animationDelay: `${index * 100}ms` }}
-                  aria-current={pathname === item.href ? "page" : undefined}
-                >
-                  <span className="relative z-10">{item.name}</span>
-                </Link>
-              ))}
-            </nav>
-            
-            <div className="ml-6 pl-6 border-l border-gray-200 dark:border-gray-700">
-              <ThemeToggle />
-            </div>
-          </div>
-          
-          <div className="lg:hidden flex items-center space-x-4">
-            <ThemeToggle />
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <button 
-                  className="relative w-11 h-11 flex items-center justify-center"
-                  aria-label="Toggle menu"
-                >
-                  {/* Enhanced hamburger lines with cool staggered animation */}
-                  <div className="flex flex-col space-y-1.5">
-                    <span className={cn(
-                      "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
-                      isOpen ? "rotate-45 translate-y-2 scale-110" : "rotate-0 translate-y-0 scale-100",
-                      "transition-delay-[50ms]"
-                    )}></span>
-                    <span className={cn(
-                      "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
-                      isOpen ? "opacity-0 scale-0 rotate-180" : "opacity-100 scale-100 rotate-0",
-                      "transition-delay-[100ms]"
-                    )}></span>
-                    <span className={cn(
-                      "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
-                      isOpen ? "-rotate-45 -translate-y-2 scale-110" : "rotate-0 translate-y-0 scale-100",
-                      "transition-delay-[150ms]"
-                    )}></span>
-                  </div>
-                </button>
-              </SheetTrigger>
-              <SheetOverlay className="bg-black/10 dark:bg-black/30" />
-              <SheetContent 
-              side="right" 
-              className="w-full p-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl" 
-              aria-label="Mobile navigation menu"
+          {/* Mobile Menu Toggle and Theme Toggle */}
+          <div className="flex items-center space-x-4">
+            <ThemeToggle visible={visible} />
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="relative z-20 p-2"
+              aria-label="Toggle menu"
             >
-                <VisuallyHidden>
-                  <SheetTitle>Navigation Menu</SheetTitle>
-                </VisuallyHidden>
-                
-                {/* Custom close button positioned like hamburger */}
-                <div className="absolute top-6 right-6 z-10">
-                  <button 
-                    onClick={closeSheet}
-                    className="relative w-11 h-11 flex items-center justify-center"
-                    aria-label="Close menu"
-                  >
-                    {/* Animated X that transforms back to hamburger on close */}
-                    <div className="flex flex-col space-y-1.5">
-                      <span className={cn(
-                        "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
-                        "rotate-45 translate-y-2"
-                      )}></span>
-                      <span className={cn(
-                        "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
-                        "opacity-0 scale-0"
-                      )}></span>
-                      <span className={cn(
-                        "block w-5 h-0.5 bg-black dark:bg-white transition-all duration-700 ease-out transform-gpu",
-                        "-rotate-45 -translate-y-2"
-                      )}></span>
-                    </div>
-                  </button>
-                </div>
-                
-                <div className="flex flex-col h-full">                  
-                  {/* Header with logo */}
-                  <div className="p-6 border-b border-gray-200/20 dark:border-gray-700/30">
-                    <Link href="/" className="flex items-center" onClick={closeSheet}>
-                      <Image
-                        src={logoSrc}
-                        alt="Kliv Idrottsförening"
-                        width={48}
-                        height={48}
-                        className="h-12 w-12 transition-transform duration-300 hover:scale-105"
-                      />
-                    </Link>
-                  </div>
-                  
-                  {/* Navigation */}
-                  <div className="flex-1 p-6">
-                    <nav className="space-y-2">
-                      {navItems.map((item) => (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          onClick={closeSheet}
-                          className={cn(
-                            "block p-4 text-lg font-medium transition-all duration-300 rounded-lg group",
-                            pathname === item.href
-                              ? "text-kliv-red bg-kliv-red/10" 
-                              : "text-gray-800 dark:text-gray-200 hover:text-kliv-red hover:bg-gray-100/50 dark:hover:bg-gray-800/30"
-                          )}
-                        >
-                          <span className="block">
-                            {item.name}
-                          </span>
-                        </Link>
-                      ))}
-                    </nav>
-                  </div>
-                  
-                  {/* Bottom section with theme toggle */}
-                  <div className="p-6 border-t border-gray-200/20 dark:border-gray-700/30">
-                    <div className="flex items-center justify-between p-4 bg-gray-100/50 dark:bg-gray-800/30 rounded-lg">
-                      <div>
-                        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Utseende</p>
-                        <p className="text-xs text-gray-600 dark:text-gray-400">Växla mellan ljust och mörkt</p>
-                      </div>
-                      <ThemeToggle />
-                    </div>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
+              {isOpen ? (
+                <IconX className={`h-6 w-6 ${
+                  !visible 
+                    ? "text-white" 
+                    : "text-black dark:text-white"
+                }`} />
+              ) : (
+                <IconMenu2 className={`h-6 w-6 ${
+                  !visible 
+                    ? "text-white" 
+                    : "text-black dark:text-white"
+                }`} />
+              )}
+            </button>
           </div>
         </div>
-      </div>
-    </header>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950"
+            >
+              {navItems.map((item, idx) => (
+                <Link
+                  key={`mobile-${idx}`}
+                  href={item.link}
+                  onClick={closeMenu}
+                  className={cn(
+                    "block w-full p-4 text-lg font-medium transition-all duration-300 rounded-lg group",
+                    pathname === item.link
+                      ? "text-kliv-red bg-kliv-red/10" 
+                      : "text-gray-800 dark:text-gray-200 hover:text-kliv-red hover:bg-gray-100/50 dark:hover:bg-gray-800/30"
+                  )}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 }
+
+const DesktopNavItems = ({ 
+  items, 
+  pathname, 
+  onItemClick,
+  visible,
+}: { 
+  items: { name: string; link: string; gradient: string; color: string }[];
+  pathname: string;
+  onItemClick: () => void;
+  visible: boolean;
+}) => {
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  return (
+    <motion.div
+      onMouseLeave={() => setHovered(null)}
+      className="absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2"
+    >
+      {items.map((item, idx) => {
+        const isActive = pathname === item.link;
+        
+        return (
+          <motion.div key={`desktop-${idx}`} className="relative">
+            <Link
+              href={item.link}
+              onMouseEnter={() => setHovered(idx)}
+              onClick={onItemClick}
+              className="block w-full"
+            >
+              <motion.div
+                className="block rounded-xl overflow-visible group relative"
+                whileHover="hover"
+                initial="initial"
+              >
+                {/* Individual glow effect */}
+                <motion.div
+                  className="absolute inset-0 z-0 pointer-events-none"
+                  variants={glowVariants}
+                  animate={isActive ? "hover" : "initial"}
+                  style={{
+                    background: item.gradient,
+                    opacity: isActive ? 1 : 0,
+                    borderRadius: "12px",
+                  }}
+                />
+                
+                {/* Link content */}
+                <motion.div
+                  className={cn(
+                    "relative px-4 py-2 z-10 bg-transparent transition-colors rounded-xl",
+                    isActive
+                      ? !visible 
+                        ? "text-white" 
+                        : item.color
+                      : !visible 
+                        ? "text-white/90" 
+                        : "text-neutral-600 dark:text-neutral-300",
+                    !visible ? "hover:bg-white/10" : `group-hover:${item.color}`
+                  )}
+                >
+                  <span className="relative z-20">{item.name}</span>
+                </motion.div>
+                
+                {/* Hover background */}
+                {hovered === idx && (
+                  <motion.div
+                    layoutId="hovered"
+                    className={cn(
+                      "absolute inset-0 h-full w-full rounded-xl z-0",
+                      !visible ? "bg-black/30" : "bg-gray-100 dark:bg-neutral-800"
+                    )}
+                  />
+                )}
+                
+                {/* Active background */}
+                {isActive && (
+                  <motion.div
+                    layoutId="active"
+                    className={cn(
+                      "absolute inset-0 h-full w-full rounded-xl z-0",
+                      !visible ? "bg-black/30" : "bg-gray-100/50 dark:bg-neutral-800/50"
+                    )}
+                  />
+                )}
+              </motion.div>
+            </Link>
+          </motion.div>
+        );
+      })}
+    </motion.div>
+  );
+};

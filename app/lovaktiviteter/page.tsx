@@ -1,13 +1,10 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import Image from "next/image";
 import { Calendar, Heart, Users, Trophy, Star, Gift } from "lucide-react";
-import { useIsMobile } from "@/hooks/useResponsiveImage";
+import { ImagesSlider } from "@/components/ImagesSlider";
+import { ExpandableCards } from "@/components/expandable-cards";
 
-const Chrono = dynamic(() => import("react-chrono").then((mod) => mod.Chrono), {
-  ssr: false,
-});
+
 
 const activities = [
   { title: "Sportlovskul", icon: Trophy, description: "Roliga aktiviteter under sportlovet" },
@@ -18,91 +15,47 @@ const activities = [
   { title: "Jullovskul", icon: Gift, description: "Festliga aktiviteter under jullovet" },
 ];
 
-// Timeline data mapping
-const timelineItemsBase = [
-  {
-    title: "Sportlov",
-    cardTitle: "Sportlovskul",
-    landscapeImage: "/images/sportstruck-06-25-25/Landscape/DSC00446.webp",
-    portraitImage: "/images/sportstruck-06-25-25/Portrait/DSC00450.webp",
-  },
-  {
-    title: "Påsklov",
-    cardTitle: "Påsklovskul",
-    landscapeImage: "/images/sportstruck-06-25-25/Landscape/DSC00585.webp",
-    portraitImage: "/images/sportstruck-06-25-25/Portrait/DSC00548.webp",
-  },
-  {
-    title: "Sommarlov",
-    cardTitle: "Sportstruck & Sportoteket",
-    landscapeImage: "/images/sportstruck-06-25-25/Landscape/DSC00669.webp",
-    portraitImage: "/images/sportstruck-06-25-25/Portrait/DSC00467.webp",
-  },
-  {
-    title: "Höstlov",
-    cardTitle: "Höstlovskul",
-    landscapeImage: "/images/sportstruck-06-25-25/Landscape/DSC00490.webp",
-    portraitImage: "/images/sportstruck-06-25-25/Portrait/DSC00486.webp",
-  },
-  {
-    title: "Jullov",
-    cardTitle: "Jullovskul",
-    landscapeImage: "/images/sportstruck-06-25-25/Landscape/DSC00470.webp",
-    portraitImage: "/images/sportstruck-06-25-25/Portrait/DSC00471.webp",
-  },
-];
-
 export default function LovaktiviteterPage() {
-  const isMobile = useIsMobile();
-
-  // Create timeline items with responsive images
-  const timelineItems = timelineItemsBase.map(item => ({
-    title: item.title,
-    cardTitle: item.cardTitle,
-    media: {
-      type: "IMAGE" as const,
-      source: { url: isMobile ? item.portraitImage : item.landscapeImage },
-    },
-  }));
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
       <section className="relative h-screen flex items-center justify-center text-center overflow-hidden -mt-24 pt-24">
-        {/* Background Images - Absolute positioned */}
-        <div className="absolute inset-0 -top-24 z-0">
-          {/* Desktop/Landscape Image */}
-          <Image
-            src="/images/sportstruck-06-25-25/Landscape/DSC00470.webp"
-            alt="Lovaktiviteter Background"
-            fill
-            className="object-cover hidden md:block"
-            priority
-            sizes="100vw"
-          />
-          {/* Mobile/Portrait Image */}
-          <Image
-            src="/images/sportstruck-06-25-25/Portrait/DSC00475.webp"
-            alt="Lovaktiviteter Background Mobile"
-            fill
-            className="object-cover block md:hidden"
-            priority
-            sizes="100vw"
-          />
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
-        
-        {/* Content - Centered */}
-        <div className="relative z-10 container mx-auto px-4 py-16">
-          <div className="flex flex-col items-center justify-center max-w-4xl mx-auto h-full">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white drop-shadow-2xl mb-6">
-              Lovaktiviteter
-            </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed max-w-3xl text-center">
-              Vi erbjuder en trygg plats för barn som får prova på ledarledda idrottsaktiviteter helt kostnadsfritt.
-            </p>
+        <ImagesSlider
+          images={[
+            "/images/sportstruck-06-25-25/Landscape/DSC00470.webp",
+            "/images/sportstruck-06-25-25/Landscape/DSC00488.webp",
+            "/images/sportstruck-06-25-25/Landscape/DSC00518.webp",
+            "/images/sportstruck-06-25-25/Landscape/DSC00562.webp",
+            "/images/sportstruck-06-25-25/Landscape/DSC00585.webp",
+            "/images/sportstruck-06-25-25/Landscape/DSC00669.webp",
+            "/images/sportstruck-06-25-25/Landscape/DSC00706.webp",
+          ]}
+          mobileImages={[
+            "/images/sportstruck-06-25-25/Portrait/DSC00475.webp",
+            "/images/sportstruck-06-25-25/Portrait/DSC00486.webp",
+            "/images/sportstruck-06-25-25/Portrait/DSC00513.webp",
+            "/images/sportstruck-06-25-25/Portrait/DSC00548.webp",
+            "/images/sportstruck-06-25-25/Portrait/DSC00467.webp",
+            "/images/sportstruck-06-25-25/Portrait/DSC00732.webp",
+            "/images/sportstruck-06-25-25/Portrait/DSC00785.webp",
+          ]}
+          className="absolute inset-0 w-full h-screen"
+          overlayClassName="bg-black/50"
+          autoplay={true}
+          direction="up"
+        >
+          {/* Content - Centered */}
+          <div className="relative z-50 container mx-auto px-4 py-16">
+            <div className="flex flex-col items-center justify-center max-w-4xl mx-auto h-full">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white drop-shadow-2xl mb-6">
+                Lovaktiviteter
+              </h1>
+              <p className="text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed max-w-3xl text-center">
+                Vi erbjuder en trygg plats för barn som får prova på ledarledda idrottsaktiviteter helt kostnadsfritt.
+              </p>
+            </div>
           </div>
-        </div>
+        </ImagesSlider>
       </section>
 
       <div className="h-16 bg-gradient-to-b from-transparent to-muted" />
@@ -179,7 +132,7 @@ export default function LovaktiviteterPage() {
 
       <div className="h-16 bg-gradient-to-b from-muted to-background" />
 
-      {/* Timeline Section */}
+      {/* Seasonal Activities Section */}
       <section className="py-16 bg-background">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
@@ -187,38 +140,7 @@ export default function LovaktiviteterPage() {
             {/* Red accent line under title */}
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
           </div>
-          <div className="timeline-container">
-            <Chrono
-              items={timelineItems}
-              mode="VERTICAL_ALTERNATING"
-              useReadMore={true}
-              readMore="Läs mer"
-              cardHeight={150}
-              allowDynamicUpdate
-              disableToolbar
-              hideControls
-              theme={{
-                primary: "hsl(var(--kliv-red))",
-                secondary: "hsl(var(--secondary))",
-                cardBgColor: "hsl(var(--card))",
-                cardTitleColor: "hsl(var(--foreground))",
-                cardSubtitleColor: "hsl(var(--muted-foreground))",
-                cardDetailsColor: "hsl(var(--muted-foreground))",
-                titleColor: "hsl(var(--foreground))",
-                titleColorActive: "hsl(var(--kliv-red))",
-              }}
-              fontSizes={{
-                cardTitle: "1.2rem",
-                cardSubtitle: "0.9rem",
-                cardDetailedText: "0.95rem",
-              }}
-              classNames={{
-                card: "rounded-xl overflow-hidden shadow-md",
-                cardTitle: "text-center flex justify-center items-center p-3 font-semibold",
-                title: "text-center",
-              }}
-            />
-          </div>
+          <ExpandableCards />
         </div>
       </section>
     </div>
