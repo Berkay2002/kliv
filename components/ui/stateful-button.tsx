@@ -1,11 +1,23 @@
 "use client";
-import { cn } from "/lib/utils";
+import { cn } from '@/lib/utils';
 import React from "react";
-import { motion, AnimatePresence, useAnimate } from "motion/react";
+import { motion, useAnimate } from "motion/react";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart" | "onAnimationEnd"
+> {
   className?: string;
   children: React.ReactNode;
+}
+
+function omitMotionConflicts<T extends object>(props: T) {
+  const rest = { ...props };
+  delete (rest as any).onDrag;
+  delete (rest as any).onDragStart;
+  delete (rest as any).onDragEnd;
+  delete (rest as any).onAnimationStart;
+  delete (rest as any).onAnimationEnd;
+  return rest;
 }
 
 export const Button = ({ className, children, ...props }: ButtonProps) => {
@@ -69,16 +81,6 @@ export const Button = ({ className, children, ...props }: ButtonProps) => {
     await animateSuccess();
   };
 
-  const {
-    onClick,
-    onDrag,
-    onDragStart,
-    onDragEnd,
-    onAnimationStart,
-    onAnimationEnd,
-    ...buttonProps
-  } = props;
-
   return (
     <motion.button
       layout
@@ -88,7 +90,7 @@ export const Button = ({ className, children, ...props }: ButtonProps) => {
         "flex min-w-[120px] cursor-pointer items-center justify-center gap-2 rounded-full bg-green-500 px-4 py-2 font-medium text-white ring-offset-2 transition duration-200 hover:ring-2 hover:ring-green-500 dark:ring-offset-black",
         className,
       )}
-      {...buttonProps}
+      {...omitMotionConflicts(props)}
       onClick={handleClick}
     >
       <motion.div layout className="flex items-center gap-2">
