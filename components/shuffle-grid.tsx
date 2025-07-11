@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
 export const ShuffleHero = () => {
@@ -135,21 +135,19 @@ const ShuffleGrid = () => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [squares, setSquares] = useState(generateSquares());
 
+  const shuffleSquares = useCallback(() => {
+    setSquares(generateSquares());
+    timeoutRef.current = setTimeout(shuffleSquares, 3000);
+  }, []);
+
   useEffect(() => {
     shuffleSquares();
-
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, []);
-
-  const shuffleSquares = () => {
-    setSquares(generateSquares());
-
-    timeoutRef.current = setTimeout(shuffleSquares, 3000);
-  };
+  }, [shuffleSquares]);
 
   return (
     <div className="grid grid-cols-4 grid-rows-4 h-[450px] gap-1">

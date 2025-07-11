@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 export const ImagesSlider = ({
   images,
@@ -41,26 +41,14 @@ export const ImagesSlider = ({
     );
   };
 
-  useEffect(() => {
-    loadImages();
-    checkIsMobile();
-    
-    const handleResize = () => {
-      checkIsMobile();
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+  const checkIsMobile = useCallback(() => {
+    setIsMobile(window.innerWidth < 768); // md breakpoint
   }, []);
 
-  const checkIsMobile = () => {
-    setIsMobile(window.innerWidth < 768); // md breakpoint
-  };
-
-  const loadImages = () => {
-    const loadPromises = images.map((image) => {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
+  const loadImages = useCallback(() => {
+    const loadPromises: Promise<string>[] = images.map((image) => {
+      return new Promise<string>((resolve, reject) => {
+        const img = new window.Image();
         img.src = image;
         img.onload = () => resolve(image);
         img.onerror = reject;
@@ -69,15 +57,15 @@ export const ImagesSlider = ({
 
     Promise.all(loadPromises)
       .then((loadedImages) => {
-        setLoadedImages(loadedImages as string[]);
+        setLoadedImages(loadedImages);
       })
       .catch((error) => console.error("Failed to load images", error));
 
     // Load mobile images if provided
     if (mobileImages) {
-      const loadMobilePromises = mobileImages.map((image) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
+      const loadMobilePromises: Promise<string>[] = mobileImages.map((image) => {
+        return new Promise<string>((resolve, reject) => {
+          const img = new window.Image();
           img.src = image;
           img.onload = () => resolve(image);
           img.onerror = reject;
@@ -86,11 +74,22 @@ export const ImagesSlider = ({
 
       Promise.all(loadMobilePromises)
         .then((loadedMobileImages) => {
-          setLoadedMobileImages(loadedMobileImages as string[]);
+          setLoadedMobileImages(loadedMobileImages);
         })
         .catch((error) => console.error("Failed to load mobile images", error));
     }
-  };
+  }, [images, mobileImages]);
+
+  useEffect(() => {
+    loadImages();
+    checkIsMobile();
+    const handleResize = () => {
+      checkIsMobile();
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [loadImages, checkIsMobile]);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
@@ -103,7 +102,7 @@ export const ImagesSlider = ({
     window.addEventListener("keydown", handleKeyDown);
 
     // autoplay
-    let interval: any;
+    let interval: ReturnType<typeof setInterval> | undefined;
     if (autoplay) {
       interval = setInterval(() => {
         handleNext();
@@ -112,9 +111,9 @@ export const ImagesSlider = ({
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      clearInterval(interval);
+      if (interval) clearInterval(interval);
     };
-  }, []);
+  }, [autoplay, handleNext, handlePrevious]);
 
   const slideVariants = {
     initial: {

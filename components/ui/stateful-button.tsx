@@ -12,11 +12,11 @@ interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>
 
 function omitMotionConflicts<T extends object>(props: T) {
   const rest = { ...props };
-  delete (rest as any).onDrag;
-  delete (rest as any).onDragStart;
-  delete (rest as any).onDragEnd;
-  delete (rest as any).onAnimationStart;
-  delete (rest as any).onAnimationEnd;
+  delete (rest as unknown as { [key: string]: unknown }).onDrag;
+  delete (rest as unknown as { [key: string]: unknown }).onDragStart;
+  delete (rest as unknown as { [key: string]: unknown }).onDragEnd;
+  delete (rest as unknown as { [key: string]: unknown }).onAnimationStart;
+  delete (rest as unknown as { [key: string]: unknown }).onAnimationEnd;
   return rest;
 }
 
