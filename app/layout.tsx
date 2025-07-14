@@ -4,7 +4,6 @@ import { Providers } from "./providers"
 import "./globals.css"
 import Navigation from "./navigationbar"
 import Footer from "./Footer"
-import { SectionSeparator } from "@/components/SectionSeparator"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -187,7 +186,6 @@ export default function RootLayout({
           <Navigation />
           <main className="flex-1 pt-16">{children}</main>
           {/* This separator now correctly blends the main content area with the footer area */}
-          <SectionSeparator fromBg="background" toBg="muted" />
           <Footer />
         </Providers>
       </body>

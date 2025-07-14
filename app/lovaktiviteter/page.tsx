@@ -2,6 +2,7 @@ import { OptimizedImageSlider } from "@/components/OptimizedImageSlider";
 import { OptimizedExpandableCards } from "@/components/OptimizedExpandableCards";
 import { SectionSeparator } from "@/components/SectionSeparator";
 import { LovaktivitetCard } from "@/types";
+import { SubscriptionForm } from "@/components/SubscriptionForm";
 
 async function getEvents(): Promise<LovaktivitetCard[]> {
   try {
@@ -127,6 +128,36 @@ export default async function LovaktiviteterPage() {
           )}
         </div>
       </section>
+
+      {/* Gradient from Team to Newsletter Sections */}
+      <div className="w-full h-16 md:h-24 bg-gradient-to-b from-background to-muted"></div>
+
+      {/* Newsletter Section - Uses 'bg-muted' */}
+      <section className="py-16 md:py-24 bg-muted relative">
+        {/* Red accent gradient backgrounds */}
+        <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-kliv-red/10 to-transparent blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-kliv-red/10 to-transparent blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Missa inte våra evenemang</h2>
+              {/* Red accent line under title */}
+              <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto mb-6"></div>
+              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                Prenumerera på vårt nyhetsbrev för att få de senaste uppdateringarna om kommande lovaktiviteter och evenemang.
+              </p>
+            </div>
+            <div className="bg-card/50 backdrop-blur-sm border border-kliv-red/20 rounded-lg p-6 shadow-lg">
+              <SubscriptionForm />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Gradient from Newsletter to Footer Sections */}
+      <div className="w-full h-16 md:h-24 bg-gradient-to-b from-muted to-gray-50 dark:to-gray-850"></div>
+
 
     </div>
   );

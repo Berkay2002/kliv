@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Calendar, MapPin, ArrowLeft, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { LovaktivitetCard } from '@/types';
+import { SubscriptionForm } from '@/components/SubscriptionForm'; // Import the SubscriptionForm
 
 async function getEvent(id: string): Promise<LovaktivitetCard | null> {
   try {
@@ -140,6 +141,11 @@ export default async function AktivitetPage({ params }: { params: Promise<{ id: 
                     )}
                   </div>
                 )}
+              </div>
+              
+              {/* Subscription Form in Sidebar */}
+              <div className="mt-8">
+                <SubscriptionForm />
               </div>
             </div>
           </div>

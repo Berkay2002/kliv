@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useOutsideClick } from '@/hooks/use-outside-click';
@@ -16,7 +17,12 @@ interface OptimizedExpandableCardsProps {
 
 export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProps) {
   const [active, setActive] = useState<LovaktivitetCard | null>(null);
+  const [mounted, setMounted] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleClose = useCallback(() => {
     setActive(null);
@@ -56,8 +62,11 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
     const handleScroll = () => {
       if (active) {
         document.body.style.overflow = 'hidden';
+        // Add high z-index backdrop to body to ensure it covers everything
+        document.body.style.position = 'relative';
       } else {
         document.body.style.overflow = 'auto';
+        document.body.style.position = '';
       }
     };
 
@@ -67,6 +76,7 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'auto';
+      document.body.style.position = '';
       // Show navigation bar on cleanup
       const navBar = document.querySelector('[data-nav-bar]');
       if (navBar) {
@@ -82,24 +92,21 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
 
   useOutsideClick(ref, handleClose);
 
-  return (
+  const modalContent = active && mounted ? (
     <>
       {/* Backdrop */}
-      {active && (
-        <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
-          onClick={handleClose}
-        />
-      )}
+      <div
+        className="fixed inset-0 bg-black/50 backdrop-blur-md z-[9998]"
+        onClick={handleClose}
+      />
 
       {/* Modal */}
-      {active && (
-        <div className="fixed inset-0 z-50 p-4 pt-20">
-          <div className="min-h-[calc(100%-80px)] flex items-start justify-center">
-            <div
-              ref={ref}
-              className="w-full max-w-4xl bg-card border border-border rounded-2xl overflow-y-auto shadow-2xl my-8 max-h-[calc(100vh-9rem)]"
-            >
+      <div className="fixed inset-0 z-[9999] p-4 pt-20">
+        <div className="min-h-[calc(100%-80px)] flex items-start justify-center">
+          <div
+            ref={ref}
+            className="w-full max-w-4xl bg-card border border-border rounded-2xl overflow-y-auto shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] my-8 max-h-[calc(100vh-15rem)] relative"
+          >
             {/* Header */}
             <div className="relative">
               <Image
@@ -115,7 +122,7 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
               {/* Close button */}
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-colors duration-200"
+                className="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-colors duration-200 z-10 shadow-lg"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -194,13 +201,24 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
                 </div>
               )}
             </div>
-            </div>
           </div>
         </div>
-      )}
+      </div>
+    </>
+  ) : null;
+
+  return (
+    <>
+      {/* Portal the modal content to document.body to escape any stacking contexts */}
+      {mounted && modalContent && createPortal(modalContent, document.body)}
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className={cn(
+        "grid gap-6 justify-items-center",
+        cards.length === 1 && "grid-cols-1 max-w-md mx-auto",
+        cards.length === 2 && "grid-cols-1 md:grid-cols-2 max-w-2xl mx-auto",
+        cards.length >= 3 && "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+      )}>
         {cards.map((card) => (
           <div
             key={card.id}
