@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import TeamSection from '@/components/TeamSection';
 import { OptimizedImageSlider } from '@/components/OptimizedImageSlider';
 import Head from 'next/head';
+import MobileOptimizedTeamSection from '@/components/MobileOptimizedTeamSection';
 
 // Structured data for the organization
 const organizationSchema = {
@@ -252,7 +253,7 @@ function HomePage() {
         <div className="w-full h-16 md:h-24 bg-gradient-to-b from-muted to-background"></div>
 
         {/* Team Section - Uses 'bg-background' */}
-        <TeamSection members={members} />
+        <MobileOptimizedTeamSection members={members} />
 
         {/* Gradient from Team to Footer Sections where it transitions from the background color of the Team section to the background color of the Footer section. */}
         

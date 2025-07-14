@@ -134,6 +134,7 @@ export default function Navigation() {
     <motion.div
       ref={ref}
       className="fixed inset-x-0 top-0 z-50 w-full"
+      data-nav-bar
     >
       {/* Desktop Navigation */}
       <motion.div

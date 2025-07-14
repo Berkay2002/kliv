@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Member {
@@ -44,6 +44,8 @@ interface MobileOptimizedTeamSectionProps {
 export default function MobileOptimizedTeamSection({ members }: MobileOptimizedTeamSectionProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -65,6 +67,22 @@ export default function MobileOptimizedTeamSection({ members }: MobileOptimizedT
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current - touchEndX.current > 50) { // Swiped left
+      nextSlide();
+    } else if (touchEndX.current - touchStartX.current > 50) { // Swiped right
+      prevSlide();
+    }
   };
 
   return (
@@ -98,6 +116,9 @@ export default function MobileOptimizedTeamSection({ members }: MobileOptimizedT
               <motion.div
                 className="flex transition-transform duration-300 ease-in-out"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
               >
                 {members.map((member) => (
                   <div key={member.id} className="w-full flex-shrink-0 px-4">

@@ -4,7 +4,6 @@ import { Providers } from "./providers"
 import "./globals.css"
 import Navigation from "./navigationbar"
 import Footer from "./Footer"
-import BackToTop from "@/components/BackToTop"
 import { SectionSeparator } from "@/components/SectionSeparator"
 
 const inter = Inter({
@@ -190,7 +189,6 @@ export default function RootLayout({
           {/* This separator now correctly blends the main content area with the footer area */}
           <SectionSeparator fromBg="background" toBg="muted" />
           <Footer />
-          <BackToTop />
         </Providers>
       </body>
     </html>
