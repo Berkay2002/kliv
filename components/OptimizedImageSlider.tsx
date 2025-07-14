@@ -25,7 +25,6 @@ export const OptimizedImageSlider: React.FC<OptimizedImageSliderProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const currentImages = isMobile && mobileImages ? mobileImages : images;
   const totalImages = currentImages.length;
@@ -37,16 +36,8 @@ export const OptimizedImageSlider: React.FC<OptimizedImageSliderProps> = ({
 
   // Handle next image
   const handleNext = useCallback(() => {
-    if (isTransitioning) return;
-    
-    setIsTransitioning(true);
-    
-    // Directly update the current index after a short delay
-    setTimeout(() => {
-      setCurrentIndex((currentIndex + 1) % totalImages);
-      setIsTransitioning(false);
-    }, 300);
-  }, [currentIndex, totalImages, isTransitioning]);
+    setCurrentIndex((currentIndex + 1) % totalImages);
+  }, [currentIndex, totalImages]);
 
   // Mobile detection
   useEffect(() => {
@@ -87,10 +78,7 @@ export const OptimizedImageSlider: React.FC<OptimizedImageSliderProps> = ({
           src={currentImages[currentIndex]}
           alt={`Slide ${currentIndex + 1}`}
           fill
-          className={cn(
-            'object-cover transition-opacity duration-300 ease-in-out',
-            isTransitioning ? 'opacity-0' : 'opacity-100'
-          )}
+          className="object-cover"
           priority={currentIndex === 0}
           quality={85}
           sizes="100vw"
@@ -116,12 +104,8 @@ export const OptimizedImageSlider: React.FC<OptimizedImageSliderProps> = ({
           <button
             key={index}
             onClick={() => {
-              if (!isTransitioning && index !== currentIndex) {
-                setIsTransitioning(true);
-                setTimeout(() => {
-                  setCurrentIndex(index);
-                  setIsTransitioning(false);
-                }, 300);
+              if (index !== currentIndex) {
+                setCurrentIndex(index);
               }
             }}
             className={cn(

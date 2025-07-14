@@ -40,13 +40,13 @@ export default function JudoPage() {
         </OptimizedImageSlider>
       </section>
 
-      <SectionSeparator fromBg="muted" toBg="background" />
+      <SectionSeparator fromBg="background" toBg="muted" />
 
       {/* Var Tranare Section */}
-      <section className="py-16 bg-background">
+      <section className="py-16 bg-muted">
         <div className="max-w-6xl mx-auto px-4">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Var Tranare</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Vår Tränare</h2>
             {/* Red accent line under title */}
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
           </div>
@@ -55,13 +55,7 @@ export default function JudoPage() {
             {/* Text Content */}
             <div className="space-y-6">
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Placeholder text for trainer description. This will be replaced with actual content later.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                More placeholder text about the trainer and their experience.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Additional information about training philosophy and approach.
+                Vår tränare är ingen annan än Raja Fernando som tävlat inom judo internationellt och har en livstids erfarenhet av judo. Raja Fernando graderades under 2023 till 6:e dan svartbälte och befinner sig bland de högst graderade personerna i norden!
               </p>
             </div>
             
@@ -82,26 +76,45 @@ export default function JudoPage() {
         </div>
       </section>
 
-      <SectionSeparator fromBg="background" toBg="muted" />
+      <SectionSeparator fromBg="muted" toBg="background" />
 
       {/* Traningsgrupp och Schema Section */}
-      <section className="py-16 bg-muted">
+      <section className="py-16 bg-background">
         <div className="max-w-4xl mx-auto px-4">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Traningsgrupp och Schema</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Träningsgrupp och Schema</h2>
             {/* Red accent line under title */}
             <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
           </div>
           
           <div className="space-y-6">
             <p className="text-lg text-muted-foreground leading-relaxed text-center">
-              Placeholder text about training groups and schedule.
+              Vi erbjuder för tillfället träningar för barn 7-12 år. Träningarna hålls på måndagar 17:30-19:30 i Kårsbyhallen.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed text-center">
-              More information about training times and group divisions.
+              Du är välkommen att ta med ditt barn och att testa på judo kostnadsfritt under ett pass - se bara till att kontakta vår medlemsansvariga innan du dyker upp.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <SectionSeparator fromBg="background" toBg="muted" />
+
+      {/* Traningsavgifter och Betalningsinformation Section */}
+      <section className="py-16 bg-muted">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Träningsavgifter och Betalningsinformation</h2>
+            {/* Red accent line under title */}
+            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
+          </div>
+          
+          <div className="space-y-6">
+            <p className="text-lg text-muted-foreground leading-relaxed text-center">
+              Träningsavgiften för samtliga barn är 750kr per termin och medlemsavgiften ingår i denna avgift. Träningsavgiften betalas in till föreningens bankgiro (5220-6166) senast 2 månader efter påbörjad termin.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed text-center">
-              Contact information for detailed schedule and available spots.
+              Märk betalningen med för- och efternamn på barnet, samt vilken termin betalningen gäller (exempelvis HT-2024).
             </p>
           </div>
         </div>
@@ -109,33 +122,8 @@ export default function JudoPage() {
 
       <SectionSeparator fromBg="muted" toBg="background" />
 
-      {/* Traningsavgifter och Betalningsinformation Section */}
-      <section className="py-16 bg-background">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Traningsavgifter och Betalningsinformation</h2>
-            {/* Red accent line under title */}
-            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
-          </div>
-          
-          <div className="space-y-6">
-            <p className="text-lg text-muted-foreground leading-relaxed text-center">
-              Placeholder text about training fees and payment information.
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed text-center">
-              Information about monthly costs and payment options.
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed text-center">
-              Contact details for current pricing and payment methods.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <SectionSeparator fromBg="background" toBg="muted" />
-
       {/* Var vi hittas Section */}
-      <section className="py-16 bg-muted">
+      <section className="py-16 bg-background">
         <div className="max-w-6xl mx-auto px-4">
           <div className="mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Var vi hittas</h2>
@@ -147,16 +135,11 @@ export default function JudoPage() {
             {/* Text Content */}
             <div className="space-y-6">
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Placeholder text about our training facilities and location.
+                Våra lokaler är nyrenoverade och ligger i Kårsbyhallen (Norsborg). Kårsbyhallen ligger på 3-minuters promenadavstånd från Norsborg tunnelbana.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Information about accessibility and parking.
+                Du kan även parkera 5-timmar gratis med p-skiva strax utanför hallen.
               </p>
-              <div className="bg-background/50 p-6 rounded-lg">
-                <h3 className="font-semibold text-foreground mb-2">Adress:</h3>
-                <p className="text-muted-foreground">Tomtbergavagen 370A</p>
-                <p className="text-muted-foreground">Botkyrka</p>
-              </div>
             </div>
             
             {/* Google Maps */}
