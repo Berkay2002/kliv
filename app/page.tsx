@@ -174,9 +174,12 @@ function HomePage() {
                           Kontakta oss <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
                       </Link>
                     </Button>
-                    <Button asChild variant="outline" size="lg" className="text-lg w-full sm:w-auto bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 shadow-xl" aria-label="Se våra sporter">
-                      <Link href="/sporter" className="flex items-center justify-center">
-                        Våra Sporter
+                    <Button asChild variant="outline" size="lg" className="w-full sm:w-auto bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 shadow-xl text-lg" aria-label="Se våra lovaktiviteter">
+                      <Link
+                        href="/lovaktiviteter"
+                        className="flex items-center justify-center"
+                      >
+                        Våra Lovaktiviteter
                       </Link>
                     </Button>
                   </div>
