@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import TeamSection from '@/components/TeamSection';
 import { OptimizedImageSlider } from '@/components/OptimizedImageSlider';
 import Head from 'next/head';
 import MobileOptimizedTeamSection from '@/components/MobileOptimizedTeamSection';

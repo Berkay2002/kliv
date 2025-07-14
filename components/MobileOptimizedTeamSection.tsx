@@ -1,9 +1,9 @@
 'use client';
 
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Member {
