@@ -108,8 +108,19 @@ export default function Navigation() {
     };
   }, [isOpen]);
 
+  // Check if we're on the contact page (no header image)
+  const isContactPage = pathname === "/kontakta-oss";
+  
+  // For contact page in standby mode: use theme-aware colors
+  // For other pages in standby mode: use white (overlay over header images)
+  const shouldUseThemeColors = !visible && isContactPage;
+  
   const logoSrc = !mounted 
     ? "/logo/transparant-vit.svg"
+    : shouldUseThemeColors
+    ? theme === 'dark' 
+      ? "/logo/transparant-vit.svg" 
+      : "/logo/transparant-svart.svg"
     : !visible 
     ? "/logo/transparant-vit.svg" 
     : theme === 'dark' 
@@ -177,11 +188,12 @@ export default function Navigation() {
           pathname={pathname}
           onItemClick={closeMenu}
           visible={visible}
+          shouldUseThemeColors={shouldUseThemeColors}
         />
 
         {/* Theme Toggle */}
         <div className="relative z-20">
-          <ThemeToggle visible={visible} />
+          <ThemeToggle visible={visible} shouldUseThemeColors={shouldUseThemeColors} />
         </div>
       </motion.div>
 
@@ -224,7 +236,7 @@ export default function Navigation() {
           
           {/* Mobile Menu Toggle and Theme Toggle */}
           <div className="flex items-center space-x-4">
-            <ThemeToggle visible={visible} />
+            <ThemeToggle visible={visible} shouldUseThemeColors={shouldUseThemeColors} />
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="relative z-20 p-2"
@@ -232,13 +244,17 @@ export default function Navigation() {
             >
               {isOpen ? (
                 <IconX className={`h-6 w-6 ${
-                  !visible 
+                  shouldUseThemeColors
+                    ? "text-black dark:text-white"
+                    : !visible 
                     ? "text-white" 
                     : "text-black dark:text-white"
                 }`} />
               ) : (
                 <IconMenu2 className={`h-6 w-6 ${
-                  !visible 
+                  shouldUseThemeColors
+                    ? "text-black dark:text-white"
+                    : !visible 
                     ? "text-white" 
                     : "text-black dark:text-white"
                 }`} />
@@ -284,11 +300,13 @@ const DesktopNavItems = ({
   pathname, 
   onItemClick,
   visible,
+  shouldUseThemeColors,
 }: { 
   items: { name: string; link: string; gradient: string; color: string }[];
   pathname: string;
   onItemClick: () => void;
   visible: boolean;
+  shouldUseThemeColors: boolean;
 }) => {
   const [hovered, setHovered] = useState<number | null>(null);
 
@@ -330,13 +348,21 @@ const DesktopNavItems = ({
                   className={cn(
                     "relative px-4 py-2 z-10 bg-transparent transition-colors rounded-xl",
                     isActive
-                      ? !visible 
+                      ? shouldUseThemeColors
+                        ? item.color
+                        : !visible 
                         ? "text-white" 
                         : item.color
-                      : !visible 
+                      : shouldUseThemeColors
+                        ? "text-neutral-600 dark:text-neutral-300"
+                        : !visible 
                         ? "text-white/90" 
                         : "text-neutral-600 dark:text-neutral-300",
-                    !visible ? "hover:bg-white/10" : `group-hover:${item.color}`
+                    shouldUseThemeColors 
+                      ? `group-hover:${item.color}` 
+                      : !visible 
+                      ? "hover:bg-white/10" 
+                      : `group-hover:${item.color}`
                   )}
                 >
                   <span className="relative z-20">{item.name}</span>
@@ -348,7 +374,11 @@ const DesktopNavItems = ({
                     layoutId="hovered"
                     className={cn(
                       "absolute inset-0 h-full w-full rounded-xl z-0",
-                      !visible ? "bg-black/30" : "bg-gray-100 dark:bg-neutral-800"
+                      shouldUseThemeColors
+                        ? "bg-gray-100 dark:bg-neutral-800"
+                        : !visible 
+                        ? "bg-black/30" 
+                        : "bg-gray-100 dark:bg-neutral-800"
                     )}
                   />
                 )}
@@ -359,7 +389,11 @@ const DesktopNavItems = ({
                     layoutId="active"
                     className={cn(
                       "absolute inset-0 h-full w-full rounded-xl z-0",
-                      !visible ? "bg-black/30" : "bg-gray-100/50 dark:bg-neutral-800/50"
+                      shouldUseThemeColors
+                        ? "bg-gray-100/50 dark:bg-neutral-800/50"
+                        : !visible 
+                        ? "bg-black/30" 
+                        : "bg-gray-100/50 dark:bg-neutral-800/50"
                     )}
                   />
                 )}

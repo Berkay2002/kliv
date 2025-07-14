@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import TeamSection from '@/components/TeamSection';
-import { ImagesSlider } from '@/components/ImagesSlider';
+import { OptimizedImageSlider } from '@/components/OptimizedImageSlider';
 import Head from 'next/head';
 
 // Structured data for the organization
@@ -112,9 +112,9 @@ function HomePage() {
       </Head>
       <div className="min-h-screen bg-background">
         
-        {/* Hero Section with Image Slider */}
+        {/* Hero Section with Optimized Image Slider */}
         <section className="h-screen flex items-center justify-center text-center overflow-hidden -mt-24 pt-24">
-          <ImagesSlider
+          <OptimizedImageSlider
             images={[
               "/images/sportstruck-06-25-25/Landscape/DSC00446.webp",
               "/images/sportstruck-06-25-25/Landscape/DSC00470.webp",
@@ -148,39 +148,41 @@ function HomePage() {
             className="absolute inset-0 w-full h-screen"
             overlayClassName="bg-black/40 dark:bg-black/60"
             autoplay={true}
-            direction="up"
+            interval={5000}
           >
             {/* Content */}
-            <div className="relative z-50 container mx-auto px-4 py-16">
-              <div className="flex flex-col items-center justify-center max-w-4xl mx-auto">
-                {/* Logo */}
-                <div className="mb-8">
-                  <Image
-                    src="/logo/transparant-text-vit.svg"
-                    alt="Kliv Idrottsförening Logo"
-                    width={600}
-                    height={200}
-                    className="w-80 h-auto md:w-96 lg:w-[20rem] xl:w-[24rem] drop-shadow-2xl"
-                    priority
-                  />
-                </div>
-                
-                {/* Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm mx-auto">
-                  <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg w-full shadow-xl" aria-label="Kontakta oss">
-                    <Link href="/kontakta-oss" className="flex items-center justify-center">
-                        Kontakta oss <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" size="lg" className="text-lg w-full sm:w-auto bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 shadow-xl" aria-label="Se våra sporter">
-                    <Link href="/sporter" className="flex items-center justify-center">
-                      Våra Sporter
-                    </Link>
-                  </Button>
+            <div className="flex items-center justify-center h-full">
+              <div className="container mx-auto px-4 py-16">
+                <div className="flex flex-col items-center justify-center max-w-4xl mx-auto">
+                  {/* Logo */}
+                  <div className="mb-8">
+                    <Image
+                      src="/logo/transparant-text-vit.svg"
+                      alt="Kliv Idrottsförening Logo"
+                      width={600}
+                      height={200}
+                      className="w-80 h-auto md:w-96 lg:w-[20rem] xl:w-[24rem] drop-shadow-2xl"
+                      priority
+                    />
+                  </div>
+                  
+                  {/* Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-4 w-full max-w-sm mx-auto">
+                    <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg w-full shadow-xl" aria-label="Kontakta oss">
+                      <Link href="/kontakta-oss" className="flex items-center justify-center">
+                          Kontakta oss <ArrowRightIcon className="ml-2 h-5 w-5" aria-hidden="true" />
+                      </Link>
+                    </Button>
+                    <Button asChild variant="outline" size="lg" className="text-lg w-full sm:w-auto bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 shadow-xl" aria-label="Se våra sporter">
+                      <Link href="/sporter" className="flex items-center justify-center">
+                        Våra Sporter
+                      </Link>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
-          </ImagesSlider>
+          </OptimizedImageSlider>
         </section>
 
         {/* Gradient from Hero to About Sections where it transitions from the background color of the Hero section to the background color of the About section. */}
