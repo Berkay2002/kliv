@@ -188,16 +188,11 @@ const seasonalActivities: Card[] = [
 
 export function OptimizedExpandableCards() {
   const [active, setActive] = useState<Card | null>(null);
-  const [isClosing, setIsClosing] = useState(false);
   const id = useId();
   const ref = useRef<HTMLDivElement>(null);
 
   const handleClose = useCallback(() => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setActive(null);
-      setIsClosing(false);
-    }, 200);
+    setActive(null);
   }, []);
 
   const handleCardClick = useCallback((card: Card) => {
