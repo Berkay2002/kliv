@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     const resourceId = request.headers.get('X-Goog-Resource-ID');
     const resourceState = request.headers.get('X-Goog-Resource-State');
     const messageNumber = request.headers.get('X-Goog-Message-Number');
-    const calendarId = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID;
+    const calendarId = process.env.GOOGLE_CALENDAR_ID;
 
     console.log('Received Google Calendar Webhook Notification:');
     console.log(`Channel ID: ${channelId}`);

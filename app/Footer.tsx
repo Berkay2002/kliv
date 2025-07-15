@@ -5,7 +5,7 @@ import Image from "next/image"
 import { Facebook, Instagram, MapPin, Mail, Phone } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useState, useEffect } from "react"
-import { SubscriptionForm } from "@/components/SubscriptionForm"
+import { SubscriptionForm } from "@/components/SubscriptionForm"; // Corrected import
 
 export default function Footer() {
   const { theme } = useTheme();
@@ -25,7 +25,7 @@ export default function Footer() {
     <footer className="relative bg-gray-50 dark:bg-gray-850 border-t border-kliv-red dark:border-kliv-red">
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 lg:py-10">
         <div className="flex flex-col items-center">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 max-w-5xl w-full justify-items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 max-w-3xl w-full justify-items-center">
           
           {/* Logo and Social Media */}
           <div className="space-y-3 lg:space-y-4 text-center">
@@ -64,8 +64,13 @@ export default function Footer() {
             </div>
           </div>
 
+          {/* Subscription Form */}
+          <div className="w-full flex justify-center mt-6 md:mt-0">
+            <SubscriptionForm />
+          </div>
+
           {/* Contact Information */}
-          <div className="space-y-3 lg:space-y-4 text-center">
+          <div className="space-y-3 lg:space-y-4 text-center mt-6 md:mt-0">
             <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100">
               Kontakt
             </h3>
@@ -118,11 +123,6 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Newsletter Subscription */}
-          <div className="space-y-3 lg:space-y-4 text-center">
-            <SubscriptionForm />
           </div>
         </div>
 

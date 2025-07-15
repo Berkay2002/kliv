@@ -10,7 +10,7 @@ export interface WatchResponse {
 
 export async function setupGoogleCalendarWatch(): Promise<WatchResponse | null> {
   try {
-    const calendarId = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_ID;
+    const calendarId = process.env.GOOGLE_CALENDAR_ID;
     const webhookUrl = process.env.GOOGLE_WEBHOOK_URL || `${process.env.NEXT_PUBLIC_SITE_URL}/api/google-calendar-webhook`;
 
     if (!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || !process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY || !calendarId) {
