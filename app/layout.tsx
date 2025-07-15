@@ -4,6 +4,7 @@ import { Providers } from "./providers"
 import "./globals.css"
 import Navigation from "./navigationbar"
 import Footer from "./Footer"
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -188,6 +189,7 @@ export default function RootLayout({
           {/* This separator now correctly blends the main content area with the footer area */}
           <Footer />
         </Providers>
+        <Analytics />
       </body>
     </html>
   )
