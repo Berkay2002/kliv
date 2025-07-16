@@ -18,6 +18,10 @@ This is a Next.js 14 application for Kliv Idrottsförening Botkyrka, a Swedish s
 - `npx shadcn@latest add [component-name]` - Add new shadcn/ui components
 - Components are automatically installed to `components/ui/`
 
+### Calendar System Commands
+- `curl -X POST http://localhost:3000/api/setup-calendar-watch` - Setup Google Calendar watch
+- `curl -X POST http://localhost:3000/api/subscribers -H "Content-Type: application/json" -d '{"email": "test@example.com"}'` - Add test subscriber
+
 ## Architecture Overview
 
 ### Next.js App Router Structure
@@ -117,6 +121,22 @@ All theming is controlled through CSS variables in `globals.css`:
 - Lazy loading for images
 - Efficient CSS with variable-based theming
 
+## Calendar System Environment Variables
+
+### Required Variables
+- `GOOGLE_CALENDAR_ID` - Google Calendar ID for the organization calendar
+- `GOOGLE_SERVICE_ACCOUNT_EMAIL` - Service account email for Google Calendar API
+- `GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY` - Private key for service account authentication
+- `GOOGLE_WEBHOOK_URL` - Webhook URL for Google Calendar notifications
+- `REDIS_URL` - Redis connection string for subscriber storage
+- `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASS` - SMTP configuration for notifications
+
+### API Endpoints
+- `/api/setup-calendar-watch` - Initialize Google Calendar watch
+- `/api/google-calendar-webhook` - Handle Google Calendar webhook notifications
+- `/api/subscribers` - Manage email subscribers
+- `/api/events` - Fetch calendar events for display
+
 ## Testing and Deployment
 
 ### Build Process
@@ -125,7 +145,14 @@ All theming is controlled through CSS variables in `globals.css`:
 - Verify responsive design across breakpoints
 - Test dark/light mode functionality
 
+### Calendar System Testing
+- Test calendar watch setup: `curl -X POST http://localhost:3000/api/setup-calendar-watch`
+- Test webhook endpoint: `curl -X POST http://localhost:3000/api/google-calendar-webhook -H "X-Goog-Resource-State: exists"`
+- Test subscriber management: `curl -X POST http://localhost:3000/api/subscribers -H "Content-Type: application/json" -d '{"email": "test@example.com"}'`
+- Test events API: `curl http://localhost:3000/api/events`
+
 ### Deployment Notes
 - Optimized for Vercel deployment
 - Environment variables for site URL and verification
 - Production-ready with proper caching headers
+- Calendar watch system requires webhook URL to be publicly accessible

@@ -36,7 +36,7 @@ async function testCalendarNotifications() {
   const requiredEnvVars = [
     'GOOGLE_SERVICE_ACCOUNT_EMAIL',
     'GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY',
-    'NEXT_PUBLIC_GOOGLE_CALENDAR_ID',
+    'GOOGLE_CALENDAR_ID',
     'REDIS_URL',
     'EMAIL_HOST',
     'EMAIL_USER',

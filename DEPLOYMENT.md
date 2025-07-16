@@ -30,7 +30,7 @@ In your Vercel dashboard, go to Settings → Environment Variables and add:
 ```
 NEXT_PUBLIC_SITE_URL=https://your-app.vercel.app
 GOOGLE_WEBHOOK_URL=https://your-app.vercel.app/api/google-calendar-webhook
-NEXT_PUBLIC_GOOGLE_CALENDAR_ID=your_calendar_id@group.calendar.google.com
+GOOGLE_CALENDAR_ID=your_calendar_id@group.calendar.google.com
 GOOGLE_SERVICE_ACCOUNT_EMAIL=your-service-account@your-project.iam.gserviceaccount.com
 GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...your private key...\n-----END PRIVATE KEY-----\n"
 REDIS_URL=redis://your-redis-url
