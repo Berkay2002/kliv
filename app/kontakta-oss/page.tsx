@@ -180,7 +180,7 @@ export default function ContactUsPage() {
             </div>
             <div className="relative">
               <GoogleMapsEmbed
-                apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}
+                apiKey={process.env.GOOGLE_MAPS_API_KEY || ""}
                 height={400}
                 width="100%"
                 mode="place"

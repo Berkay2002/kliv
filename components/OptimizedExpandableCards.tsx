@@ -188,7 +188,7 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
                   </h4>
                   <div className="rounded-lg overflow-hidden border border-border">
                     <iframe
-                      src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_API_KEY}&q=${encodeURIComponent(active.metadata.location)}`}
+                      src={`https://www.google.com/maps/embed/v1/place?key=${process.env.GOOGLE_MAPS_EMBED_API_KEY}&q=${encodeURIComponent(active.metadata.location)}`}
                       width="100%"
                       height="300"
                       style={{ border: 0 }}

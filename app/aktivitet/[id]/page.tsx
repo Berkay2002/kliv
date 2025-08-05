@@ -159,7 +159,7 @@ export default async function AktivitetPage({ params }: { params: Promise<{ id: 
               </h3>
               <div className="rounded-lg overflow-hidden border border-border shadow-lg">
                 <iframe
-                  src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_API_KEY}&q=${encodeURIComponent(event.metadata.location)}`}
+                  src={`https://www.google.com/maps/embed/v1/place?key=${process.env.GOOGLE_MAPS_EMBED_API_KEY}&q=${encodeURIComponent(event.metadata.location)}`}
                   width="100%"
                   height="400"
                   style={{ border: 0 }}
