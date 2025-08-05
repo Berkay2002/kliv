@@ -103,7 +103,7 @@ export default function AdminDashboard() {
   }
 
   const handleApproveEvent = async (eventId: string) => {
-    setProcessingEvents(prev => new Set([...prev, eventId]))
+    setProcessingEvents(prev => new Set([...Array.from(prev), eventId]))
     
     try {
       const response = await fetch('/api/admin/approve-event', {
@@ -133,7 +133,7 @@ export default function AdminDashboard() {
   }
 
   const handleRejectEvent = async (eventId: string) => {
-    setProcessingEvents(prev => new Set([...prev, eventId]))
+    setProcessingEvents(prev => new Set([...Array.from(prev), eventId]))
     
     try {
       const response = await fetch('/api/admin/reject-event', {
@@ -167,7 +167,7 @@ export default function AdminDashboard() {
     setIsEditModalOpen(true)
   }
 
-  const handleEditSave = (eventId: string) => {
+  const handleEditSave = () => {
     // Refresh the pending events list after successful edit
     fetchPendingEvents()
     alert('Event uppdaterat framgångsrikt!')

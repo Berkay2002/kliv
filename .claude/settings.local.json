@@ -12,7 +12,8 @@
       "mcp__context7__resolve-library-id",
       "mcp__context7__get-library-docs",
       "Bash(npx shadcn@latest add:*)",
-      "Bash(y)"
+      "Bash(y)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }

@@ -1,16 +1,17 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Calendar, MapPin, Save, X } from 'lucide-react'
+import { Calendar, Save, X } from 'lucide-react'
 import { CTA_OPTIONS, DEFAULT_CTA_TEXT_OPTIONS, parseEventDescription } from '@/lib/event-parser'
 import { PendingEvent } from '@/lib/subscribers'
 import { CldUploadWidget } from 'next-cloudinary'
+import Image from 'next/image'
 
 interface EditEventModalProps {
   event: PendingEvent | null
@@ -76,7 +77,7 @@ export default function EditEventModal({ event, isOpen, onClose, onSave }: EditE
         endDate: endDateOnly,
         endTime: endTimeOnly,
         location: googleEvent.location || '',
-        description: parsed.description || '',
+        description: '',
         content: parsed.content || googleEvent.description || '',
         image: parsed.src || '',
         ctaText: parsed.ctaText || 'Läs mer',
@@ -252,9 +253,11 @@ export default function EditEventModal({ event, isOpen, onClose, onSave }: EditE
                   </Button>
                   {formData.image && (
                     <div className="relative">
-                      <img 
+                      <Image 
                         src={formData.image} 
                         alt="Event preview" 
+                        width={400}
+                        height={128}
                         className="w-full h-24 sm:h-32 object-cover rounded-md"
                       />
                     </div>

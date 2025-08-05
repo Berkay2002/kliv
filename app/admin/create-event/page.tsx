@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useUser, SignInButton, UserButton } from '@clerk/nextjs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -8,9 +8,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Calendar, MapPin, Image as ImageIcon, Link as LinkIcon, ArrowLeft, Eye, ShieldX } from 'lucide-react'
+import { Calendar, MapPin, Image as ImageIcon, ArrowLeft, Eye, ShieldX } from 'lucide-react'
 import { CTA_OPTIONS, DEFAULT_CTA_TEXT_OPTIONS } from '@/lib/event-parser'
 import Link from 'next/link'
+import Image from 'next/image'
 import { CldUploadWidget } from 'next-cloudinary'
 
 interface EventFormData {
@@ -311,9 +312,11 @@ export default function CreateEventPage() {
                       </Button>
                       {formData.image && (
                         <div className="relative">
-                          <img 
+                          <Image 
                             src={formData.image} 
                             alt="Event preview" 
+                            width={400}
+                            height={128}
                             className="w-full h-32 object-cover rounded-md"
                           />
                         </div>
@@ -411,9 +414,11 @@ export default function CreateEventPage() {
                 </div>
 
                 {formData.image && (
-                  <img 
+                  <Image 
                     src={formData.image} 
                     alt="Event" 
+                    width={400}
+                    height={192}
                     className="w-full h-32 sm:h-48 object-cover rounded-md"
                   />
                 )}

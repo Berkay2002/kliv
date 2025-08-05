@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { auth } from '@clerk/nextjs/server'
 import { getPendingEvents, approvePendingEvent, deletePendingEvent, getSubscribers } from '@/lib/subscribers'
 import { sendEmail } from '@/lib/email'
 import { requireAdminAuth } from '@/lib/admin-auth'

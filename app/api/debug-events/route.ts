@@ -24,7 +24,7 @@ export async function GET() {
   } catch (error) {
     console.error('❌ Debug error:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch debug info', details: error.message },
+      { error: 'Failed to fetch debug info', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     )
   }

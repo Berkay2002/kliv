@@ -130,21 +130,21 @@ export async function PUT(request: Request) {
     console.error('❌ Error editing event:', error);
     
     // Handle specific Google Calendar API errors
-    if (error.code === 403) {
+    if (error instanceof Error && 'code' in error && error.code === 403) {
       return NextResponse.json(
         { error: 'Insufficient permissions to update calendar events' },
         { status: 403 }
       );
     }
     
-    if (error.code === 400) {
+    if (error instanceof Error && 'code' in error && error.code === 400) {
       return NextResponse.json(
         { error: 'Invalid event data provided' },
         { status: 400 }
       );
     }
 
-    if (error.code === 404) {
+    if (error instanceof Error && 'code' in error && error.code === 404) {
       return NextResponse.json(
         { error: 'Event not found in Google Calendar' },
         { status: 404 }
@@ -152,7 +152,7 @@ export async function PUT(request: Request) {
     }
 
     return NextResponse.json(
-      { error: 'Failed to update event', details: error.message },
+      { error: 'Failed to update event', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

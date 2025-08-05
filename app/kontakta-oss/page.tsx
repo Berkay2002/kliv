@@ -3,7 +3,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Facebook, Instagram } from 'lucide-react';
-import { GoogleMapsEmbed } from '@next/third-parties/google';
 import { ContactForm } from '@/components/ContactForm';
 import { SectionSeparator } from '@/components/SectionSeparator';
 import MobileOptimizedTeamSection from '@/components/MobileOptimizedTeamSection';

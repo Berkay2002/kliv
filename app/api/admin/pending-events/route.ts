@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { auth } from '@clerk/nextjs/server'
 import { getPendingEvents } from '@/lib/subscribers'
 import { parseEventDescription } from '@/lib/event-parser'
 import { requireAdminAuth } from '@/lib/admin-auth'

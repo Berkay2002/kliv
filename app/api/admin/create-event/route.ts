@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { auth } from '@clerk/nextjs/server'
 import { google } from 'googleapis'
 import { formatEventDescription } from '@/lib/event-parser'
 import { requireAdminAuth } from '@/lib/admin-auth'
@@ -120,14 +119,14 @@ export async function POST(request: Request) {
     console.error('❌ Error creating event:', error);
     
     // Handle specific Google Calendar API errors
-    if (error.code === 403) {
+    if (error instanceof Error && 'code' in error && error.code === 403) {
       return NextResponse.json(
         { error: 'Insufficient permissions to create calendar events' },
         { status: 403 }
       );
     }
     
-    if (error.code === 400) {
+    if (error instanceof Error && 'code' in error && error.code === 400) {
       return NextResponse.json(
         { error: 'Invalid event data provided' },
         { status: 400 }
@@ -135,7 +134,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(
-      { error: 'Failed to create event', details: error.message },
+      { error: 'Failed to create event', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

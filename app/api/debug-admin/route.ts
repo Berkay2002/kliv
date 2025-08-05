@@ -77,7 +77,7 @@ export async function GET() {
     return NextResponse.json(
       { 
         error: 'Failed to fetch pending events', 
-        debug: error.message,
+        debug: error instanceof Error ? error.message : 'Unknown error',
         authenticated: false 
       },
       { status: 500 }
