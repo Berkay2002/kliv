@@ -22,7 +22,7 @@ export async function GET() {
       },
       redis: {
         connected: false,
-        error: null
+        error: null as string | null
       },
       webhookUrl: process.env.GOOGLE_WEBHOOK_URL || `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/google-calendar-webhook`
     };
@@ -41,7 +41,7 @@ export async function GET() {
 
     // Count missing environment variables
     const missingVars = Object.entries(diagnostics.requiredEnvVars)
-      .filter(([key, value]) => !value)
+      .filter(([, value]) => !value)
       .map(([key]) => key);
 
     const response = {
