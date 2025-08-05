@@ -5,6 +5,7 @@ import "./globals.css"
 import Navigation from "./navigationbar"
 import Footer from "./Footer"
 import { Analytics } from "@vercel/analytics/next"
+import { ClerkProvider } from "@clerk/nextjs"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -155,7 +156,7 @@ export default function RootLayout({
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "customer service",
-                "email": "info@kliv.se",
+                "email": "kontakt@klivif.se",
                 "availableLanguage": "Swedish"
               },
               "foundingDate": "2017-06-29",
@@ -183,13 +184,15 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} font-sans min-h-screen flex flex-col bg-background text-foreground`}>
-        <Providers>
-          <Navigation />
-          <main className="flex-1 pt-16">{children}</main>
-          {/* This separator now correctly blends the main content area with the footer area */}
-          <Footer />
-        </Providers>
-        <Analytics />
+        <ClerkProvider>
+          <Providers>
+            <Navigation />
+            <main className="flex-1 pt-16">{children}</main>
+            {/* This separator now correctly blends the main content area with the footer area */}
+            <Footer />
+          </Providers>
+          <Analytics />
+        </ClerkProvider>
       </body>
     </html>
   )

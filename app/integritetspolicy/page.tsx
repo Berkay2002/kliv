@@ -38,7 +38,7 @@ export default function IntegritetspolicyPage() {
                   <strong>Kliv Idrottsförening Botkyrka</strong><br />
                   Organisationsnummer: 802509-8842<br />
                   Adress: Tomtbergavägen 370A, 145 71 Norsborg<br />
-                  E-post: info@kliv.se<br />
+                  E-post: kontakt@klivif.se<br />
                   Registrerad: 2017-06-29
                 </p>
               </div>
@@ -53,7 +53,7 @@ export default function IntegritetspolicyPage() {
               </p>
               <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
                 <p className="text-gray-700 dark:text-gray-300">
-                  E-post: info@kliv.se
+                  E-post: kontakt@klivif.se
                 </p>
               </div>
             </section>

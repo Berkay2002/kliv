@@ -4,6 +4,7 @@ import { addSubscriber, getSubscribers } from '@/lib/subscribers';
 export async function GET() {
   try {
     const subscribers = await getSubscribers();
+    console.log('📊 Subscribers API returning:', { subscribers, count: subscribers.length });
     return NextResponse.json({ 
       subscribers: subscribers,
       count: subscribers.length 

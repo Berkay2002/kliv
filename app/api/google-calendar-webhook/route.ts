@@ -1,12 +1,37 @@
 import { NextResponse } from 'next/server';
 import { google, calendar_v3 } from 'googleapis';
 import { sendEmail } from '@/lib/email';
-import { getSubscribers } from '@/lib/subscribers';
+import { getSubscribers, storePendingEvent } from '@/lib/subscribers';
 
 interface EventChange {
   type: 'new' | 'updated' | 'deleted';
   event: calendar_v3.Schema$Event;
   previousEvent?: calendar_v3.Schema$Event;
+}
+
+function parseDescription(description: string): {
+  src: string;
+  ctaText: string;
+  ctaLink: string;
+  content: string;
+} {
+  const lines = description.split('\n');
+  const parsed: Record<string, string> = {};
+
+  lines.forEach(line => {
+    const [key, ...valueParts] = line.split(':');
+    if (key && valueParts.length > 0) {
+      const value = valueParts.join(':').trim();
+      parsed[key.trim()] = value;
+    }
+  });
+
+  return {
+    src: parsed.image || '',
+    ctaText: parsed.ctaText || '',
+    ctaLink: parsed.ctaLink || '',
+    content: parsed.content || '',
+  };
 }
 
 export async function POST(request: Request) {
@@ -74,20 +99,56 @@ export async function POST(request: Request) {
           console.log(`📊 Detected ${changes.length} significant changes`);
           
           if (changes.length > 0) {
-            const { subject, htmlContent } = generateNotificationContent(changes);
-            console.log('📧 Sending notifications with subject:', subject);
+            // Filter to only new events - no automatic notifications for updated events
+            const newEvents = changes.filter(c => c.type === 'new');
             
-            let successCount = 0;
-            for (const subscriberEmail of subscribers) {
-              console.log(`  📤 Sending to: ${subscriberEmail}`);
-              const emailSent = await sendEmail({
-                to: subscriberEmail,
-                subject: subject,
-                html: htmlContent,
-              });
-              if (emailSent) successCount++;
+            if (newEvents.length > 0) {
+              console.log(`📧 Storing ${newEvents.length} new events for admin approval`);
+              
+              // Store new events in Redis for admin approval
+              let storedCount = 0;
+              for (const change of newEvents) {
+                const stored = await storePendingEvent(change.event);
+                if (stored) storedCount++;
+              }
+              
+              if (storedCount > 0) {
+                // Send admin notification with dashboard link
+                const adminEmail = 'kontakt@klivif.se';
+                const subject = storedCount === 1 ? 'Nytt evenemang behöver godkännande' : 'Nya evenemang behöver godkännande';
+                const dashboardLink = process.env.NEXT_PUBLIC_SITE_URL 
+                  ? `${process.env.NEXT_PUBLIC_SITE_URL}/admin/dashboard`
+                  : 'https://klivif.se/admin/dashboard';
+                
+                const htmlContent = `
+                  <h1>Hej!</h1>
+                  <p>${storedCount === 1 ? 'Ett nytt evenemang har' : `${storedCount} nya evenemang har`} lagts till i kalendern och behöver godkännande innan prenumeranter meddelas.</p>
+                  <p><strong>${subscribers.length} prenumeranter</strong> kommer att meddelas när du godkänner.</p>
+                  <p style="margin: 24px 0;">
+                    <a href="${dashboardLink}" style="background-color: #DC2626; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+                      Gå till Admin Dashboard
+                    </a>
+                  </p>
+                  <p>Eller besök: <a href="${dashboardLink}">${dashboardLink}</a></p>
+                `;
+                
+                const emailSent = await sendEmail({
+                  to: adminEmail,
+                  subject: subject,
+                  html: htmlContent,
+                });
+                
+                if (emailSent) {
+                  console.log(`✅ Admin notification sent with dashboard link for ${storedCount} new events`);
+                } else {
+                  console.log(`❌ Failed to send admin notification`);
+                }
+              }
+              
+              console.log(`📦 Stored ${storedCount}/${newEvents.length} events for admin approval`);
+            } else {
+              console.log('ℹ️  No new events detected - only updates (ignored)');
             }
-            console.log(`✅ Notifications sent successfully to ${successCount}/${subscribers.length} subscribers for ${changes.length} changes.`);
           } else {
             console.log('ℹ️  No significant changes detected (events may be older than 10 minutes).');
           }
@@ -164,9 +225,12 @@ function generateNotificationContent(changes: EventChange[]): { subject: string;
     htmlContent += `<h2>Nya evenemang:</h2><ul>`;
     newEvents.forEach(change => {
       const event = change.event;
+      const parsedContent = event.description ? parseDescription(event.description) : { content: '' };
+      const cleanDescription = parsedContent.content || event.description || '';
+      
       htmlContent += `<li><strong>${event.summary}</strong> - ${formatEventTime(event)} på ${event.location || 'Okänd plats'}`;
-      if (event.description) {
-        htmlContent += `<br><em>${event.description}</em>`;
+      if (cleanDescription) {
+        htmlContent += `<br><em>${cleanDescription}</em>`;
       }
       if (event.htmlLink) {
         htmlContent += `<br><a href="${event.htmlLink}">Visa i Google Kalender</a>`;
@@ -180,9 +244,12 @@ function generateNotificationContent(changes: EventChange[]): { subject: string;
     htmlContent += `<h2>Uppdaterade evenemang:</h2><ul>`;
     updatedEvents.forEach(change => {
       const event = change.event;
+      const parsedContent = event.description ? parseDescription(event.description) : { content: '' };
+      const cleanDescription = parsedContent.content || event.description || '';
+      
       htmlContent += `<li><strong>${event.summary}</strong> - ${formatEventTime(event)} på ${event.location || 'Okänd plats'}`;
-      if (event.description) {
-        htmlContent += `<br><em>${event.description}</em>`;
+      if (cleanDescription) {
+        htmlContent += `<br><em>${cleanDescription}</em>`;
       }
       if (event.htmlLink) {
         htmlContent += `<br><a href="${event.htmlLink}">Visa i Google Kalender</a>`;
@@ -194,6 +261,37 @@ function generateNotificationContent(changes: EventChange[]): { subject: string;
 
   htmlContent += `<p>Besök vår hemsida för fullständig information.</p>`;
 
+  return { subject, htmlContent };
+}
+
+function generateAdminNotificationContent(newEvents: EventChange[], subscriberCount: number): { subject: string; htmlContent: string } {
+  const eventCount = newEvents.length;
+  const subject = eventCount === 1 ? 'Nytt evenemang behöver godkännande' : 'Nya evenemang behöver godkännande';
+  
+  let htmlContent = `<h1>Hej!</h1>`;
+  htmlContent += `<p>${eventCount === 1 ? 'Ett nytt evenemang har' : `${eventCount} nya evenemang har`} lagts till i kalendern och behöver godkännande innan prenumeranter meddelas.</p>`;
+  
+  htmlContent += `<h2>Nya evenemang som väntar på godkännande:</h2><ul>`;
+  
+  newEvents.forEach(change => {
+    const event = change.event;
+    const parsedContent = event.description ? parseDescription(event.description) : { content: '' };
+    const cleanDescription = parsedContent.content || event.description || '';
+    
+    htmlContent += `<li><strong>${event.summary}</strong> - ${formatEventTime(event)} på ${event.location || 'Okänd plats'}`;
+    if (cleanDescription) {
+      htmlContent += `<br><em>${cleanDescription}</em>`;
+    }
+    if (event.htmlLink) {
+      htmlContent += `<br><a href="${event.htmlLink}">Visa i Google Kalender</a>`;
+    }
+    htmlContent += `</li>`;
+  });
+  
+  htmlContent += `</ul>`;
+  htmlContent += `<p><strong>${subscriberCount} prenumeranter</strong> kommer att meddelas när du godkänner.</p>`;
+  htmlContent += `<p>För att skicka meddelande till prenumeranter, använd admin-panelen eller API-endpointen.</p>`;
+  
   return { subject, htmlContent };
 }
 

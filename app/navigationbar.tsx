@@ -111,6 +111,9 @@ export default function Navigation() {
   // Check if we're on the contact page (no header image)
   const isContactPage = pathname === "/kontakta-oss";
   
+  // Check if we're on an admin page
+  const isAdminPage = pathname.startsWith("/admin");
+  
   // For contact page in standby mode: use theme-aware colors
   // For other pages in standby mode: use white (overlay over header images)
   const shouldUseThemeColors = !visible && isContactPage;
@@ -184,13 +187,15 @@ export default function Navigation() {
         </Link>
 
         {/* Desktop Navigation Items */}
-        <DesktopNavItems 
-          items={navItems} 
-          pathname={pathname}
-          onItemClick={closeMenu}
-          visible={visible}
-          shouldUseThemeColors={shouldUseThemeColors}
-        />
+        {!isAdminPage && (
+          <DesktopNavItems 
+            items={navItems} 
+            pathname={pathname}
+            onItemClick={closeMenu}
+            visible={visible}
+            shouldUseThemeColors={shouldUseThemeColors}
+          />
+        )}
 
         {/* Theme Toggle */}
         <div className="relative z-20">
@@ -238,29 +243,31 @@ export default function Navigation() {
           {/* Mobile Menu Toggle and Theme Toggle */}
           <div className="flex items-center space-x-4">
             <ThemeToggle visible={visible} shouldUseThemeColors={shouldUseThemeColors} />
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="relative z-20 p-2"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? (
-                <IconX className={`h-6 w-6 ${
-                  shouldUseThemeColors
-                    ? "text-black dark:text-white"
-                    : !visible 
-                    ? "text-white" 
-                    : "text-black dark:text-white"
-                }`} />
-              ) : (
-                <IconMenu2 className={`h-6 w-6 ${
-                  shouldUseThemeColors
-                    ? "text-black dark:text-white"
-                    : !visible 
-                    ? "text-white" 
-                    : "text-black dark:text-white"
-                }`} />
-              )}
-            </button>
+            {!isAdminPage && (
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="relative z-20 p-2"
+                aria-label="Toggle menu"
+              >
+                {isOpen ? (
+                  <IconX className={`h-6 w-6 ${
+                    shouldUseThemeColors
+                      ? "text-black dark:text-white"
+                      : !visible 
+                      ? "text-white" 
+                      : "text-black dark:text-white"
+                  }`} />
+                ) : (
+                  <IconMenu2 className={`h-6 w-6 ${
+                    shouldUseThemeColors
+                      ? "text-black dark:text-white"
+                      : !visible 
+                      ? "text-white" 
+                      : "text-black dark:text-white"
+                  }`} />
+                )}
+              </button>
+            )}
           </div>
         </div>
 
@@ -273,7 +280,7 @@ export default function Navigation() {
               exit={{ opacity: 0 }}
               className="absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950"
             >
-              {navItems.map((item, idx) => (
+              {!isAdminPage && navItems.map((item, idx) => (
                 <Link
                   key={`mobile-${idx}`}
                   href={item.link}

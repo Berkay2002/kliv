@@ -95,7 +95,7 @@ export default function Footer() {
                     href="mailto:kontakt@kliv-if.se"
                     className="text-kliv-red hover:text-kliv-red-light transition-colors duration-200 hover:underline block text-xs"
                   >
-                    info@kliv.se
+                    kontakt@klivif.se
                   </Link>
                 </div>
               </div>

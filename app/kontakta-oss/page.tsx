@@ -17,7 +17,7 @@ const contactInfo = {
     postalCode: '145 71',
     country: 'Sverige'
   },
-  email: 'info@kliv.se',
+  email: 'kontakt@klivif.se',
   phone: '+46 123 456 789',
   orgNumber: '802509-8842',
   socialMedia: {
@@ -179,15 +179,14 @@ export default function ContactUsPage() {
               </p>
             </div>
             <div className="relative">
-              <GoogleMapsEmbed
-                apiKey={process.env.GOOGLE_MAPS_API_KEY || ""}
-                height={400}
+              <iframe
+                src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_API_KEY}&q=${encodeURIComponent('Tomtbergavägen 370A, Norsborg, Sweden')}`}
                 width="100%"
-                mode="place"
-                q="Tomtbergavägen+370A,Norsborg,Sweden"
-                style="border:0"
-                allowfullscreen={false}
+                height={400}
+                style={{ border: 0 }}
+                allowFullScreen={false}
                 loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
           </motion.div>

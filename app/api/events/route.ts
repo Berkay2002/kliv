@@ -65,7 +65,7 @@ function formatDate(startDate: string, endDate: string): string {
 
 export async function GET() {
   try {
-    const apiKey = process.env.GOOGLE_CALENDAR_API_KEY;
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY;
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
 
     if (!apiKey || !calendarId) {
