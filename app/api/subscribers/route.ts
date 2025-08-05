@@ -1,5 +1,18 @@
 import { NextResponse } from 'next/server';
-import { addSubscriber } from '@/lib/subscribers';
+import { addSubscriber, getSubscribers } from '@/lib/subscribers';
+
+export async function GET() {
+  try {
+    const subscribers = await getSubscribers();
+    return NextResponse.json({ 
+      subscribers: subscribers,
+      count: subscribers.length 
+    }, { status: 200 });
+  } catch (error) {
+    console.error('Error getting subscribers:', error);
+    return NextResponse.json({ error: 'Failed to get subscribers' }, { status: 500 });
+  }
+}
 
 export async function POST(request: Request) {
   try {

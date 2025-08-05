@@ -18,6 +18,10 @@ This is a Next.js 14 application for Kliv Idrottsförening Botkyrka, a Swedish s
 - `npx shadcn@latest add [component-name]` - Add new shadcn/ui components
 - Components are automatically installed to `components/ui/`
 
+### Image Optimization
+- `node convert-to-webp.js` - Convert JPG/PNG images to WebP format with size comparison
+- Optimizes images in `public/images/judo/` folder specifically
+
 ### Calendar System Commands
 - `curl -X POST http://localhost:3000/api/setup-calendar-watch` - Setup Google Calendar watch
 - `curl -X POST http://localhost:3000/api/subscribers -H "Content-Type: application/json" -d '{"email": "test@example.com"}'` - Add test subscriber
@@ -37,11 +41,20 @@ This is a Next.js 14 application for Kliv Idrottsförening Botkyrka, a Swedish s
 ### Component System
 - **`components/ui/`** - shadcn/ui components (button, card, form, etc.)
 - **`components/`** - Custom components:
-  - `BackToTop.tsx` - Scroll-to-top functionality
+  - `ContactForm.tsx` - Contact form with validation
+  - `ErrorBoundary.tsx` - Error handling wrapper
+  - `LoadingSpinner.tsx` - Loading state component
+  - `MobileOptimizedTeamSection.tsx` - Mobile-friendly team display
+  - `OptimizedExpandableCards.tsx` - Expandable card components
+  - `OptimizedImageSlider.tsx` - Image carousel/slider
+  - `ResponsiveImage.tsx` - Responsive image handling
   - `SectionSeparator.tsx` - Visual separators between sections
+  - `SocialMediaIcons.tsx` - Social media icon components
+  - `SubscriptionForm.tsx` - Email subscription form
   - `TeamSection.tsx` - Team member display
   - `theme-provider.tsx` - Theme management
   - `mode-toggle.tsx` - Dark/light mode toggle
+  - `shuffle-grid.tsx` - Animated grid component
 
 ### Styling System
 - **Custom Monochromatic Theme**: Extensive warm gray/beige palette with red accents
@@ -94,6 +107,8 @@ All theming is controlled through CSS variables in `globals.css`:
 - Follow Next.js App Router patterns
 - Implement proper error boundaries
 - Use client components (`'use client'`) when needed for interactivity
+- Import fonts using Next.js `next/font` (Inter is configured with variable font support)
+- Use the `cn()` utility from `lib/utils.ts` for conditional CSS classes
 
 ### Styling Guidelines
 - Use Tailwind classes with theme variables
@@ -142,14 +157,26 @@ All theming is controlled through CSS variables in `globals.css`:
 ### Build Process
 - Always run `npm run build` before deployment
 - Check for TypeScript errors during build
+- Run `npm run lint` to check code quality
 - Verify responsive design across breakpoints
 - Test dark/light mode functionality
+
+### Development Environment
+- Node.js 18+ required
+- Uses Inter font with variable font loading
+- Remote images allowed from `ui-avatars.com` (configured in next.config.js)
 
 ### Calendar System Testing
 - Test calendar watch setup: `curl -X POST http://localhost:3000/api/setup-calendar-watch`
 - Test webhook endpoint: `curl -X POST http://localhost:3000/api/google-calendar-webhook -H "X-Goog-Resource-State: exists"`
 - Test subscriber management: `curl -X POST http://localhost:3000/api/subscribers -H "Content-Type: application/json" -d '{"email": "test@example.com"}'`
 - Test events API: `curl http://localhost:3000/api/events`
+
+### Debugging Commands
+- **System Diagnostics**: `curl -X GET http://localhost:3000/api/diagnostics` - Check all environment variables and Redis connection
+- **View Subscribers**: `curl -X GET http://localhost:3000/api/subscribers` - List all current subscribers  
+- **Test Notifications**: `curl -X POST http://localhost:3000/api/test-notifications -H "Content-Type: application/json" -d '{"type": "test"}'` - Send test email to all subscribers
+- **Manual Webhook Test**: `curl -X POST http://localhost:3000/api/google-calendar-webhook -H "X-Goog-Resource-State: exists"` - Trigger webhook processing manually
 
 ### Deployment Notes
 - Optimized for Vercel deployment

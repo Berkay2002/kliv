@@ -10,6 +10,9 @@ interface EventChange {
 }
 
 export async function POST(request: Request) {
+  const startTime = Date.now();
+  console.log('🔔 WEBHOOK RECEIVED:', new Date().toISOString());
+  
   try {
     const channelId = request.headers.get('X-Goog-Channel-ID');
     const resourceId = request.headers.get('X-Goog-Resource-ID');
@@ -17,12 +20,12 @@ export async function POST(request: Request) {
     const messageNumber = request.headers.get('X-Goog-Message-Number');
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
 
-    console.log('Received Google Calendar Webhook Notification:');
-    console.log(`Channel ID: ${channelId}`);
-    console.log(`Resource ID: ${resourceId}`);
-    console.log(`Resource State: ${resourceState}`);
-    console.log(`Message Number: ${messageNumber}`);
-    console.log(`Calendar ID: ${calendarId}`);
+    console.log('📋 WEBHOOK HEADERS:');
+    console.log(`  Channel ID: ${channelId}`);
+    console.log(`  Resource ID: ${resourceId}`);
+    console.log(`  Resource State: ${resourceState}`);
+    console.log(`  Message Number: ${messageNumber}`);
+    console.log(`  Calendar ID: ${calendarId}`);
 
     if (!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || !process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY || !calendarId) {
       console.error('Missing Google Service Account or Calendar ID environment variables.');
@@ -40,11 +43,13 @@ export async function POST(request: Request) {
     const calendar = google.calendar({ version: 'v3', auth: jwtClient });
 
     if (resourceState === 'exists') {
-      console.log('Calendar resource state is "exists". Processing calendar changes...');
+      console.log('✅ Resource state is "exists" - processing calendar changes...');
 
       // Get recent events with updated time to detect changes
       const now = new Date();
       const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+      
+      console.log('🔍 Fetching events updated since:', oneHourAgo.toISOString());
       
       const response = await calendar.events.list({
         calendarId: calendarId,
@@ -56,41 +61,54 @@ export async function POST(request: Request) {
       });
 
       const events = response.data.items || [];
+      console.log(`📅 Found ${events.length} recently updated events`);
 
       if (events.length > 0) {
+        console.log('🔍 Fetching subscribers...');
         const subscribers = await getSubscribers();
-        console.log('Fetched subscribers:', subscribers);
+        console.log(`👥 Found ${subscribers.length} subscribers:`, subscribers);
         
         if (subscribers.length > 0) {
+          console.log('🔄 Analyzing event changes...');
           const changes = await analyzeEventChanges(events);
+          console.log(`📊 Detected ${changes.length} significant changes`);
           
           if (changes.length > 0) {
             const { subject, htmlContent } = generateNotificationContent(changes);
+            console.log('📧 Sending notifications with subject:', subject);
             
+            let successCount = 0;
             for (const subscriberEmail of subscribers) {
-              await sendEmail({
+              console.log(`  📤 Sending to: ${subscriberEmail}`);
+              const emailSent = await sendEmail({
                 to: subscriberEmail,
                 subject: subject,
                 html: htmlContent,
               });
+              if (emailSent) successCount++;
             }
-            console.log(`Notifications sent to ${subscribers.length} subscribers for ${changes.length} changes.`);
+            console.log(`✅ Notifications sent successfully to ${successCount}/${subscribers.length} subscribers for ${changes.length} changes.`);
           } else {
-            console.log('No significant changes detected.');
+            console.log('ℹ️  No significant changes detected (events may be older than 10 minutes).');
           }
         } else {
-          console.log('No subscribers to notify.');
+          console.log('⚠️  No subscribers found - notifications not sent.');
         }
       } else {
-        console.log('No recently updated events found.');
+        console.log('ℹ️  No recently updated events found.');
       }
+    } else {
+      console.log(`ℹ️  Resource state is "${resourceState}" - skipping processing.`);
     }
 
-    return NextResponse.json({ message: 'Webhook processed successfully' }, { status: 200 });
+    const endTime = Date.now();
+    console.log(`🏁 WEBHOOK COMPLETED in ${endTime - startTime}ms`);
+    return NextResponse.json({ message: 'Webhook processed successfully', processingTime: `${endTime - startTime}ms` }, { status: 200 });
   } catch (error) {
-    console.error('Error processing webhook:', error);
+    const endTime = Date.now();
+    console.error('❌ WEBHOOK ERROR after', `${endTime - startTime}ms:`, error);
     return NextResponse.json(
-      { error: 'Failed to process webhook (check server logs)' },
+      { error: 'Failed to process webhook (check server logs)', processingTime: `${endTime - startTime}ms` },
       { status: 200 }
     );
   }
