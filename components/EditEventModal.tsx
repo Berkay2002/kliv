@@ -130,8 +130,14 @@ export default function EditEventModal({ event, mode = 'pending', isOpen, onClos
       })
 
       if (response.ok) {
-        onSave(event.id)
-        onClose()
+        const eventId = event.id;
+        if (eventId) {
+          onSave(eventId);
+          onClose();
+        } else {
+          console.error('Event ID is missing');
+          alert('Fel: Event ID saknas');
+        }
       } else {
         const error = await response.json()
         alert(`Fel: ${error.error}`)
