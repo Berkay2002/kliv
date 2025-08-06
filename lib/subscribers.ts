@@ -144,4 +144,58 @@ export async function deletePendingEvent(eventId: string): Promise<boolean> {
     console.error('Error deleting pending event:', error);
     return false;
   }
+}
+
+// Helper functions for existing events (Google Calendar operations)
+export async function getExistingEvents(): Promise<calendar_v3.Schema$Event[]> {
+  // This would typically use Google Calendar API directly
+  // For now, return empty array - this is used by the API endpoints
+  // Implementation would go here if needed by API endpoints
+  return [];
+}
+
+export function formatEventForDisplay(event: calendar_v3.Schema$Event): {
+  id: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  description: string;
+  formattedTime: string;
+} {
+  const start = event.start?.dateTime || event.start?.date || '';
+  const end = event.end?.dateTime || event.end?.date || '';
+  
+  const startDate = start ? new Date(start) : null;
+  const endDate = end ? new Date(end) : null;
+  
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: event.start?.dateTime ? 'numeric' : undefined,
+    minute: event.start?.dateTime ? 'numeric' : undefined,
+    timeZone: 'Europe/Stockholm'
+  };
+  
+  let formattedTime = startDate ? startDate.toLocaleDateString('sv-SE', options) : 'Okänd tid';
+  
+  if (endDate && event.end?.dateTime) {
+    const endTimeOptions: Intl.DateTimeFormatOptions = {
+      hour: 'numeric',
+      minute: 'numeric',
+      timeZone: 'Europe/Stockholm'
+    };
+    formattedTime += ` - ${endDate.toLocaleTimeString('sv-SE', endTimeOptions)}`;
+  }
+  
+  return {
+    id: event.id || '',
+    title: event.summary || '',
+    startDate: start.split('T')[0] || '',
+    endDate: end.split('T')[0] || '',
+    location: event.location || '',
+    description: event.description || '',
+    formattedTime
+  };
 } 

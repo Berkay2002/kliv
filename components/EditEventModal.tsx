@@ -12,9 +12,18 @@ import { CTA_OPTIONS, DEFAULT_CTA_TEXT_OPTIONS, parseEventDescription } from '@/
 import { PendingEvent } from '@/lib/subscribers'
 import { CldUploadWidget } from 'next-cloudinary'
 import Image from 'next/image'
+import { calendar_v3 } from 'googleapis'
+
+interface ExistingEvent extends calendar_v3.Schema$Event {
+  parsedDescription?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  imageSrc?: string;
+}
 
 interface EditEventModalProps {
-  event: PendingEvent | null
+  event: PendingEvent | ExistingEvent | null
+  mode?: 'pending' | 'existing'
   isOpen: boolean
   onClose: () => void
   onSave: (eventId: string) => void
@@ -35,7 +44,7 @@ interface EditFormData {
   customCtaLink: string
 }
 
-export default function EditEventModal({ event, isOpen, onClose, onSave }: EditEventModalProps) {
+export default function EditEventModal({ event, mode = 'pending', isOpen, onClose, onSave }: EditEventModalProps) {
   const [formData, setFormData] = useState<EditFormData>({
     title: '',
     startDate: '',
@@ -56,7 +65,8 @@ export default function EditEventModal({ event, isOpen, onClose, onSave }: EditE
   // Populate form when event changes
   useEffect(() => {
     if (event) {
-      const googleEvent = event.event
+      // Handle both pending events (with .event property) and existing events (direct Google Calendar event)
+      const googleEvent = 'event' in event ? event.event : event
       
       // Parse existing description
       const parsed = parseEventDescription(googleEvent.description || '')
@@ -110,7 +120,10 @@ export default function EditEventModal({ event, isOpen, onClose, onSave }: EditE
         ctaLink: formData.ctaLink === 'custom' ? formData.customCtaLink : formData.ctaLink
       }
 
-      const response = await fetch('/api/admin/edit-event', {
+      // Use different API endpoint based on mode
+      const apiEndpoint = mode === 'existing' ? '/api/admin/edit-existing-event' : '/api/admin/edit-event'
+
+      const response = await fetch(apiEndpoint, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(eventData)
@@ -139,10 +152,13 @@ export default function EditEventModal({ event, isOpen, onClose, onSave }: EditE
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5" />
-            Redigera Event
+            Redigera {mode === 'existing' ? 'Befintligt' : 'Väntande'} Event
           </DialogTitle>
           <DialogDescription>
-            Gör ändringar i eventet innan du godkänner det
+            {mode === 'existing' 
+              ? 'Gör ändringar i det befintliga eventet som redan visas på webbplatsen'
+              : 'Gör ändringar i eventet innan du godkänner det'
+            }
           </DialogDescription>
         </DialogHeader>
 

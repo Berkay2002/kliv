@@ -5,13 +5,22 @@ import { useUser, SignInButton, UserButton } from '@clerk/nextjs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Calendar, MapPin, Users, Clock, CheckCircle2, XCircle, Plus, ShieldX, Edit } from 'lucide-react'
+import { Calendar, MapPin, Users, Clock, CheckCircle2, XCircle, Plus, ShieldX, Edit, Trash2 } from 'lucide-react'
 import { PendingEvent } from '@/lib/subscribers'
 import Link from 'next/link'
 import EditEventModal from '@/components/EditEventModal'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { calendar_v3 } from 'googleapis'
 
 interface PendingEventWithParsed extends PendingEvent {
   parsedDescription?: string;
+}
+
+interface ExistingEvent extends calendar_v3.Schema$Event {
+  parsedDescription?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  imageSrc?: string;
 }
 
 function formatEventTime(event: any): string {
@@ -49,16 +58,21 @@ function formatEventTime(event: any): string {
 export default function AdminDashboard() {
   const { user, isLoaded } = useUser()
   const [pendingEvents, setPendingEvents] = useState<PendingEventWithParsed[]>([])
+  const [existingEvents, setExistingEvents] = useState<ExistingEvent[]>([])
   const [subscriberCount, setSubscriberCount] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [existingLoading, setExistingLoading] = useState(true)
   const [processingEvents, setProcessingEvents] = useState<Set<string>>(new Set())
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null)
-  const [editingEvent, setEditingEvent] = useState<PendingEventWithParsed | null>(null)
+  const [editingEvent, setEditingEvent] = useState<PendingEventWithParsed | ExistingEvent | null>(null)
+  const [editingMode, setEditingMode] = useState<'pending' | 'existing'>('pending')
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState<'pending' | 'existing'>('pending')
 
   useEffect(() => {
     if (isLoaded && user) {
       fetchPendingEvents()
+      fetchExistingEvents()
       fetchSubscriberCount()
     }
   }, [isLoaded, user])
@@ -78,6 +92,61 @@ export default function AdminDashboard() {
       setIsAuthorized(false)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchExistingEvents = async () => {
+    try {
+      const response = await fetch('/api/admin/existing-events')
+      if (response.ok) {
+        const events = await response.json()
+        
+        // Parse descriptions for cleaner display (similar to pending events)
+        const eventsWithParsedDescriptions = events.map((event: calendar_v3.Schema$Event) => {
+          const parseEventDescription = (description: string | null | undefined) => {
+            if (!description) return { content: '', ctaText: 'Läs mer', ctaLink: '/lovaktiviteter', src: '', isStructured: false };
+            
+            const lines = description.split('\n');
+            const parsed: Record<string, string> = {};
+
+            lines.forEach(line => {
+              const [key, ...valueParts] = line.split(':');
+              if (key && valueParts.length > 0) {
+                const value = valueParts.join(':').trim();
+                parsed[key.trim()] = value;
+              }
+            });
+
+            return {
+              src: parsed.image || '',
+              ctaText: parsed.ctaText || 'Läs mer',
+              ctaLink: parsed.ctaLink || '/lovaktiviteter',
+              content: parsed.content || description,
+              isStructured: Object.keys(parsed).length > 0
+            };
+          };
+          
+          const parsed = parseEventDescription(event.description);
+          
+          return {
+            ...event,
+            parsedDescription: parsed.content,
+            ctaText: parsed.ctaText,
+            ctaLink: parsed.ctaLink,
+            imageSrc: parsed.src
+          };
+        });
+        
+        setExistingEvents(eventsWithParsedDescriptions)
+        setIsAuthorized(true)
+      } else if (response.status === 403) {
+        setIsAuthorized(false)
+      }
+    } catch (error) {
+      console.error('Error fetching existing events:', error)
+      setIsAuthorized(false)
+    } finally {
+      setExistingLoading(false)
     }
   }
 
@@ -164,18 +233,64 @@ export default function AdminDashboard() {
 
   const handleEditEvent = (event: PendingEventWithParsed) => {
     setEditingEvent(event)
+    setEditingMode('pending')
     setIsEditModalOpen(true)
   }
 
+  const handleEditExistingEvent = (event: ExistingEvent) => {
+    setEditingEvent(event)
+    setEditingMode('existing')
+    setIsEditModalOpen(true)
+  }
+
+  const handleDeleteExistingEvent = async (eventId: string) => {
+    if (!confirm('Är du säker på att du vill radera detta evenemang permanent från Google Calendar?')) {
+      return
+    }
+    
+    setProcessingEvents(prev => new Set([...Array.from(prev), eventId]))
+    
+    try {
+      const response = await fetch('/api/admin/delete-existing-event', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventId })
+      })
+
+      if (response.ok) {
+        // Remove the deleted event from the list
+        setExistingEvents(prev => prev.filter(e => e.id !== eventId))
+        alert('Evenemang raderat framgångsrikt!')
+      } else {
+        const error = await response.json()
+        alert(`Fel: ${error.error}`)
+      }
+    } catch (error) {
+      console.error('Error deleting existing event:', error)
+      alert('Kunde inte radera evenemang')
+    } finally {
+      setProcessingEvents(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(eventId)
+        return newSet
+      })
+    }
+  }
+
   const handleEditSave = () => {
-    // Refresh the pending events list after successful edit
-    fetchPendingEvents()
+    // Refresh the appropriate events list after successful edit
+    if (editingMode === 'pending') {
+      fetchPendingEvents()
+    } else {
+      fetchExistingEvents()
+    }
     alert('Event uppdaterat framgångsrikt!')
   }
 
   const handleEditClose = () => {
     setEditingEvent(null)
     setIsEditModalOpen(false)
+    setEditingMode('pending')
   }
 
   if (!isLoaded) {
@@ -242,24 +357,37 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex items-center justify-center py-12">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kliv-red mx-auto mb-4"></div>
-            <p>Laddar väntande evenemang...</p>
-          </div>
-        </div>
-      ) : pendingEvents.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Inga väntande evenemang</h3>
-            <p className="text-muted-foreground">
-              Alla nya evenemang som läggs till i kalendern kommer att visas här för godkännande.
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
+      <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'pending' | 'existing')} className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="pending" className="flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            Väntande ({pendingEvents.length})
+          </TabsTrigger>
+          <TabsTrigger value="existing" className="flex items-center gap-2">
+            <Calendar className="h-4 w-4" />
+            Befintliga ({existingEvents.length})
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="pending" className="mt-6">
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kliv-red mx-auto mb-4"></div>
+                <p>Laddar väntande evenemang...</p>
+              </div>
+            </div>
+          ) : pendingEvents.length === 0 ? (
+            <Card>
+              <CardContent className="py-12 text-center">
+                <Clock className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Inga väntande evenemang</h3>
+                <p className="text-muted-foreground">
+                  Alla nya evenemang som läggs till i kalendern kommer att visas här för godkännande.
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
         <div className="grid gap-6">
           <Card>
             <CardHeader>
@@ -354,12 +482,114 @@ export default function AdminDashboard() {
               </Card>
             )
           })}
-        </div>
-      )}
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="existing" className="mt-6">
+          {existingLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kliv-red mx-auto mb-4"></div>
+                <p>Laddar befintliga evenemang...</p>
+              </div>
+            </div>
+          ) : existingEvents.length === 0 ? (
+            <Card>
+              <CardContent className="py-12 text-center">
+                <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Inga befintliga evenemang</h3>
+                <p className="text-muted-foreground">
+                  Alla framtida evenemang från Google Calendar kommer att visas här.
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5" />
+                    Befintliga Evenemang ({existingEvents.length})
+                  </CardTitle>
+                  <CardDescription>
+                    Hantera evenemang som redan finns i Google Calendar och visas på webbplatsen
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              {existingEvents.map((existingEvent) => {
+                const isProcessing = processingEvents.has(existingEvent.id || '')
+                
+                return (
+                  <Card key={existingEvent.id} className="overflow-hidden">
+                    <CardHeader className="pb-3">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="flex-1">
+                          <CardTitle className="text-lg sm:text-xl mb-2 leading-tight">{existingEvent.summary}</CardTitle>
+                          <div className="flex flex-col gap-2 text-sm text-muted-foreground mb-4">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="h-4 w-4 flex-shrink-0" />
+                              <span className="break-words">{formatEventTime(existingEvent)}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <MapPin className="h-4 w-4 flex-shrink-0" />
+                              <span className="break-words">{existingEvent.location || 'Okänd plats'}</span>
+                            </div>
+                          </div>
+                          {existingEvent.parsedDescription && (
+                            <p className="text-sm mb-4 p-3 bg-muted rounded-md break-words">
+                              {existingEvent.parsedDescription}
+                            </p>
+                          )}
+                        </div>
+                        <Badge variant="secondary" className="self-start">
+                          Publicerad
+                        </Badge>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                        <Button
+                          variant="outline"
+                          onClick={() => handleEditExistingEvent(existingEvent)}
+                          disabled={isProcessing}
+                          className="flex-1 sm:w-auto"
+                        >
+                          <Edit className="h-4 w-4 mr-2" />
+                          Redigera
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          onClick={() => handleDeleteExistingEvent(existingEvent.id || '')}
+                          disabled={isProcessing}
+                          className="flex-1 sm:w-auto"
+                        >
+                          <Trash2 className="h-4 w-4 mr-2" />
+                          {isProcessing ? 'Raderar...' : 'Radera'}
+                        </Button>
+                        
+                        {existingEvent.htmlLink && (
+                          <Button variant="ghost" asChild className="w-full sm:w-auto text-sm">
+                            <a href={existingEvent.htmlLink} target="_blank" rel="noopener noreferrer">
+                              Google Kalender
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )
+              })}
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
       
       {/* Edit Event Modal */}
       <EditEventModal
         event={editingEvent}
+        mode={editingMode}
         isOpen={isEditModalOpen}
         onClose={handleEditClose}
         onSave={handleEditSave}

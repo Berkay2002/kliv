@@ -109,15 +109,21 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
           >
             {/* Header */}
             <div className="relative">
-              <Image
-                src={active.src}
-                alt={active.title}
-                width={800}
-                height={400}
-                className="w-full h-64 md:h-80 object-cover"
-                priority
-                quality={90}
-              />
+              {active.src ? (
+                <Image
+                  src={active.src}
+                  alt={active.title}
+                  width={800}
+                  height={400}
+                  className="w-full h-64 md:h-80 object-cover"
+                  priority
+                  quality={90}
+                />
+              ) : (
+                <div className="w-full h-64 md:h-80 bg-gradient-to-r from-kliv-red/10 to-kliv-red/20 flex items-center justify-center">
+                  <Calendar className="w-16 h-16 text-kliv-red/40" />
+                </div>
+              )}
               
               {/* Close button */}
               <button
@@ -229,19 +235,21 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
               'transition-all duration-200 hover:-translate-y-1'
             )}
           >
-            <div className="relative overflow-hidden">
-              <Image
-                src={card.src}
-                alt={card.title}
-                width={400}
-                height={250}
-                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-200"
-                quality={80}
-              />
-              
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-            </div>
+            {card.src && (
+              <div className="relative overflow-hidden">
+                <Image
+                  src={card.src}
+                  alt={card.title}
+                  width={400}
+                  height={250}
+                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-200"
+                  quality={80}
+                />
+                
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              </div>
+            )}
 
             <div className="p-6">
               <div className="text-center">
