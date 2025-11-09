@@ -1,26 +1,26 @@
 /**
- * KLIV IDROTTSFÖRENING - CONTENT CONFIGURATION
+ * KLIV IDROTTSFÖRENING - INNEHÅLLSKONFIGURATION
  *
- * This file contains ALL editable text and images for the website.
- * The client can easily update content here without navigating through the codebase.
+ * Denna fil innehåller ALLT redigerbart innehåll och bilder för webbplatsen.
+ * Klienten kan enkelt uppdatera innehåll här utan att navigera genom koden.
  *
- * INSTRUCTIONS FOR EDITING:
- * 1. Find the section you want to edit (e.g., contact, team, pages)
- * 2. Update the text or image paths
- * 3. Save the file
- * 4. Run 'npm run dev' to see changes locally
- * 5. Run 'npm run build' before deploying
+ * INSTRUKTIONER FÖR REDIGERING:
+ * 1. Hitta sektionen du vill redigera (t.ex. kontakt, team, sidor)
+ * 2. Uppdatera texten eller bildsökvägarna
+ * 3. Spara filen
+ * 4. Kör 'npm run dev' för att se ändringar lokalt
+ * 5. Kör 'npm run build' innan deployment
  *
- * IMPORTANT NOTES:
- * - Keep text in Swedish unless specifically needed in another language
- * - Image paths should start with / (e.g., /images/photo.webp)
- * - Email addresses should be valid
- * - Phone numbers should include country code
- * - Don't change the structure (keys), only the values
+ * VIKTIGA NOTERINGAR:
+ * - Behåll text på svenska om inte annat språk specifikt behövs
+ * - Bildsökvägar ska börja med / (t.ex. /images/photo.webp)
+ * - E-postadresser ska vara giltiga
+ * - Telefonnummer ska inkludera landskod
+ * - Ändra inte strukturen (nycklarna), bara värdena
  */
 
 // =============================================================================
-// SITE METADATA & SEO
+// WEBBPLATSENS METADATA & SEO
 // =============================================================================
 
 export const siteMetadata = {
@@ -33,7 +33,7 @@ export const siteMetadata = {
 };
 
 // =============================================================================
-// ORGANIZATION INFORMATION
+// ORGANISATIONSINFORMATION
 // =============================================================================
 
 export const organizationInfo = {
@@ -60,7 +60,7 @@ export const organizationInfo = {
 };
 
 // =============================================================================
-// TEAM MEMBERS
+// TEAMMEDLEMMAR
 // =============================================================================
 
 export const teamMembers = [
@@ -68,7 +68,7 @@ export const teamMembers = [
     name: "Muhammet Tozak",
     role: "Ordförande",
     email: "muhammet@klivif.se",
-    // Leave image empty to use auto-generated avatar based on name
+    // Lämna bilden tom för att använda automatiskt genererad avatar baserad på namn
     image: "",
   },
   {
@@ -98,7 +98,7 @@ export const teamMembers = [
 ];
 
 // =============================================================================
-// NAVIGATION MENU
+// NAVIGATIONSMENY
 // =============================================================================
 
 export const navigation = [
@@ -109,12 +109,12 @@ export const navigation = [
 ];
 
 // =============================================================================
-// HOME PAGE CONTENT
+// HEMSIDANS INNEHÅLL
 // =============================================================================
 
 export const homePage = {
   hero: {
-    // Images for the hero section slider
+    // Bilder för hero-sektionens bildspel
     images: {
       landscape: [
         "/images/sportstruck-06-25-25/Landscape/DSC00446.webp",
@@ -193,7 +193,7 @@ export const homePage = {
 };
 
 // =============================================================================
-// JUDO PAGE CONTENT
+// JUDOSIDANS INNEHÅLL
 // =============================================================================
 
 export const judoPage = {
@@ -248,7 +248,7 @@ export const judoPage = {
 };
 
 // =============================================================================
-// LOVAKTIVITETER PAGE CONTENT
+// LOVAKTIVITETERS SIDINNEHÅLL
 // =============================================================================
 
 export const lovaktiviteterPage = {
@@ -299,7 +299,7 @@ export const lovaktiviteterPage = {
 };
 
 // =============================================================================
-// CONTACT PAGE CONTENT
+// KONTAKTSIDANS INNEHÅLL
 // =============================================================================
 
 export const contactPage = {
@@ -323,7 +323,7 @@ export const contactPage = {
 };
 
 // =============================================================================
-// CONTACT FORM
+// KONTAKTFORMULÄR
 // =============================================================================
 
 export const contactForm = {
@@ -375,7 +375,7 @@ export const contactForm = {
 };
 
 // =============================================================================
-// SUBSCRIPTION FORM
+// PRENUMERATIONSFORMULÄR
 // =============================================================================
 
 export const subscriptionForm = {
@@ -387,7 +387,7 @@ export const subscriptionForm = {
 };
 
 // =============================================================================
-// FOOTER CONTENT
+// SIDFOTENS INNEHÅLL
 // =============================================================================
 
 export const footer = {
@@ -405,7 +405,7 @@ export const footer = {
 };
 
 // =============================================================================
-// LEGAL PAGES
+// JURIDISKA SIDOR
 // =============================================================================
 
 export const legalPages = {
@@ -418,7 +418,7 @@ export const legalPages = {
 };
 
 // =============================================================================
-// LOGOS
+// LOGOTYPER
 // =============================================================================
 
 export const logos = {
@@ -428,30 +428,30 @@ export const logos = {
 };
 
 // =============================================================================
-// HELPER FUNCTIONS
+// HJÄLPFUNKTIONER
 // =============================================================================
 
 /**
- * Get team member avatar URL
- * If custom image is provided, use it. Otherwise, generate avatar from name.
+ * Hämta teammedlemmens avatar-URL
+ * Om en anpassad bild finns, använd den. Annars, generera avatar från namn.
  */
 export function getTeamMemberAvatar(member: typeof teamMembers[0]): string {
   if (member.image) {
     return member.image;
   }
-  // Generate avatar from name using ui-avatars.com
+  // Generera avatar från namn med hjälp av ui-avatars.com
   return `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&size=400&background=random`;
 }
 
 /**
- * Get formatted contact phone with spaces
+ * Hämta formaterat kontakttelefonnummer med mellanslag
  */
 export function getFormattedPhone(): string {
   return organizationInfo.contact.phone;
 }
 
 /**
- * Get full organization address
+ * Hämta fullständig organisationsadress
  */
 export function getFullAddress(): string {
   return organizationInfo.address.fullAddress;
