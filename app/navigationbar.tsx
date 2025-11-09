@@ -14,33 +14,7 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 import React, { useRef, useState, useEffect } from "react";
-
-const navItems = [
-  { 
-    name: "Hem", 
-    link: "/",
-    gradient: "radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(37,99,235,0.06) 50%, rgba(29,78,216,0) 100%)",
-    color: "text-blue-500"
-  },
-  { 
-    name: "Judo", 
-    link: "/judo",
-    gradient: "radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(147,51,234,0.06) 50%, rgba(126,34,206,0) 100%)",
-    color: "text-purple-500"
-  },
-  { 
-    name: "Lovaktiviteter", 
-    link: "/lovaktiviteter",
-    gradient: "radial-gradient(circle, rgba(239,68,68,0.15) 0%, rgba(220,38,38,0.06) 50%, rgba(185,28,28,0) 100%)",
-    color: "text-red-500"
-  },
-  { 
-    name: "Kontakta Oss", 
-    link: "/kontakta-oss",
-    gradient: "radial-gradient(circle, rgba(34,197,94,0.15) 0%, rgba(22,163,74,0.06) 50%, rgba(21,128,61,0) 100%)",
-    color: "text-green-500"
-  },
-];
+import { navigation } from "@/config/content";
 
 // Animation variants for the glowing effects
 const navGlowVariants = {
@@ -188,8 +162,8 @@ export default function Navigation() {
 
         {/* Desktop Navigation Items */}
         {!isAdminPage && (
-          <DesktopNavItems 
-            items={navItems} 
+          <DesktopNavItems
+            items={navigation}
             pathname={pathname}
             onItemClick={closeMenu}
             visible={visible}
@@ -280,15 +254,15 @@ export default function Navigation() {
               exit={{ opacity: 0 }}
               className="absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950"
             >
-              {!isAdminPage && navItems.map((item, idx) => (
+              {!isAdminPage && navigation.map((item, idx) => (
                 <Link
                   key={`mobile-${idx}`}
-                  href={item.link}
+                  href={item.href}
                   onClick={closeMenu}
                   className={cn(
                     "block w-full p-4 text-lg font-medium transition-all duration-300 rounded-lg group",
-                    pathname === item.link
-                      ? "text-kliv-red bg-kliv-red/10" 
+                    pathname === item.href
+                      ? "text-kliv-red bg-kliv-red/10"
                       : "text-gray-800 dark:text-gray-200 hover:text-kliv-red hover:bg-gray-100/50 dark:hover:bg-gray-800/30"
                   )}
                 >
@@ -303,14 +277,14 @@ export default function Navigation() {
   );
 }
 
-const DesktopNavItems = ({ 
-  items, 
-  pathname, 
+const DesktopNavItems = ({
+  items,
+  pathname,
   onItemClick,
   visible,
   shouldUseThemeColors,
-}: { 
-  items: { name: string; link: string; gradient: string; color: string }[];
+}: {
+  items: { name: string; href: string; gradient: string; color: string }[];
   pathname: string;
   onItemClick: () => void;
   visible: boolean;
@@ -324,12 +298,12 @@ const DesktopNavItems = ({
       className="absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2"
     >
       {items.map((item, idx) => {
-        const isActive = pathname === item.link;
+        const isActive = pathname === item.href;
         
         return (
           <motion.div key={`desktop-${idx}`} className="relative">
             <Link
-              href={item.link}
+              href={item.href}
               onMouseEnter={() => setHovered(idx)}
               onClick={onItemClick}
               className="block w-full"

@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
+import { subscriptionForm } from '@/config/content';
 // import { addSubscriber } from '@/lib/subscribers'; // Removed direct import
 
 export function SubscriptionForm() {
@@ -56,9 +57,9 @@ export function SubscriptionForm() {
 
   return (
     <div className="flex flex-col items-center">
-      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">Prenumerera på evenemang</h3>
+      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">{subscriptionForm.heading}</h3>
       <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 text-center max-w-xs">
-        Få de senaste uppdateringarna om kommande lovaktiviteter och evenemang direkt i din inkorg.
+        {subscriptionForm.description}
       </p>
       <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-3">
         <div className="grid w-full items-center gap-1.5">
@@ -66,7 +67,7 @@ export function SubscriptionForm() {
           <Input
             type="email"
             id="email"
-            placeholder="Din e-postadress"
+            placeholder={subscriptionForm.placeholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -74,7 +75,7 @@ export function SubscriptionForm() {
           />
         </div>
         <Button type="submit" className="w-full bg-kliv-red hover:bg-kliv-red-dark transition-colors duration-200" disabled={isLoading}>
-          {isLoading ? 'Prenumererar...' : 'Prenumerera'}
+          {isLoading ? subscriptionForm.buttonLoading : subscriptionForm.button}
         </Button>
       </form>
     </div>

@@ -10,32 +10,32 @@ import { OptimizedImageSlider } from '@/components/OptimizedImageSlider';
 import Head from 'next/head';
 import MobileOptimizedTeamSection from '@/components/MobileOptimizedTeamSection';
 import { SubscriptionForm } from '@/components/SubscriptionForm';
+import { organizationInfo, homePage, teamMembers, getTeamMemberAvatar } from '@/config/content';
 
 // Structured data for the organization
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "SportsOrganization",
-  "name": "Kliv Idrottsförening",
-  "description": "En idrottsförening som främjar gemenskap, hälsa och fair play för alla åldrar.",
+  "name": organizationInfo.name,
+  "description": organizationInfo.description,
   "url": "https://www.kliv-if.se",
   "logo": "https://www.kliv-if.se/logo/logo-black.png",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Exempelvägen 123",
-    "addressLocality": "Staden",
-    "postalCode": "123 45",
+    "streetAddress": organizationInfo.address.street,
+    "addressLocality": organizationInfo.address.city,
+    "postalCode": organizationInfo.address.postalCode,
     "addressCountry": "SE"
   },
   "contactPoint": {
     "@type": "ContactPoint",
-    "telephone": "+46-12-345-6789",
+    "telephone": organizationInfo.contact.phone,
     "contactType": "customer service",
-    "email": "kontakt@kliv-if.se"
+    "email": organizationInfo.contact.email
   },
   "sameAs": [
-    "https://www.facebook.com/your-page",
-    "https://www.instagram.com/your-profile/",
-    "https://www.linkedin.com/company/your-company/"
+    organizationInfo.socialMedia.facebook,
+    organizationInfo.socialMedia.instagram,
   ]
 };
 
@@ -89,22 +89,29 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) =
   );
 };
 
-// Placeholder team members
-const members: Member[] = [
-  { id: 1, name: 'Muhammet Tozak', role: 'Ordförande', email: 'muhammet@klivif.se', image: 'https://ui-avatars.com/api/?name=Muhammet+Tozak&size=400&background=f0f0f0&color=666&format=png' },
-  { id: 2, name: 'Maria Rafaelius', role: 'Medlemsansvarig', email: 'Maria@kliv.se', image: 'https://ui-avatars.com/api/?name=Maria+Rafaelius&size=400&background=f0f0f0&color=666&format=png' },
-  { id: 3, name: 'Eldar Ljuca', role: 'Aktivitetsansvarig', email: 'Eldar@klivif.se', image: 'https://ui-avatars.com/api/?name=Eldar+Ljuca&size=400&background=f0f0f0&color=666&format=png' },
-  { id: 4, name: 'Binel Elias', role: 'PR-ansvarig', email: 'Binel@klivif.se', image: 'https://ui-avatars.com/api/?name=Binel+Elias&size=400&background=f0f0f0&color=666&format=png' },
-  { id: 5, name: 'Leah Aybar', role: 'PR-ansvarig', email: 'Leah@klivif.se', image: 'https://ui-avatars.com/api/?name=Leah+Aybar&size=400&background=f0f0f0&color=666&format=png' },
-];
+// Team members from content config
+const members: Member[] = teamMembers.map((member, index) => ({
+  id: index + 1,
+  name: member.name,
+  role: member.role,
+  email: member.email,
+  image: getTeamMemberAvatar(member),
+}));
+
+// Icon mapping - maps icon names from config to React components
+const iconMap: Record<string, React.ReactElement<React.SVGProps<SVGSVGElement>>> = {
+  shield: <ShieldIcon aria-hidden="true" />,
+  community: <CommunityIcon aria-hidden="true" />,
+  growth: <GrowthIcon aria-hidden="true" />,
+  team: <TeamIcon aria-hidden="true" />,
+};
 
 function HomePage() {
-  const features = [
-    { icon: <ShieldIcon aria-hidden="true" />, title: 'Fair Play', description: 'Vi tror på rättvist spel och respekt för alla deltagare.' },
-    { icon: <CommunityIcon aria-hidden="true" />, title: 'Gemenskap', description: 'Vårt mål är att skapa en inkluderande miljö för alla medlemmar.' },
-    { icon: <GrowthIcon aria-hidden="true" />, title: 'Utveckling', description: 'Vi stöttar personlig utveckling genom idrott och aktiviteter.' },
-    { icon: <TeamIcon aria-hidden="true" />, title: 'Lagsport', description: 'Tillsammans är vi starkare och kan uppnå mer.' }
-  ];
+  const features = homePage.vision.features.map((feature) => ({
+    icon: iconMap[feature.icon] || <ShieldIcon aria-hidden="true" />,
+    title: feature.title,
+    description: feature.description
+  }));
 
   return (
     <>
@@ -116,36 +123,8 @@ function HomePage() {
         {/* Hero Section with Optimized Image Slider */}
         <section className="h-screen flex items-center justify-center text-center overflow-hidden -mt-24 pt-24">
           <OptimizedImageSlider
-            images={[
-              "/images/sportstruck-06-25-25/Landscape/DSC00446.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00470.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00488.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00490.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00496.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00518.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00523.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00562.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00572.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00585.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00601.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00658.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00669.webp",
-              "/images/sportstruck-06-25-25/Landscape/DSC00706.webp",
-            ]}
-            mobileImages={[
-              "/images/sportstruck-06-25-25/Portrait/DSC00450.webp",
-              "/images/sportstruck-06-25-25/Portrait/DSC00457.webp",
-              "/images/sportstruck-06-25-25/Portrait/DSC00467.webp",
-              "/images/sportstruck-06-25-25/Portrait/DSC00468.webp",
-              "/images/sportstruck-06-25-25/Portrait/DSC00471.webp",
-              "/images/sportstruck-06-25-25/Portrait/DSC00475.webp",
-              "/images/sportstruck-06-25-25/Portrait/DSC00479.webp",
-              "/images/sportstruck-06-25-25/Portrait/DSC00486.webp",
-              "/images/sportstruck-06-25-25/Portrait/DSC00513.webp",
-              "/images/sportstruck-06-25-25/Portrait/DSC00548.webp",
-              "/images/sportstruck-06-25-25/Portrait/DSC00732.webp",
-              "/images/sportstruck-06-25-25/Portrait/DSC00785.webp",
-            ]}
+            images={homePage.hero.images.landscape}
+            mobileImages={homePage.hero.images.portrait}
             className="absolute inset-0 w-full h-screen"
             overlayClassName="bg-black/40 dark:bg-black/60"
             autoplay={true}
@@ -197,12 +176,12 @@ function HomePage() {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <div className="mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Vilka vi är</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">{homePage.whoWeAre.title}</h2>
                 {/* Red accent line under title */}
                 <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
               </div>
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-8">
-                Vi är en modern idrottsförening som introducerar och uppmuntrar idrottande bland barn och ungdomar i Norra Botkyrka.
+                {homePage.whoWeAre.description}
               </p>
             </div>
           </div>
@@ -219,7 +198,7 @@ function HomePage() {
           
           <div className="container mx-auto px-2 sm:px-4 relative z-10">
             <div className="text-center mb-10 md:mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Vår Vision</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">{homePage.vision.title}</h2>
               {/* Red accent line under title */}
               <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
             </div>
@@ -241,12 +220,12 @@ function HomePage() {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <div className="mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Vår Strävan</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">{homePage.mission.title}</h2>
                 {/* Red accent line under title */}
                 <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
               </div>
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                I nuläget väljer många barn och ungdomar att tidigt sluta med idrott på grund av krav som ställs av den traditionella föreningsmodellen. På Kliv Idrottsförening strävar vi efter att erbjuda en mer flexibel och spontan idrottsmiljö - utan krav som träningsnärvaro och matcher varje helg.
+                {homePage.mission.description}
               </p>
             </div>
           </div>
@@ -270,11 +249,11 @@ function HomePage() {
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-2xl mx-auto text-center">
               <div className="mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Missa inte våra evenemang</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">{homePage.newsletter.title}</h2>
                 {/* Red accent line under title */}
                 <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto mb-6"></div>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                  Prenumerera på vårt nyhetsbrev för att få de senaste uppdateringarna om kommande lovaktiviteter och evenemang.
+                  {homePage.newsletter.description}
                 </p>
               </div>
               <div className="bg-card/50 backdrop-blur-sm border border-kliv-red/20 rounded-lg p-6 shadow-lg">
