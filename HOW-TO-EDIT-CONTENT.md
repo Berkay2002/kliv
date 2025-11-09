@@ -381,16 +381,16 @@ If you encounter issues:
 
 | What to Edit | Section Name | Location |
 |--------------|-------------|----------|
-| Contact info (email, phone) | `organizationInfo` | Line ~20 |
-| Team members | `teamMembers` | Line ~50 |
-| Navigation menu | `navigation` | Line ~90 |
-| Home page text | `homePage` | Line ~100 |
-| Judo page text | `judoPage` | Line ~200 |
-| Lovaktiviteter page | `lovaktiviteterPage` | Line ~280 |
-| Contact page | `contactPage` | Line ~330 |
-| Contact form | `contactForm` | Line ~350 |
-| Social media links | `organizationInfo.socialMedia` | Line ~40 |
-| Footer text | `footer` | Line ~400 |
+| Contact info (email, phone) | `organizationInfo` | Line 39 |
+| Team members | `teamMembers` | Line 66 |
+| Navigation menu | `navigation` | Line 104 |
+| Home page text | `homePage` | Line 115 |
+| Judo page text | `judoPage` | Line 199 |
+| Lovaktiviteter page | `lovaktiviteterPage` | Line 254 |
+| Contact page | `contactPage` | Line 305 |
+| Contact form | `contactForm` | Line 329 |
+| Social media links | `organizationInfo.socialMedia` | Line 56 |
+| Footer text | `footer` | Line 393 |
 
 ---
 
