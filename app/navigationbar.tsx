@@ -14,29 +14,30 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 import React, { useRef, useState, useEffect } from "react";
+import { navigation } from "@/config/content";
 
 const navItems = [
-  { 
-    name: "Hem", 
-    link: "/",
+  {
+    name: navigation[0].name,
+    link: navigation[0].href,
     gradient: "radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(37,99,235,0.06) 50%, rgba(29,78,216,0) 100%)",
     color: "text-blue-500"
   },
-  { 
-    name: "Judo", 
-    link: "/judo",
+  {
+    name: navigation[1].name,
+    link: navigation[1].href,
     gradient: "radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(147,51,234,0.06) 50%, rgba(126,34,206,0) 100%)",
     color: "text-purple-500"
   },
-  { 
-    name: "Lovaktiviteter", 
-    link: "/lovaktiviteter",
+  {
+    name: navigation[2].name,
+    link: navigation[2].href,
     gradient: "radial-gradient(circle, rgba(239,68,68,0.15) 0%, rgba(220,38,38,0.06) 50%, rgba(185,28,28,0) 100%)",
     color: "text-red-500"
   },
-  { 
-    name: "Kontakta Oss", 
-    link: "/kontakta-oss",
+  {
+    name: navigation[3].name,
+    link: navigation[3].href,
     gradient: "radial-gradient(circle, rgba(34,197,94,0.15) 0%, rgba(22,163,74,0.06) 50%, rgba(21,128,61,0) 100%)",
     color: "text-green-500"
   },

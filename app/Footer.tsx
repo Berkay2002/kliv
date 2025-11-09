@@ -5,7 +5,8 @@ import Image from "next/image"
 import { Facebook, Instagram, MapPin, Mail, Phone } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useState, useEffect } from "react"
-import { SubscriptionForm } from "@/components/SubscriptionForm"; // Corrected import
+import { SubscriptionForm } from "@/components/SubscriptionForm";
+import { organizationInfo, footer } from "@/config/content";
 
 export default function Footer() {
   const { theme } = useTheme();
@@ -42,7 +43,7 @@ export default function Footer() {
 
             <div className="flex items-center justify-center space-x-3 lg:space-x-4">
               <Link
-                href="https://www.facebook.com/spearif"
+                href={organizationInfo.socialMedia.facebook}
                 className="p-3 lg:p-4 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all duration-300 group shadow-sm"
                 aria-label="Facebook"
                 target="_blank"
@@ -52,7 +53,7 @@ export default function Footer() {
                 <Facebook size={22} className="hidden lg:block text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
               </Link>
               <Link
-                href="https://www.instagram.com/spear_if/"
+                href={organizationInfo.socialMedia.instagram}
                 className="p-3 lg:p-4 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-all duration-300 group shadow-sm"
                 aria-label="Instagram"
                 target="_blank"
@@ -81,8 +82,8 @@ export default function Footer() {
                 <div className="text-center">
                   <p className="font-medium text-gray-900 dark:text-gray-100 text-xs">Besöksadress</p>
                   <div className="text-gray-600 dark:text-gray-400 text-xs leading-tight">
-                    <p>Tomtbergavägen 370A</p>
-                    <p>145 71 Norsborg</p>
+                    <p>{organizationInfo.address.street}</p>
+                    <p>{organizationInfo.address.postalCode} {organizationInfo.address.city}</p>
                   </div>
                 </div>
               </div>
@@ -92,10 +93,10 @@ export default function Footer() {
                 <div className="text-center">
                   <p className="font-medium text-gray-900 dark:text-gray-100 text-xs">E-post</p>
                   <Link
-                    href="mailto:kontakt@kliv-if.se"
+                    href={`mailto:${organizationInfo.contact.email}`}
                     className="text-kliv-red hover:text-kliv-red-light transition-colors duration-200 hover:underline block text-xs"
                   >
-                    kontakt@klivif.se
+                    {organizationInfo.contact.email}
                   </Link>
                 </div>
               </div>
@@ -105,10 +106,10 @@ export default function Footer() {
                 <div className="text-center">
                   <p className="font-medium text-gray-900 dark:text-gray-100 text-xs">Telefon</p>
                   <Link
-                    href="tel:+46123456789"
+                    href={`tel:${organizationInfo.contact.phone.replace(/\s/g, '')}`}
                     className="text-kliv-red hover:text-kliv-red-light transition-colors duration-200 hover:underline block text-xs"
                   >
-                    +46 123 456 789
+                    {organizationInfo.contact.phone}
                   </Link>
                 </div>
               </div>
@@ -119,7 +120,7 @@ export default function Footer() {
                 </div>
                 <div className="text-center">
                   <p className="font-medium text-gray-900 dark:text-gray-100 text-xs">Org.nummer</p>
-                  <p className="text-gray-600 dark:text-gray-400 text-xs">802509-8842</p>
+                  <p className="text-gray-600 dark:text-gray-400 text-xs">{organizationInfo.organizationNumber}</p>
                 </div>
               </div>
             </div>
@@ -130,15 +131,15 @@ export default function Footer() {
         <div className="mt-6 pt-3 border-t border-kliv-red/30 dark:border-kliv-red/30">
           <div className="flex flex-col items-center space-y-2 text-center">
             <div className="flex space-x-8 text-sm">
-              <Link href="/integritetspolicy" className="text-gray-600 dark:text-gray-400 hover:text-kliv-red transition-colors duration-200 hover:underline">
-                Integritetspolicy
+              <Link href={footer.links.privacy.href} className="text-gray-600 dark:text-gray-400 hover:text-kliv-red transition-colors duration-200 hover:underline">
+                {footer.links.privacy.label}
               </Link>
-              <Link href="/villkor" className="text-gray-600 dark:text-gray-400 hover:text-kliv-red transition-colors duration-200 hover:underline">
-                Villkor
+              <Link href={footer.links.terms.href} className="text-gray-600 dark:text-gray-400 hover:text-kliv-red transition-colors duration-200 hover:underline">
+                {footer.links.terms.label}
               </Link>
             </div>
             <p className="text-gray-500 dark:text-gray-500 text-xs">
-              © 2025 Kliv Idrottsförening. Alla rättigheter förbehållna.
+              {footer.copyright}
             </p>
           </div>
         </div>
