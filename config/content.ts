@@ -74,7 +74,7 @@ export const teamMembers = [
   {
     name: "Maria Rafaelius",
     role: "Medlemsansvarig",
-    email: "Maria@kliv.se",
+    email: "Maria@klivif.se",
     image: "",
   },
   {
