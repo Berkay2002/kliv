@@ -6,15 +6,27 @@ import { SubscriptionForm } from "@/components/SubscriptionForm";
 
 async function getEvents(): Promise<LovaktivitetCard[]> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/events`, {
-      next: { revalidate: 3600 }
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    const url = `${baseUrl}/api/events`;
+    
+    console.log('Fetching events from:', url);
+    
+    const response = await fetch(url, {
+      next: { revalidate: 3600 },
+      cache: 'no-store' // Temporarily disable cache for debugging
     });
     
+    console.log('Response status:', response.status);
+    
     if (!response.ok) {
-      throw new Error('Failed to fetch events');
+      const errorText = await response.text();
+      console.error('Response error:', errorText);
+      throw new Error(`Failed to fetch events: ${response.status} ${errorText}`);
     }
     
-    return await response.json();
+    const data = await response.json();
+    console.log('Events fetched successfully:', data.length);
+    return data;
   } catch (error) {
     console.error('Error fetching events:', error);
     return [];

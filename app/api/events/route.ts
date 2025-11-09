@@ -65,10 +65,14 @@ function formatDate(startDate: string, endDate: string): string {
 
 export async function GET() {
   try {
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY;
+    const apiKey = process.env.GOOGLE_CALENDAR_API_KEY;
     const calendarId = process.env.GOOGLE_CALENDAR_ID;
 
+    console.log('API Key exists:', !!apiKey);
+    console.log('Calendar ID exists:', !!calendarId);
+
     if (!apiKey || !calendarId) {
+      console.error('Missing credentials - API Key:', !!apiKey, 'Calendar ID:', !!calendarId);
       return NextResponse.json(
         { error: 'Missing Google Calendar credentials' },
         { status: 500 }
@@ -80,6 +84,8 @@ export async function GET() {
     const now = new Date();
     const timeMin = now.toISOString();
 
+    console.log('Fetching events from Google Calendar...');
+    
     const response = await calendar.events.list({
       calendarId: calendarId,
       timeMin: timeMin,
@@ -89,6 +95,7 @@ export async function GET() {
     });
 
     const events = response.data.items || [];
+    console.log(`Fetched ${events.length} events from Google Calendar`);
     
     const lovaktiviteter: LovaktivitetCard[] = events.map(event => {
       const parsed = parseDescription(event.description || '');
@@ -118,8 +125,9 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error fetching calendar events:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { error: 'Failed to fetch events' },
+      { error: 'Failed to fetch events', details: errorMessage },
       { status: 500 }
     );
   }
