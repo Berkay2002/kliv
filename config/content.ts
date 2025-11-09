@@ -233,7 +233,7 @@ export const judoPage = {
     venue: "Kårsbyhallen",
     description: "Våra lokaler är nyrenoverade och ligger i Kårsbyhallen (Norsborg). Kårsbyhallen ligger på 3-minuters promenadavstånd från Norsborg tunnelbana.",
     parkingInfo: "Du kan även parkera 5-timmar gratis med p-skiva strax utanför hallen.",
-    mapTitle: "Karta over Tomtbergavagen 370A, Botkyrka",
+    mapTitle: "Karta över Tomtbergavägen 370A, Botkyrka",
   },
 
   images: {
