@@ -7,6 +7,8 @@ import Footer from "./Footer"
 import { Analytics } from "@vercel/analytics/next"
 import { ClerkProvider } from "@clerk/nextjs"
 
+export const dynamic = 'force-dynamic'
+
 const inter = Inter({
   subsets: ["latin"],
   variable: '--font-sans',
