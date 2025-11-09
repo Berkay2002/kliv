@@ -199,7 +199,7 @@ export const homePage = {
 export const judoPage = {
   header: {
     title: "Judo",
-    description: "Upptack kraften i judo - en kampsport som bygger styrka, disciplin och sjalvfortroende.",
+    description: "Upptäck kraften i judo - en kampsport som bygger styrka, disciplin och självförtroende.",
   },
 
   trainer: {
