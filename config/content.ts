@@ -102,10 +102,30 @@ export const teamMembers = [
 // =============================================================================
 
 export const navigation = [
-  { name: "Hem", href: "/" },
-  { name: "Judo", href: "/judo" },
-  { name: "Lovaktiviteter", href: "/lovaktiviteter" },
-  { name: "Kontakta Oss", href: "/kontakta-oss" },
+  {
+    name: "Hem",
+    href: "/",
+    gradient: "radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(37,99,235,0.06) 50%, rgba(29,78,216,0) 100%)",
+    color: "text-blue-500"
+  },
+  {
+    name: "Judo",
+    href: "/judo",
+    gradient: "radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(147,51,234,0.06) 50%, rgba(126,34,206,0) 100%)",
+    color: "text-purple-500"
+  },
+  {
+    name: "Lovaktiviteter",
+    href: "/lovaktiviteter",
+    gradient: "radial-gradient(circle, rgba(239,68,68,0.15) 0%, rgba(220,38,38,0.06) 50%, rgba(185,28,28,0) 100%)",
+    color: "text-red-500"
+  },
+  {
+    name: "Kontakta Oss",
+    href: "/kontakta-oss",
+    gradient: "radial-gradient(circle, rgba(34,197,94,0.15) 0%, rgba(22,163,74,0.06) 50%, rgba(21,128,61,0) 100%)",
+    color: "text-green-500"
+  },
 ];
 
 // =============================================================================
@@ -156,20 +176,26 @@ export const homePage = {
 
   vision: {
     title: "Vår Vision",
+    // Tillgängliga ikoner: "shield", "community", "growth", "team"
+    // Du kan lägga till fler funktioner här och de kommer automatiskt att visas
     features: [
       {
+        icon: "shield",
         title: "Fair Play",
         description: "Vi tror på rättvist spel och respekt för alla deltagare.",
       },
       {
+        icon: "community",
         title: "Gemenskap",
         description: "Vårt mål är att skapa en inkluderande miljö för alla medlemmar.",
       },
       {
+        icon: "growth",
         title: "Utveckling",
         description: "Vi stöttar personlig utveckling genom idrott och aktiviteter.",
       },
       {
+        icon: "team",
         title: "Lagsport",
         description: "Tillsammans är vi starkare och kan uppnå mer.",
       },
@@ -432,15 +458,52 @@ export const logos = {
 // =============================================================================
 
 /**
+ * Generera en enkel hash från en sträng
+ * Används för att skapa deterministiska färger från namn
+ */
+function simpleHash(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
+}
+
+/**
+ * Färgpalett för avatarer - visuellt tilltalande färger som fungerar bra med vit text
+ * Färgerna är valda för att ha god kontrast och vara lätta att skilja åt
+ */
+const avatarColors = [
+  '3b82f6', // Blue
+  'ef4444', // Red
+  '10b981', // Green
+  'f59e0b', // Amber
+  '8b5cf6', // Purple
+  'ec4899', // Pink
+  '06b6d4', // Cyan
+  'f97316', // Orange
+  '84cc16', // Lime
+  '6366f1', // Indigo
+];
+
+/**
  * Hämta teammedlemmens avatar-URL
  * Om en anpassad bild finns, använd den. Annars, generera avatar från namn.
+ * Använder deterministisk färgval baserad på namnet för konsistenta resultat.
  */
 export function getTeamMemberAvatar(member: typeof teamMembers[0]): string {
   if (member.image) {
     return member.image;
   }
-  // Generera avatar från namn med hjälp av ui-avatars.com
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&size=400&background=random`;
+  // Generera deterministisk färg från namn
+  const hash = simpleHash(member.name);
+  const colorIndex = hash % avatarColors.length;
+  const backgroundColor = avatarColors[colorIndex];
+
+  // Generera avatar från namn med hjälp av ui-avatars.com med konsistent färg
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&size=400&background=${backgroundColor}&color=fff`;
 }
 
 /**

@@ -98,15 +98,20 @@ const members: Member[] = teamMembers.map((member, index) => ({
   image: getTeamMemberAvatar(member),
 }));
 
+// Icon mapping - maps icon names from config to React components
+const iconMap: Record<string, React.ReactElement<React.SVGProps<SVGSVGElement>>> = {
+  shield: <ShieldIcon aria-hidden="true" />,
+  community: <CommunityIcon aria-hidden="true" />,
+  growth: <GrowthIcon aria-hidden="true" />,
+  team: <TeamIcon aria-hidden="true" />,
+};
+
 function HomePage() {
-  const features = homePage.vision.features.map((feature, index) => {
-    const icons = [<ShieldIcon aria-hidden="true" />, <CommunityIcon aria-hidden="true" />, <GrowthIcon aria-hidden="true" />, <TeamIcon aria-hidden="true" />];
-    return {
-      icon: icons[index] || <ShieldIcon aria-hidden="true" />,
-      title: feature.title,
-      description: feature.description
-    };
-  });
+  const features = homePage.vision.features.map((feature) => ({
+    icon: iconMap[feature.icon] || <ShieldIcon aria-hidden="true" />,
+    title: feature.title,
+    description: feature.description
+  }));
 
   return (
     <>
