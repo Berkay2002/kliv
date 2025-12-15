@@ -23,6 +23,7 @@ interface ExistingEvent extends calendar_v3.Schema$Event {
   imageSrc?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function formatEventTime(event: any): string {
   const start = event.start?.dateTime || event.start?.date;
   const end = event.end?.dateTime || event.end?.date;
@@ -413,20 +414,20 @@ export default function AdminDashboard() {
                       <CardTitle className="text-lg sm:text-xl mb-2 leading-tight">{event.summary}</CardTitle>
                       <div className="flex flex-col gap-2 text-sm text-muted-foreground mb-4">
                         <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4 flex-shrink-0" />
-                          <span className="break-words">{formatEventTime(event)}</span>
+                          <Calendar className="h-4 w-4 shrink-0" />
+                          <span className="wrap-break-word">{formatEventTime(event)}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 flex-shrink-0" />
-                          <span className="break-words">{event.location || 'Okänd plats'}</span>
+                          <MapPin className="h-4 w-4 shrink-0" />
+                          <span className="wrap-break-word">{event.location || 'Okänd plats'}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <Clock className="h-4 w-4 flex-shrink-0" />
+                          <Clock className="h-4 w-4 shrink-0" />
                           <span>Tillagt {new Date(pendingEvent.dateAdded).toLocaleDateString('sv-SE')}</span>
                         </div>
                       </div>
                       {pendingEvent.parsedDescription && (
-                        <p className="text-sm mb-4 p-3 bg-muted rounded-md break-words">
+                        <p className="text-sm mb-4 p-3 bg-muted rounded-md wrap-break-word">
                           {pendingEvent.parsedDescription}
                         </p>
                       )}
@@ -443,7 +444,7 @@ export default function AdminDashboard() {
                       disabled={isProcessing}
                       className="bg-kliv-red hover:bg-kliv-red-dark text-white w-full sm:flex-1 text-sm"
                     >
-                      <CheckCircle2 className="h-4 w-4 mr-2 flex-shrink-0" />
+                      <CheckCircle2 className="h-4 w-4 mr-2 shrink-0" />
                       <span className="truncate">
                         {isProcessing ? 'Skickar...' : `Godkänn & Skicka till ${subscriberCount || 0}`}
                       </span>
@@ -529,16 +530,16 @@ export default function AdminDashboard() {
                           <CardTitle className="text-lg sm:text-xl mb-2 leading-tight">{existingEvent.summary}</CardTitle>
                           <div className="flex flex-col gap-2 text-sm text-muted-foreground mb-4">
                             <div className="flex items-center gap-2">
-                              <Calendar className="h-4 w-4 flex-shrink-0" />
-                              <span className="break-words">{formatEventTime(existingEvent)}</span>
+                              <Calendar className="h-4 w-4 shrink-0" />
+                              <span className="wrap-break-word">{formatEventTime(existingEvent)}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <MapPin className="h-4 w-4 flex-shrink-0" />
-                              <span className="break-words">{existingEvent.location || 'Okänd plats'}</span>
+                              <MapPin className="h-4 w-4 shrink-0" />
+                              <span className="wrap-break-word">{existingEvent.location || 'Okänd plats'}</span>
                             </div>
                           </div>
                           {existingEvent.parsedDescription && (
-                            <p className="text-sm mb-4 p-3 bg-muted rounded-md break-words">
+                            <p className="text-sm mb-4 p-3 bg-muted rounded-md wrap-break-word">
                               {existingEvent.parsedDescription}
                             </p>
                           )}

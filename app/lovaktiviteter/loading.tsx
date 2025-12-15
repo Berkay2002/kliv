@@ -32,7 +32,7 @@ export default function Loading() {
         </div>
       </section>
 
-      <div className="h-16 bg-gradient-to-b from-muted to-background" />
+      <div className="h-16 bg-linear-to-b from-muted to-background" />
 
       {/* Cards skeleton */}
       <section className="py-16 bg-background relative">

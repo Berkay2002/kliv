@@ -41,6 +41,7 @@ export const OptimizedImageSlider: React.FC<OptimizedImageSliderProps> = ({
 
   // Mobile detection
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     checkIsMobile();
     const handleResize = () => checkIsMobile();
     window.addEventListener('resize', handleResize);

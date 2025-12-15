@@ -45,7 +45,7 @@ export default async function AktivitetPage({ params }: { params: Promise<{ id: 
         />
         
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/20" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/30 to-black/20" />
         
         {/* Content */}
         <div className="absolute inset-0 flex items-end">
@@ -122,7 +122,7 @@ export default async function AktivitetPage({ params }: { params: Promise<{ id: 
                   <div className="space-y-4">
                     {event.metadata.date && (
                       <div className="flex items-start gap-3">
-                        <Calendar className="w-5 h-5 text-kliv-red mt-0.5 flex-shrink-0" />
+                        <Calendar className="w-5 h-5 text-kliv-red mt-0.5 shrink-0" />
                         <div>
                           <p className="text-sm text-muted-foreground">Datum</p>
                           <p className="font-medium">{event.metadata.date}</p>
@@ -132,7 +132,7 @@ export default async function AktivitetPage({ params }: { params: Promise<{ id: 
                     
                     {event.metadata.location && (
                       <div className="flex items-start gap-3">
-                        <MapPin className="w-5 h-5 text-kliv-red mt-0.5 flex-shrink-0" />
+                        <MapPin className="w-5 h-5 text-kliv-red mt-0.5 shrink-0" />
                         <div>
                           <p className="text-sm text-muted-foreground">Plats</p>
                           <p className="font-medium">{event.metadata.location}</p>

@@ -80,7 +80,7 @@ export function ContactForm() {
       
       // Reset to idle after 3 seconds
       setTimeout(() => setStatus('idle'), 3000);
-    } catch (error) {
+    } catch {
       setStatus('error');
       setTimeout(() => setStatus('idle'), 3000);
     }
@@ -213,7 +213,7 @@ export function ContactForm() {
           value={formData.message}
           onChange={(e) => handleChange('message', e.target.value)}
           className={cn(
-            'mt-1 min-h-[120px] resize-none',
+            'mt-1 min-h-30 resize-none',
             errors.message && 'border-red-500 focus:border-red-500 focus:ring-red-500'
           )}
           placeholder="Berätta om din förfrågan eller hur vi kan hjälpa dig..."

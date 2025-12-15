@@ -100,7 +100,7 @@ export default function MobileOptimizedTeamSection({ members }: MobileOptimizedT
               Vårt Team
             </h2>
             {/* Red accent line under title */}
-            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
+            <div className="w-24 h-1 bg-linear-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
           </div>
           <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto">
             Vi är styrelsen för Kliv Idrottsförening. Om du har några frågor eller funderingar är du välkommen att {' '}
@@ -121,12 +121,12 @@ export default function MobileOptimizedTeamSection({ members }: MobileOptimizedT
                 onTouchEnd={handleTouchEnd}
               >
                 {members.map((member) => (
-                  <div key={member.id} className="w-full flex-shrink-0 px-4">
+                  <div key={member.id} className="w-full shrink-0 px-4">
                     <motion.div
                       variants={fadeInUp}
                       className="bg-card rounded-xl overflow-hidden shadow-sm border max-w-sm mx-auto"
                     >
-                      <div className="aspect-[4/5] bg-muted/40 relative">
+                      <div className="aspect-4/5 bg-muted/40 relative">
                         <Image
                           src={member.image}
                           alt={member.name}
@@ -219,7 +219,7 @@ export default function MobileOptimizedTeamSection({ members }: MobileOptimizedT
                 variants={fadeInUp}
                 className="bg-card rounded-xl overflow-hidden shadow-sm border transition-all duration-300 group md:hover:scale-105 md:hover:shadow-lg md:hover:border-kliv-red/30"
               >
-                <div className="aspect-[4/5] bg-muted/40 relative">
+                <div className="aspect-4/5 bg-muted/40 relative">
                   <Image
                     src={member.image}
                     alt={member.name}

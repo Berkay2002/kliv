@@ -56,6 +56,7 @@ export default function CreateEventPage() {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleImageUpload = (result: any) => {
     if (result.event === 'success') {
       setFormData(prev => ({ ...prev, image: result.info.secure_url }))
@@ -77,7 +78,7 @@ export default function CreateEventPage() {
       } else if (response.status === 403) {
         setIsAuthorized(false)
       }
-    } catch (error) {
+    } catch { 
       setIsAuthorized(false)
     }
   }
@@ -400,19 +401,19 @@ export default function CreateEventPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <h3 className="text-lg sm:text-xl font-bold break-words">{formData.title || 'Event Titel'}</h3>
+                <h3 className="text-lg sm:text-xl font-bold wrap-break-word">{formData.title || 'Event Titel'}</h3>
                 
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Calendar className="h-4 w-4 flex-shrink-0" />
-                  <span className="break-words">
+                  <Calendar className="h-4 w-4 shrink-0" />
+                  <span className="wrap-break-word">
                     {formData.startDate || 'Datum ej valt'}
                     {formData.startTime && ` ${formData.startTime}`}
                   </span>
                 </div>
                 
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <MapPin className="h-4 w-4 flex-shrink-0" />
-                  <span className="break-words">{formData.location || 'Plats ej angiven'}</span>
+                  <MapPin className="h-4 w-4 shrink-0" />
+                  <span className="wrap-break-word">{formData.location || 'Plats ej angiven'}</span>
                 </div>
 
                 {formData.image && (
@@ -426,10 +427,10 @@ export default function CreateEventPage() {
                 )}
 
                 {formData.description && (
-                  <p className="text-sm text-muted-foreground break-words">{formData.description}</p>
+                  <p className="text-sm text-muted-foreground wrap-break-word">{formData.description}</p>
                 )}
 
-                <p className="text-sm break-words">{formData.content || 'Ingen beskrivning...'}</p>
+                <p className="text-sm wrap-break-word">{formData.content || 'Ingen beskrivning...'}</p>
 
                 {formData.ctaText && (
                   <Button size="sm" className="bg-kliv-red hover:bg-kliv-red-dark w-full sm:w-auto">

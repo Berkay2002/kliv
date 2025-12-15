@@ -24,6 +24,7 @@ export function Header({
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true)
 
     if (typeof window === 'undefined') return
@@ -71,7 +72,7 @@ export function Header({
           sizes="(max-width: 768px) 100vw, 100vw"
         />
         <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent" />
       </div>
 
       {/* Content */}

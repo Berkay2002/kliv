@@ -26,6 +26,7 @@ interface EditEventModalProps {
   mode?: 'pending' | 'existing'
   isOpen: boolean
   onClose: () => void
+  // eslint-disable-next-line no-unused-vars
   onSave: (eventId: string) => void
 }
 
@@ -101,6 +102,7 @@ export default function EditEventModal({ event, mode = 'pending', isOpen, onClos
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleImageUpload = (result: any) => {
     if (result.event === 'success') {
       setFormData(prev => ({ ...prev, image: result.info.secure_url }))

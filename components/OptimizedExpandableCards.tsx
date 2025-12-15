@@ -21,6 +21,7 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -96,12 +97,12 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-md z-[9998]"
+        className="fixed inset-0 bg-black/50 backdrop-blur-md z-9998"
         onClick={handleClose}
       />
 
       {/* Modal */}
-      <div className="fixed inset-0 z-[9999] p-4 pt-20">
+      <div className="fixed inset-0 z-9999 p-4 pt-20">
         <div className="min-h-[calc(100%-80px)] flex items-start justify-center">
           <div
             ref={ref}
@@ -120,7 +121,7 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
                   quality={90}
                 />
               ) : (
-                <div className="w-full h-64 md:h-80 bg-gradient-to-r from-kliv-red/10 to-kliv-red/20 flex items-center justify-center">
+                <div className="w-full h-64 md:h-80 bg-linear-to-r from-kliv-red/10 to-kliv-red/20 flex items-center justify-center">
                   <Calendar className="w-16 h-16 text-kliv-red/40" />
                 </div>
               )}
@@ -247,7 +248,7 @@ export function OptimizedExpandableCards({ cards }: OptimizedExpandableCardsProp
                 />
                 
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
               </div>
             )}
 
