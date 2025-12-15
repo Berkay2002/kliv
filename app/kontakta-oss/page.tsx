@@ -4,9 +4,8 @@ export const dynamic = 'force-dynamic'
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Facebook, Instagram } from 'lucide-react';
+import { Mail, MapPin, Facebook, Instagram } from 'lucide-react';
 import { ContactForm } from '@/components/ContactForm';
-import { SectionSeparator } from '@/components/SectionSeparator';
 import MobileOptimizedTeamSection from '@/components/MobileOptimizedTeamSection';
 import Link from 'next/link';
 
@@ -79,7 +78,7 @@ export default function ContactUsPage() {
                 <div className="space-y-6">
                   {/* Address */}
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-kliv-red/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 bg-kliv-red/10 rounded-full flex items-center justify-center shrink-0">
                       <MapPin className="w-6 h-6 text-kliv-red" />
                     </div>
                     <div>
@@ -94,7 +93,7 @@ export default function ContactUsPage() {
 
                   {/* Email */}
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-kliv-red/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 bg-kliv-red/10 rounded-full flex items-center justify-center shrink-0">
                       <Mail className="w-6 h-6 text-kliv-red" />
                     </div>
                     <div>
@@ -108,25 +107,9 @@ export default function ContactUsPage() {
                     </div>
                   </div>
 
-                  {/* Phone */}
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-kliv-red/10 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Phone className="w-6 h-6 text-kliv-red" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground mb-1">Telefon</h3>
-                      <Link
-                        href={`tel:${contactInfo.phone}`}
-                        className="text-kliv-red hover:text-kliv-red-light transition-colors"
-                      >
-                        {contactInfo.phone}
-                      </Link>
-                    </div>
-                  </div>
-
                   {/* Organization Number */}
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-kliv-red/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 bg-kliv-red/10 rounded-full flex items-center justify-center shrink-0">
                       <div className="text-kliv-red font-bold text-lg">#</div>
                     </div>
                     <div>
@@ -194,30 +177,6 @@ export default function ContactUsPage() {
         </div>
       </section>
 
-      <SectionSeparator fromBg="background" toBg="muted" />
-
-            {/* Additional Info */}
-            <section className="py-16 bg-muted">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto"
-          >
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">
-              Vi svarar snabbt
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto mb-6"></div>
-            <p className="text-lg text-muted-foreground">
-              Vi strävar efter att svara på alla förfrågningar inom 2-3 arbetsdagar. 
-              För brådskande ärenden, ring oss direkt på {contactInfo.phone}.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      <SectionSeparator fromBg="muted" toBg="background" />
 
       {/* Team Section */}
       <div className="bg-muted">

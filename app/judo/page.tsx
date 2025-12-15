@@ -32,7 +32,7 @@ export default function JudoPage() {
                   Judo
                 </h1>
                 <p className="text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed max-w-3xl text-center">
-                  Upptack kraften i judo - en kampsport som bygger styrka, disciplin och sjalvfortroende.
+                  Upptäck kraften i judo - en kampsport som bygger styrka, disciplin och självförtroende.
                 </p>
               </div>
             </div>
@@ -48,7 +48,7 @@ export default function JudoPage() {
           <div className="mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Vår Tränare</h2>
             {/* Red accent line under title */}
-            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
+            <div className="w-24 h-1 bg-linear-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -84,7 +84,7 @@ export default function JudoPage() {
           <div className="mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Träningsgrupp och Schema</h2>
             {/* Red accent line under title */}
-            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
+            <div className="w-24 h-1 bg-linear-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
           </div>
           
           <div className="space-y-6">
@@ -106,7 +106,7 @@ export default function JudoPage() {
           <div className="mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Träningsavgifter och Betalningsinformation</h2>
             {/* Red accent line under title */}
-            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
+            <div className="w-24 h-1 bg-linear-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
           </div>
           
           <div className="space-y-6">
@@ -128,7 +128,7 @@ export default function JudoPage() {
           <div className="mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Var vi hittas</h2>
             {/* Red accent line under title */}
-            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
+            <div className="w-24 h-1 bg-linear-to-r from-transparent via-kliv-red to-transparent mx-auto"></div>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
